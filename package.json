@@ -1,0 +1,38 @@
+{
+  "name": "persama-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "payload": "payload",
+    "generate:importmap": "payload generate:importmap",
+    "generate:types": "payload generate:types"
+  },
+  "engines": {
+    "node": ">=22.23.5"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "^3.94.1",
+    "@payloadcms/next": "^3.94.1",
+    "@payloadcms/richtext-lexical": "^3.94.1",
+    "@payloadcms/storage-s3": "^3.94.1",
+    "graphql": "^16.15.0",
+    "next": "16.4.6",
+    "payload": "^3.94.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "sass": "^1.108.2",
+    "typescript": "^5"
+  }
+}

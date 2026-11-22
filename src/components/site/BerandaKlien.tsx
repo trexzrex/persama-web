@@ -233,11 +233,25 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
 export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
   const [aktif, setAktif] = useState(0);
   const [jeda, setJeda] = useState(false);
+  const [fase, setFase] = useState<"diam" | "keluar" | "masuk">("diam");
+  const tujuanRef = useRef(0);
+  const bergerakRef = useRef(false);
+
+  const pilih = useCallback((indeks: number) => {
+    if (!items.length || indeks === aktif || bergerakRef.current) return;
+    if (!pakaiGerak()) {
+      setAktif(indeks);
+      return;
+    }
+    tujuanRef.current = indeks;
+    bergerakRef.current = true;
+    setFase("keluar");
+  }, [aktif, items.length]);
 
   const berikut = useCallback(() => {
     if (!items.length) return;
-    setAktif((nilai) => (nilai + 1) % items.length);
-  }, [items.length]);
+    pilih((aktif + 1) % items.length);
+  }, [aktif, items.length, pilih]);
 
   useEffect(() => {
     if (jeda || items.length < 2) return;
@@ -273,8 +287,18 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
     >
       <div className={styles.tumpukPanggung}>
         <div
-          className={styles.tumpukKartu}
+          className={`${styles.tumpukKartu} ${fase === "keluar" ? styles.tumpukKeluar : fase === "masuk" ? styles.tumpukMasuk : ""}`}
           onClick={berikut}
+          onAnimationEnd={(event) => {
+            if (event.target !== event.currentTarget) return;
+            if (fase === "keluar") {
+              setAktif(tujuanRef.current);
+              setFase("masuk");
+            } else if (fase === "masuk") {
+              bergerakRef.current = false;
+              setFase("diam");
+            }
+          }}
           key={item.id}
         >
           <div className={styles.tumpukFoto}>
@@ -341,7 +365,7 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
               className={`${styles.dot} ${indeks === aktif ? styles.dotAktif : ""}`}
               aria-label={`Ekstrakurikuler ${indeks + 1}: ${data.nama}`}
               aria-pressed={indeks === aktif}
-              onClick={() => setAktif(indeks)}
+              onClick={() => pilih(indeks)}
             />
           ))}
         </div>

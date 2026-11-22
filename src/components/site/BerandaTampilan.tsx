@@ -96,7 +96,7 @@ export function BerandaTampilan({
 
   return (
     <div className={styles.beranda}>
-      <section className={styles.hero} aria-labelledby="judul-beranda">
+      <section className={`${styles.hero} ${fotoHero ? styles.heroDenganFoto : ""}`} aria-labelledby="judul-beranda">
         <div className={styles.heroPola} aria-hidden="true" />
         <div className={`${styles.heroOrnamen} ${styles.heroOrnamenSatu}`} aria-hidden="true" />
         <div className={`${styles.heroOrnamen} ${styles.heroOrnamenDua}`} aria-hidden="true" />
@@ -116,21 +116,24 @@ export function BerandaTampilan({
           </Link>
         </div>
 
-        <div className={styles.heroPotret}>
+        {fotoHero ? (
+          <div className={styles.heroFotoPanggung}>
+            <Image
+              src={fotoHero}
+              alt="Ketua dan Wakil PERSAMA"
+              fill
+              sizes="(max-width: 767px) 90vw, 50vw"
+              className={styles.heroFotoBebas}
+              priority
+            />
+          </div>
+        ) : <div className={styles.heroPotret}>
           <span className={styles.heroCincinLuar} aria-hidden="true" />
           <span className={styles.heroCincinDalam} aria-hidden="true" />
           <span className={styles.heroAvatar}>
-            {fotoHero ? <Image
-              src={fotoHero}
-              alt="Ketua dan Wakil PERSAMA"
-              width={120}
-              height={120}
-              sizes="(max-width: 767px) 120px, (max-width: 1439px) 136px, 216px"
-              className={`${styles.heroAvatarGambar} ${styles.heroFoto}`}
-              priority
-            /> : <span className={styles.heroFotoKosong}>Foto Ketua<br />dan Wakil</span>}
+            <span className={styles.heroFotoKosong}>Foto Ketua<br />dan Wakil</span>
           </span>
-        </div>
+        </div>}
 
         <div className={styles.heroDome} aria-hidden="true" />
       </section>

@@ -621,10 +621,19 @@
 .heroFotoBebas {
   object-fit: contain;
   object-position: center bottom;
+  transform: scale(1.3);
+  transform-origin: center bottom;
 }
 
 .heroDenganFoto {
+  z-index: 1;
   overflow: hidden;
+  border-radius: 0 0 50% 50% / 0 0 40px 40px;
+}
+
+.heroDenganFoto + .bagianVisi {
+  margin-top: -40px;
+  padding-top: 80px;
 }
 
 .heroDenganFoto .heroDome {
@@ -649,6 +658,20 @@
     width: 50%;
     height: 100%;
     margin: 0;
+  }
+
+  .heroFotoBebas {
+    transform: scale(1.65);
+  }
+
+  .heroDenganFoto {
+    border-bottom-left-radius: 50% 70px;
+    border-bottom-right-radius: 50% 70px;
+  }
+
+  .heroDenganFoto + .bagianVisi {
+    margin-top: -70px;
+    padding-top: 110px;
   }
 }
 

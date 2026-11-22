@@ -130,6 +130,7 @@ export interface PengaturanSitus {
   email?: string | null;
   instagram?: string | null;
   mediaSosial?: TautanSosial[] | null;
+  fotoHero?: MediaRel;
   logoPersama?: MediaRel;
   logoSekolah?: MediaRel;
   gambarPratinjau?: MediaRel;

@@ -28,7 +28,7 @@ export type BerandaData = {
   namaLengkap: string;
   sekolah: string;
   tahun: string;
-  logo: string;
+  fotoHero: string | null;
   visi?: string | null;
   misi: { id?: string | null; poin: string }[];
   events: EventBeranda[];
@@ -81,7 +81,7 @@ export function BerandaTampilan({
   namaLengkap,
   sekolah,
   tahun,
-  logo,
+  fotoHero,
   visi,
   misi,
   events,
@@ -120,15 +120,15 @@ export function BerandaTampilan({
           <span className={styles.heroCincinLuar} aria-hidden="true" />
           <span className={styles.heroCincinDalam} aria-hidden="true" />
           <span className={styles.heroAvatar}>
-            <Image
-              src={logo}
-              alt={`Logo ${nama}`}
+            {fotoHero ? <Image
+              src={fotoHero}
+              alt="Ketua dan Wakil PERSAMA"
               width={120}
               height={120}
               sizes="(max-width: 767px) 120px, (max-width: 1439px) 136px, 216px"
-              className={styles.heroAvatarGambar}
+              className={`${styles.heroAvatarGambar} ${styles.heroFoto}`}
               priority
-            />
+            /> : <span className={styles.heroFotoKosong}>Foto Ketua<br />dan Wakil</span>}
           </span>
         </div>
 

@@ -149,6 +149,15 @@ export const PengaturanSitus: GlobalConfig = {
               label: "Logo sekolah",
             },
             {
+              name: "fotoHero",
+              type: "upload",
+              relationTo: "media",
+              label: "Foto Ketua dan Wakil (Hero)",
+              admin: {
+                description: "Foto bersama atau komposisi Ketua dan Wakil untuk lingkaran hero beranda. Gunakan gambar persegi dengan subjek di tengah. Terpisah dari logo situs.",
+              },
+            },
+            {
               name: "gambarPratinjau",
               type: "upload",
               relationTo: "media",

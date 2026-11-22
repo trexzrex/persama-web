@@ -57,7 +57,7 @@ export default async function Home() {
     pengaturan.namaLengkap?.trim() || "Persatuan Siswa Analis Kimia";
   const sekolah = pengaturan.sekolah?.trim() || "SMK-SMAK Makassar";
   const tahun = periode?.nama?.trim() || "2026/2027";
-  const logo = alamatMedia(pengaturan.logoPersama) || "/persama.png";
+  const fotoHero = alamatMedia(pengaturan.fotoHero);
   const visi = pengaturan.visi?.trim();
   const misi = (pengaturan.misi ?? []).filter((item) => item.poin?.trim());
 
@@ -103,7 +103,7 @@ export default async function Home() {
       namaLengkap={namaLengkap}
       sekolah={sekolah}
       tahun={tahun}
-      logo={logo}
+      fotoHero={fotoHero}
       visi={visi}
       misi={misi}
       events={kartuEvent}

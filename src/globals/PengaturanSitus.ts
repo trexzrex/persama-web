@@ -95,7 +95,7 @@ export const PengaturanSitus: GlobalConfig = {
               label: "Email",
               admin: {
                 description:
-                  "Dipakai di footer dan permintaan penghapusan foto/data.",
+                  "Alamat email kontak yang ditampilkan di footer.",
               },
             },
             {

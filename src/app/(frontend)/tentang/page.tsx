@@ -30,7 +30,6 @@ export default async function TentangPage() {
   ]);
 
   const misi = (pengaturan.misi ?? []).filter((item) => item.poin?.trim());
-  const email = pengaturan.email?.trim();
   const pengenalanResmi = pengaturan.pengenalan?.trim();
   const pengenalan = pengenalanResmi ||
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
@@ -145,33 +144,6 @@ export default async function TentangPage() {
         )}
       </section>
 
-      <section
-        className={styles.section}
-        id="penghapusan"
-        aria-labelledby="judul-penghapusan"
-      >
-        <div className={styles.callout}>
-          <div>
-            <h2 id="judul-penghapusan" className={styles.calloutTitle}>
-              Permintaan penghapusan foto atau data
-            </h2>
-            <p className={styles.small}>
-              Jika Anda muncul di foto atau data situs ini dan ingin isinya
-              dihapus, hubungi pengurus PERSAMA. Kami akan menindaklanjuti
-              permintaan tanpa perlu menyebutkan alasan pribadi.
-            </p>
-          </div>
-          {email ? (
-            <a className={`${styles.button} ${styles.buttonPrimary}`} href={`mailto:${email}`}>
-              Kirim permintaan
-            </a>
-          ) : (
-            <Link className={`${styles.button} ${styles.buttonSecondary}`} href="/divisi">
-              Hubungi lewat pengurus
-            </Link>
-          )}
-        </div>
-      </section>
     </>
   );
 }

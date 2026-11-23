@@ -104,6 +104,8 @@ export default async function Home() {
       sekolah={sekolah}
       tahun={tahun}
       fotoHero={fotoHero}
+      fotoInti={alamatMedia(periode?.fotoInti)}
+      fotoIntiAlt={teksAltMedia(periode?.fotoInti, "Foto Pengurus Inti PERSAMA")}
       visi={visi}
       misi={misi}
       events={kartuEvent}

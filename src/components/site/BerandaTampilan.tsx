@@ -30,6 +30,8 @@ export type BerandaData = {
   sekolah: string;
   tahun: string;
   fotoHero: string | null;
+  fotoInti?: string | null;
+  fotoIntiAlt?: string;
   visi?: string | null;
   misi: { id?: string | null; poin: string }[];
   events: EventBeranda[];
@@ -83,6 +85,8 @@ export function BerandaTampilan({
   sekolah,
   tahun,
   fotoHero,
+  fotoInti,
+  fotoIntiAlt,
   visi,
   misi,
   events,
@@ -197,7 +201,14 @@ export function BerandaTampilan({
             className={`${styles.divisiKartu} ${styles.divisiKartuFoto}`}
             href="/tentang#judul-inti"
           >
-            <span className={styles.divisiFotoKosong} data-foto-divisi-kosong="true">Foto pengurus belum tersedia</span>
+            {fotoInti ? (
+              <>
+                <Image src={fotoInti} alt={fotoIntiAlt || "Foto Pengurus Inti"} fill sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw" className={styles.divisiFotoBeranda} />
+                <span className={styles.divisiLapisan} aria-hidden="true" />
+              </>
+            ) : (
+              <span className={styles.divisiFotoKosong} data-foto-divisi-kosong="true">Foto pengurus belum tersedia</span>
+            )}
             <span className={styles.divisiNama}>INTI</span>
           </Link>
           {divisi.map((item) => (

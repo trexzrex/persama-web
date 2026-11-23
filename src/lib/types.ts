@@ -26,6 +26,8 @@ export interface Periode {
   tahunMulai: number;
   tahunSelesai: number;
   aktif?: boolean | null;
+  fotoInti?: MediaRel;
+  fotoPembina?: MediaRel;
   keterangan?: string | null;
 }
 

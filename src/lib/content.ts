@@ -108,7 +108,7 @@ export const ambilPeriodeAktif = cache(async (): Promise<Periode | null> => {
         collection: "periode",
         where: { aktif: { equals: true } },
         limit: 1,
-        depth: 0,
+        depth: 1,
         sort: "-tahunMulai",
       });
       if (aktif.docs.length > 0) {
@@ -117,7 +117,7 @@ export const ambilPeriodeAktif = cache(async (): Promise<Periode | null> => {
       const terbaru = await payload.find({
         collection: "periode",
         limit: 1,
-        depth: 0,
+        depth: 1,
         sort: "-tahunMulai",
       });
       return (terbaru.docs[0] as unknown as Periode) ?? null;

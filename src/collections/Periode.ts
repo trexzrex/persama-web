@@ -59,6 +59,26 @@ export const Periode: CollectionConfig = {
       },
     },
     {
+      name: "fotoInti",
+      type: "upload",
+      relationTo: "media",
+      label: "Foto Pengurus Inti",
+      filterOptions: { mimeType: { contains: "image" } },
+      admin: {
+        description: "Unggah foto bersama Pengurus Inti periode ini, lalu simpan. Foto tampil pada kotak INTI di beranda. Disarankan horizontal 16:9.",
+      },
+    },
+    {
+      name: "fotoPembina",
+      type: "upload",
+      relationTo: "media",
+      label: "Foto Pembina",
+      filterOptions: { mimeType: { contains: "image" } },
+      admin: {
+        description: "Unggah foto bersama Pembina periode ini, lalu simpan. Foto tersimpan khusus untuk periode ini.",
+      },
+    },
+    {
       name: "keterangan",
       type: "textarea",
       label: "Keterangan",

@@ -25,6 +25,8 @@ export default async function DivisiBertingkat({ payload, user, searchParams, ha
     { id: "pembina", nama: "Pembina", deskripsi: "Pembina, penanggung jawab, dan pengarah" },
   ];
   const kelompok = pilihan.find((item) => item.id === kelompokID);
+  const tautanFoto = (id: string) => ["inti", "pembina"].includes(id) ? `/admin/collections/periode/${dipilih?.id}` : `${ROOT}/${id}`;
+  const labelFoto = (id: string) => id === "inti" ? "Edit foto Pengurus Inti" : id === "pembina" ? "Edit foto Pembina" : "Edit informasi dan foto divisi";
   let anggota = null;
   if (dipilih && kelompok) {
     const filter: Where = kelompokID === "inti" ? { kelompok: { equals: "pengurus_inti" } } : kelompokID === "pembina" ? { kelompok: { in: ["pembina", "penanggung_jawab", "pengarah"] } } : { divisi: { equals: kelompokID }, kelompok: { in: ["koordinator_divisi", "anggota_divisi"] } };
@@ -38,11 +40,11 @@ export default async function DivisiBertingkat({ payload, user, searchParams, ha
     {periodeID && !dipilih && <p role="status">Periode tidak ditemukan. Silakan pilih periode yang tersedia.</p>}
     {!dipilih ? <div className="persama-admin-choice-grid">{periode.docs.map((item) => <Link key={item.id} className="persama-admin-choice" href={`${ROOT}?periode=${item.id}`}><span>{item.aktif ? "Periode aktif" : "Arsip periode"}</span><h2>{item.nama}</h2><p>Lihat struktur kepengurusan →</p></Link>)}{!periode.docs.length && <p>Belum ada periode. Tambahkan periode kepengurusan terlebih dahulu.</p>}</div> : !kelompok ? <>
       {kelompokID && <p role="status">Kelompok tidak ditemukan dalam periode ini.</p>}
-      <div className="persama-admin-choice-grid">{pilihan.map((item) => <Link key={item.id} className="persama-admin-choice" href={url(item.id)}><h2>{item.nama}</h2><p>{item.deskripsi}</p><span>Lihat anggota →</span></Link>)}</div>
+      <div className="persama-admin-choice-grid">{pilihan.map((item) => <article key={item.id} className="persama-admin-choice"><h2>{item.nama}</h2><p>{item.deskripsi}</p><div className="persama-admin-actions"><Link href={url(item.id)}>Lihat anggota →</Link><Link href={tautanFoto(item.id)}>{labelFoto(item.id)}</Link></div></article>)}</div>
       {!divisi?.docs.length && <p>Divisi periode ini belum diisi. Pengurus inti dan pembina tetap dapat dikelola.</p>}
       {hasCreatePermission && <Link className="persama-admin-site-link" href={`${ROOT}/create?periode=${dipilih.id}`}>Tambah divisi untuk periode ini</Link>}
     </> : <>
-      <div className="persama-admin-actions"><Link href={tombolTambah(kelompokID)}>Tambah anggota</Link>{!["inti", "pembina"].includes(kelompokID) && <Link href={`${ROOT}/${kelompokID}`}>Edit informasi dan foto divisi</Link>}<Link href={url()}>Kembali ke struktur periode</Link></div>
+      <div className="persama-admin-actions"><Link href={tombolTambah(kelompokID)}>Tambah anggota</Link><Link href={tautanFoto(kelompokID)}>{labelFoto(kelompokID)}</Link><Link href={url()}>Kembali ke struktur periode</Link></div>
       <div className="persama-admin-member-list">{anggota?.docs.map((orang) => <article key={orang.id} className="persama-admin-member"><div><h2>{orang.nama || "Nama belum diisi"}</h2><p>{orang.jabatan}</p><small>{orang.kelompok === "koordinator_divisi" ? "Koordinator divisi" : orang.kelompok === "anggota_divisi" ? "Anggota divisi" : orang.kelompok === "penanggung_jawab" ? "Penanggung jawab" : orang.kelompok === "pengarah" ? "Pengarah" : orang.kelompok === "pengurus_inti" ? "Pengurus inti" : "Pembina"}</small></div><Link href={`/admin/collections/pengurus/${orang.id}`}>Edit anggota →</Link></article>)}{!anggota?.docs.length && <p role="status">Belum ada anggota pada kelompok ini untuk periode yang dipilih.</p>}</div>
     </>}
   </div>;

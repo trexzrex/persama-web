@@ -1,3 +1,4 @@
+import { TautanGerak } from "./motion/TautanGerak";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -111,9 +112,9 @@ export function BerandaTampilan({
             <br />
             {sekolah} · {tahun}
           </p>
-          <Link className={styles.heroCta} href="/tentang">
+          <TautanGerak className={styles.heroCta} href="/tentang">
             Kenali PERSAMA →
-          </Link>
+          </TautanGerak>
         </div>
 
         {fotoHero ? (

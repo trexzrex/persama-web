@@ -1,5 +1,6 @@
 "use client";
 
+import * as m from "motion/react-m";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -119,7 +120,9 @@ export function SiteHeader({
           })}
         </nav>
 
-        <button
+        <m.button
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
           ref={tombolRef}
           type="button"
           className={styles.menuTombol}
@@ -132,9 +135,12 @@ export function SiteHeader({
         >
           <span className={styles.menuGaris} />
           <span className={styles.menuGaris} />
-        </button>
+        </m.button>
 
-        <div
+        <m.div
+          initial={false}
+          animate={{ opacity: terbuka ? 1 : 0, y: terbuka ? 0 : -10 }}
+          transition={{ duration: 0.22 }}
           ref={panelRef}
           id="menu-ponsel"
           className={`${styles.menuPanel} ${terbuka ? styles.menuPanelTerbuka : ""}`}
@@ -155,7 +161,7 @@ export function SiteHeader({
               );
             })}
           </nav>
-        </div>
+        </m.div>
       </div>
     </header>
   );

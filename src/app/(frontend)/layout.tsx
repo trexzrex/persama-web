@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
 
+import { GerakSitus } from "@/components/site/motion/GerakSitus";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import styles from "@/components/site/site.module.css";
@@ -80,7 +81,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="id" className={`${poppins.variable} ${jakarta.variable}`}>
       <body>
-        <div className={styles.page}>
+        <GerakSitus><div className={styles.page}>
           <a className={styles.skip} href="#utama">
             Lewati ke konten utama
           </a>
@@ -97,7 +98,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             periode={tahun}
             logoSekolah={logoSekolah}
           />
-        </div>
+        </div></GerakSitus>
       </body>
     </html>
   );

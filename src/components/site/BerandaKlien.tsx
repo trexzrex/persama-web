@@ -1,5 +1,8 @@
 "use client";
 
+import * as m from "motion/react-m";
+import { AnimatePresence, useReducedMotion } from "motion/react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -112,7 +115,9 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
     if (!pakaiGerak()) return;
 
     const jam = window.setInterval(() => {
-      if (document.visibilityState !== "visible") return;
+      if (document.visibilityState !== "visible" || !pakaiGerak()) return;
+      const rect = jalurRef.current?.getBoundingClientRect();
+      if (!rect || rect.bottom <= 0 || rect.top >= window.innerHeight) return;
       berikut();
     }, 6000);
     return () => window.clearInterval(jam);
@@ -233,19 +238,12 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
 export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
   const [aktif, setAktif] = useState(0);
   const [jeda, setJeda] = useState(false);
-  const [fase, setFase] = useState<"diam" | "keluar" | "masuk">("diam");
-  const tujuanRef = useRef(0);
-  const bergerakRef = useRef(false);
+  const reduced = useReducedMotion();
+  const tumpukRef = useRef<HTMLDivElement>(null);
 
   const pilih = useCallback((indeks: number) => {
-    if (!items.length || indeks === aktif || bergerakRef.current) return;
-    if (!pakaiGerak()) {
-      setAktif(indeks);
-      return;
-    }
-    tujuanRef.current = indeks;
-    bergerakRef.current = true;
-    setFase("keluar");
+    if (!items.length || indeks === aktif) return;
+    setAktif(indeks);
   }, [aktif, items.length]);
 
   const berikut = useCallback(() => {
@@ -257,7 +255,9 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
     if (jeda || items.length < 2) return;
     if (!pakaiGerak()) return;
     const jam = window.setInterval(() => {
-      if (document.visibilityState !== "visible") return;
+      if (document.visibilityState !== "visible" || !pakaiGerak()) return;
+      const rect = tumpukRef.current?.getBoundingClientRect();
+      if (!rect || rect.bottom <= 0 || rect.top >= window.innerHeight) return;
       berikut();
     }, 6000);
     return () => window.clearInterval(jam);
@@ -280,25 +280,21 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
   return (
     <div
       className={styles.tumpuk}
+      ref={tumpukRef}
       onPointerEnter={() => setJeda(true)}
       onPointerLeave={() => setJeda(false)}
       onFocusCapture={() => setJeda(true)}
       onBlurCapture={() => setJeda(false)}
     >
       <div className={styles.tumpukPanggung}>
-        <div
-          className={`${styles.tumpukKartu} ${fase === "keluar" ? styles.tumpukKeluar : fase === "masuk" ? styles.tumpukMasuk : ""}`}
+        <AnimatePresence mode="wait" initial={false}>
+        <m.div
+          className={styles.tumpukKartu}
+          initial={reduced ? false : { opacity: 0, y: 18, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={reduced ? { opacity: 1 } : { opacity: 0, y: -28, scale: 0.98 }}
+          transition={{ duration: reduced ? 0 : 0.23, ease: "easeOut" }}
           onClick={berikut}
-          onAnimationEnd={(event) => {
-            if (event.target !== event.currentTarget) return;
-            if (fase === "keluar") {
-              setAktif(tujuanRef.current);
-              setFase("masuk");
-            } else if (fase === "masuk") {
-              bergerakRef.current = false;
-              setFase("diam");
-            }
-          }}
           key={item.id}
         >
           <div className={styles.tumpukFoto}>
@@ -355,7 +351,8 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
               </button>
             </div>
           </div>
-        </div>
+        </m.div>
+        </AnimatePresence>
 
         <div className={styles.ekskulDots} aria-label="Pilih ekstrakurikuler">
           {items.map((data, indeks) => (

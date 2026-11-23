@@ -6,6 +6,7 @@ import styles from "./site.module.css";
 import { BadgeStatus, Gambar, KeadaanKosong } from "./ui";
 
 import Link from "next/link";
+import { TautanGerak } from "./motion/TautanGerak";
 
 export function KartuEvent({ event }: { event: EventItem }) {
   const status = statusEvent(event);
@@ -52,7 +53,7 @@ export function KartuDivisi({
 }) {
   return (
     <article className={styles.divisiCard}>
-      <Link className={styles.divisiCardLink} href={`/divisi/${divisi.slug}`}>
+      <TautanGerak className={styles.divisiCardLink} href={`/divisi/${divisi.slug}`}>
         <span className={styles.divisiCardKepala}>
           <span className={styles.divisiCardAvatar} aria-hidden="true">
             {inisialNama(koordinator?.nama || divisi.nama)}
@@ -70,7 +71,7 @@ export function KartuDivisi({
         </span>
         <span className={styles.divisiCardGaris} aria-hidden="true" />
         <span className={styles.divisiCardLinkLabel}>Lihat detail →</span>
-      </Link>
+      </TautanGerak>
     </article>
   );
 }

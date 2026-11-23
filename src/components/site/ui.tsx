@@ -55,14 +55,14 @@ export function Gambar({
 }: {
   media: MediaRel;
   alt?: string;
-  ukuran?: "thumbnail" | "kartu" | "hero";
+  ukuran?: "thumbnail" | "kartu" | "hero" | "asli";
   className?: string;
   isi?: boolean;
   prioritas?: boolean;
   labelKosong?: string;
 }) {
   const src =
-    (media && typeof media === "object" && ukuran
+    (media && typeof media === "object" && ukuran !== "asli"
       ? media.sizes?.[ukuran]?.url
       : null) ??
     (media && typeof media === "object" ? media.url : null) ??

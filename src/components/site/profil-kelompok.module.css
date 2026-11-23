@@ -4,6 +4,7 @@
 .fotoBersama { position: relative; aspect-ratio: 16 / 8; min-height: 280px; overflow: hidden; background: #e8eeec; }
 .fotoBersama > div, .potret > div, .fotoLanjutan > div { height: 100%; min-height: 100%; }
 .foto { object-fit: cover; object-position: center; }
+.potret .foto { object-fit: contain; object-position: center bottom; }
 .judul { position: relative; width: fit-content; max-width: calc(100% - 32px); margin: -70px 0 0 32px; padding: 26px 36px; background: var(--color-prestige); color: white; }
 .judul h1 { font-size: clamp(30px, 4.2vw, 56px); line-height: 1.18; letter-spacing: -.025em; }
 .judul p { margin-top: 10px; font-size: 14px; }

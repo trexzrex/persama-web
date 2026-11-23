@@ -8,7 +8,7 @@ import styles from "./profil-kelompok.module.css";
 
 function ProfilOrang({ orang, utama = false }: { orang: Pengurus; utama?: boolean }) {
   return <article className={utama ? styles.pimpinan : styles.orang} data-profil={utama ? "pimpinan" : "anggota"}>
-    <div className={styles.potret}><Gambar media={orang.foto} alt={teksAltMedia(orang.foto, orang.nama || orang.jabatan || "Pengurus PERSAMA")} className={styles.foto} labelKosong="Foto anggota belum tersedia" /></div>
+    <div className={styles.potret}><Gambar media={orang.foto} ukuran="asli" alt={teksAltMedia(orang.foto, orang.nama || orang.jabatan || "Pengurus PERSAMA")} className={styles.foto} labelKosong="Foto anggota belum tersedia" /></div>
     <div className={styles.identitas}><h3>{orang.nama?.trim() || "Nama belum diisi"}</h3><p className={styles.jabatan}>{orang.jabatan}</p>
       <blockquote className={styles.motto}><span>Motto Hidup</span><p>{orang.motto?.trim() ? `“${orang.motto.trim()}”` : "Motto belum diisi"}</p></blockquote>
     </div>

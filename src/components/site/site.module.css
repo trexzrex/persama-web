@@ -30,6 +30,20 @@
   top: var(--sp-12);
 }
 
+/* Latar beranda berlanjut di belakang header mengambang. */
+.page:has(.beranda) {
+  background-color: #f4fbfa;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50.518' height='48.507'%3E%3Cpath d='M25.259 6.79L43.446 24.254L25.259 41.717L7.073 24.254Z' fill='none' stroke='%2365DAD2' stroke-opacity='.25' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 50.518px 48.507px;
+  background-position: 4px 4px;
+}
+
+@media (min-width: 1440px) {
+  .page:has(.beranda) {
+    background-size: 60.622px 58.208px;
+  }
+}
+
 /* ---------- Header ---------- */
 
 .header {

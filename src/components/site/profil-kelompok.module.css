@@ -17,24 +17,34 @@
 .pemimpin { padding-block: 8px 72px; }
 .pimpinan { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 56px; }
 .pimpinan + .pimpinan { margin-top: 56px; }
-.pimpinan .potret { aspect-ratio: 4 / 5; }
+.pimpinan .potret { aspect-ratio: 1 / 1; }
+.pimpinan .potret .foto { object-fit: cover; object-position: center bottom; }
+.potret::before, .potret::after { content: ""; position: absolute; z-index: 1; width: 70px; height: 70px; pointer-events: none; }
+.potret::before { top: 14px; left: 14px; border-top: 1px solid #a8c7c1; border-left: 1px solid #a8c7c1; }
+.potret::after { right: 14px; bottom: 14px; border-right: 1px solid #bdb08d; border-bottom: 1px solid #bdb08d; }
 .pimpinan .identitas { padding: 0; }
 .pimpinan .identitas h3 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.2; letter-spacing: -.025em; }
 .tim { padding: 56px 40px 64px; background: var(--color-prestige); color: white; }
 .timJudul { text-align: center; margin-bottom: 48px; }
 .timJudul h2 { font-size: clamp(28px, 3.4vw, 44px); }
 .timJudul > p { margin-top: 16px; color: #deebe7; line-height: 1.8; }
-.tim .jabatan { color: #deebe7; }
+.tim .jabatan { color: #144647; }
 .tim .motto { border-color: #82a5a0; }
 .tim .motto > span { background: #103839; }
 .tim .potret { border-radius: 12px; }
 .tim .anggota > :last-child:nth-child(odd) { grid-column: 1 / -1; width: calc((100% - 40px) / 2); justify-self: center; }
 .anggota { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 40px; }
 .orang { min-width: 0; }
-.potret { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #e8eeec; }
+.potret { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #f4f7f5; }
+.potret .foto { mix-blend-mode: multiply; }
+.identitas { text-align: center; }
+.halaman .identitas h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
+.pimpinan .jabatan { margin: 0 0 16px; font-weight: 600; letter-spacing: .08em; }
+.orang .jabatan { display: inline-block; padding: 8px 16px; background: #deebe7; color: #144647; border-radius: 4px; font-weight: 600; }
+.motto > p { text-align: left; }
 .identitas { padding-top: 24px; }
 .identitas h3 { font-size: clamp(22px, 2.1vw, 30px); line-height: 1.35; }
-.jabatan { margin-top: 8px; font-size: 15px; color: #48615e; }
+.jabatan { margin-top: 14px; font-size: 14px; color: #48615e; text-align: center; text-transform: uppercase; }
 .motto { margin: 28px 0 0; border: 1px solid #b6c9c4; }
 .motto > span { display: block; padding: 12px 20px; background: var(--color-prestige); color: white; text-align: center; font-size: 14px; font-weight: 600; }
 .motto > p { min-height: 100px; padding: 22px; font-size: 17px; line-height: 1.8; overflow-wrap: anywhere; }

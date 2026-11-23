@@ -1499,69 +1499,30 @@
 }
 
 .tumpukPanggung {
-  position: relative;
-  padding: 0 16px 4px;
+  display: grid;
+  grid-template-areas: "kartu";
+  padding: 34px 16px 4px;
 }
 
-.tumpukPanggung::before,
-.tumpukPanggung::after {
-  content: "";
-  position: absolute;
-  border-radius: 20px;
-  pointer-events: none;
-}
-
-.tumpukPanggung::before {
-  top: 28px;
-  right: 4px;
-  bottom: 0;
-  left: 4px;
-  z-index: 0;
-  background: #e6eeec;
-}
-
-.tumpukPanggung::after {
-  top: 14px;
-  right: 10px;
-  bottom: 0;
-  left: 10px;
-  z-index: 1;
-  background: #f2f7f6;
+/* Semua kartu berbagi satu sel grid: tinggi panggung mengikuti kartu
+   tertinggi sehingga kartu depan tidak berubah panjang-pendek. */
+.tumpukLapisan {
+  grid-area: kartu;
+  min-width: 0;
+  transform-origin: top center;
 }
 
 .tumpukKartu {
   position: relative;
-  z-index: 2;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
   overflow: hidden;
   border-radius: 20px;
   background: var(--color-white);
   box-shadow: inset 0 0 0 1px var(--color-tropical),
     0 10px 28px rgba(20, 70, 71, 0.16);
   cursor: pointer;
-}
-
-.tumpukKeluar {
-  animation: kartuEkskulKeluar 200ms ease-in forwards;
-  pointer-events: none;
-}
-
-.tumpukMasuk {
-  animation: kartuEkskulMasuk 250ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  pointer-events: none;
-}
-
-@keyframes kartuEkskulKeluar {
-  from { opacity: 1; transform: translateY(0) rotate(0); }
-  to { opacity: 0; transform: translateY(-32px) rotate(-2deg); }
-}
-
-@keyframes kartuEkskulMasuk {
-  from { opacity: 0; transform: translateY(18px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tumpukKeluar, .tumpukMasuk { animation-duration: 1ms; }
 }
 
 .tumpukFoto {
@@ -1615,6 +1576,7 @@
 
 .tumpukIsi {
   display: flex;
+  flex: 1;
   flex-direction: column;
   padding: 16px 16px 13px;
 }
@@ -1628,6 +1590,7 @@
 }
 
 .tumpukTeks {
+  flex: 1;
   margin-top: 2px;
   font-family: var(--font-body);
   font-size: 12px;
@@ -1674,7 +1637,7 @@
 }
 
 .ekskulDots {
-  margin-top: 18px;
+  margin-top: 14px;
 }
 
 .ekskulHint {
@@ -1979,30 +1942,12 @@
   }
 
   .tumpukPanggung {
-    padding: 0 0 24px;
-  }
-
-  .tumpukPanggung::before {
-    top: 28px;
-    right: -12px;
-    bottom: 0;
-    left: -12px;
-  }
-
-  .tumpukPanggung::after {
-    top: 14px;
-    right: -6px;
-    bottom: 0;
-    left: -6px;
+    padding: 34px 0 4px;
   }
 
   .ekskulDots {
-    position: absolute;
-    z-index: 3;
-    bottom: 86px;
-    left: 296px;
     gap: 12px;
-    margin-top: 0;
+    margin-top: 16px;
   }
 
   .ekskulDots .dot,
@@ -2021,8 +1966,8 @@
   }
 
   .tumpukKartu {
-    display: flex;
     min-height: 380px;
+    flex-direction: row;
   }
 
   .tumpukFoto {
@@ -2386,12 +2331,11 @@
   }
 
   .tumpukPanggung {
-    padding-bottom: 24px;
+    padding: 34px 0 4px;
   }
 
   .ekskulDots {
-    bottom: 76px;
-    left: 460px;
+    margin-top: 18px;
   }
 
   .tumpukKartu {

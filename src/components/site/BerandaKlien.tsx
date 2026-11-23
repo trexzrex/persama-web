@@ -1,7 +1,7 @@
 "use client";
 
 import * as m from "motion/react-m";
-import { AnimatePresence, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -275,7 +275,12 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
     );
   }
 
-  const item = items[aktif];
+  const urutan = items
+    .map((_, indeks) => ({
+      indeks,
+      offset: (indeks - aktif + items.length) % items.length,
+    }))
+    .sort((kiri, kanan) => kanan.offset - kiri.offset);
 
   return (
     <div
@@ -287,85 +292,105 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
       onBlurCapture={() => setJeda(false)}
     >
       <div className={styles.tumpukPanggung}>
-        <AnimatePresence mode="wait" initial={false}>
-        <m.div
-          className={styles.tumpukKartu}
-          initial={reduced ? false : { opacity: 0, y: 18, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={reduced ? { opacity: 1 } : { opacity: 0, y: -28, scale: 0.98 }}
-          transition={{ duration: reduced ? 0 : 0.23, ease: "easeOut" }}
-          onClick={berikut}
-          key={item.id}
-        >
-          <div className={styles.tumpukFoto}>
-            {item.gambarUrl ? (
-              <Image
-                src={item.gambarUrl}
-                alt={item.gambarAlt}
-                fill
-                sizes="(max-width: 767px) 100vw, (max-width: 1439px) 280px, 420px"
-                className={styles.tumpukFotoGambar}
-              />
-            ) : (
-              <div className={styles.tumpukFotoSeni}>
-                <strong>FOTO EKSTRAKURIKULER</strong>
-                <span>Dokumentasi Resmi Kegiatan Kesiswaan</span>
-              </div>
-            )}
-            <div className={styles.tumpukLencana}>
-              {!item.gambarUrl ? (
-                <span className={styles.badgeContoh}>Contoh</span>
-              ) : null}
-              <span className={styles.eventBadgeKategori}>Ekstrakurikuler</span>
-            </div>
-          </div>
-
-          <div className={styles.tumpukIsi}>
-            <h3 className={styles.tumpukJudul}>{item.nama}</h3>
-            <p className={styles.tumpukTeks}>
-              {item.deskripsi ||
-                "Deskripsi kegiatan akan dilengkapi oleh admin PERSAMA."}
-            </p>
-            <Link
-              className={styles.textLink}
-              href="/ekstrakurikuler"
-              style={{ marginTop: 16, alignSelf: "flex-start" }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              Lihat ekstrakurikuler →
-            </Link>
-            <div className={styles.tumpukGaris} />
-            <div className={styles.tumpukKaki}>
-              <span className={styles.tumpukIndeks}>
-                Kartu {aktif + 1} dari {items.length} kegiatan
-              </span>
-              <button
-                type="button"
-                className={styles.tumpukTombol}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  berikut();
-                }}
-              >
-                Ketuk / Naik ⤿
-              </button>
-            </div>
-          </div>
-        </m.div>
-        </AnimatePresence>
-
-        <div className={styles.ekskulDots} aria-label="Pilih ekstrakurikuler">
-          {items.map((data, indeks) => (
-            <button
+        {urutan.map(({ indeks, offset }) => {
+          const data = items[indeks];
+          const depan = offset === 0;
+          const tampak = offset <= 2;
+          return (
+            <m.div
               key={data.id}
-              type="button"
-              className={`${styles.dot} ${indeks === aktif ? styles.dotAktif : ""}`}
-              aria-label={`Ekstrakurikuler ${indeks + 1}: ${data.nama}`}
-              aria-pressed={indeks === aktif}
-              onClick={() => pilih(indeks)}
-            />
-          ))}
-        </div>
+              className={styles.tumpukLapisan}
+              style={{ zIndex: items.length - offset }}
+              animate={{
+                opacity: tampak ? (depan ? 1 : offset === 1 ? 0.8 : 0.62) : 0,
+                y: reduced ? 0 : offset * -16,
+                scale: reduced ? 1 : 1 - offset * 0.028,
+              }}
+              transition={{
+                duration: reduced ? 0 : 0.34,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              aria-hidden={!depan}
+              inert={depan ? undefined : true}
+              onClick={depan ? berikut : undefined}
+              data-depan={depan ? "ya" : "tidak"}
+            >
+              <div className={styles.tumpukKartu}>
+                <div className={styles.tumpukFoto}>
+                  {data.gambarUrl && offset <= 2 ? (
+                    <Image
+                      src={data.gambarUrl}
+                      alt={depan ? data.gambarAlt : ""}
+                      fill
+                      sizes="(max-width: 767px) 100vw, (max-width: 1439px) 280px, 420px"
+                      className={styles.tumpukFotoGambar}
+                    />
+                  ) : (
+                    <div className={styles.tumpukFotoSeni}>
+                      <strong>FOTO EKSTRAKURIKULER</strong>
+                      <span>Dokumentasi Resmi Kegiatan Kesiswaan</span>
+                    </div>
+                  )}
+                  <div className={styles.tumpukLencana}>
+                    {!data.gambarUrl ? (
+                      <span className={styles.badgeContoh}>Contoh</span>
+                    ) : null}
+                    <span className={styles.eventBadgeKategori}>
+                      Ekstrakurikuler
+                    </span>
+                  </div>
+                </div>
+
+                <div className={styles.tumpukIsi}>
+                  <h3 className={styles.tumpukJudul}>{data.nama}</h3>
+                  <p className={styles.tumpukTeks}>
+                    {data.deskripsi ||
+                      "Deskripsi kegiatan akan dilengkapi oleh admin PERSAMA."}
+                  </p>
+                  <Link
+                    className={styles.textLink}
+                    href="/ekstrakurikuler"
+                    style={{ marginTop: 16, alignSelf: "flex-start" }}
+                    tabIndex={depan ? undefined : -1}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    Lihat ekstrakurikuler →
+                  </Link>
+                  <div className={styles.tumpukGaris} />
+                  <div className={styles.tumpukKaki}>
+                    <span className={styles.tumpukIndeks}>
+                      Kartu {indeks + 1} dari {items.length} kegiatan
+                    </span>
+                    <button
+                      type="button"
+                      className={styles.tumpukTombol}
+                      tabIndex={depan ? undefined : -1}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        berikut();
+                      }}
+                    >
+                      Ketuk / Naik ⤿
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </m.div>
+          );
+        })}
+      </div>
+
+      <div className={styles.ekskulDots} aria-label="Pilih ekstrakurikuler">
+        {items.map((data, indeks) => (
+          <button
+            key={data.id}
+            type="button"
+            className={`${styles.dot} ${indeks === aktif ? styles.dotAktif : ""}`}
+            aria-label={`Ekstrakurikuler ${indeks + 1}: ${data.nama}`}
+            aria-pressed={indeks === aktif}
+            onClick={() => pilih(indeks)}
+          />
+        ))}
       </div>
 
       <p className={`${styles.eventHint} ${styles.ekskulHint}`}>

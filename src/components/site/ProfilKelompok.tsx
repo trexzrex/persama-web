@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Gambar } from "./ui";
 import { teksAltMedia } from "@/lib/content";
 import type { MediaRel, Pengurus, PoinTugas, ProgramKerja } from "@/lib/types";
+import { GerakProfil } from "./motion/GerakProfil";
 import { susunanTim } from "@/lib/susunan-tim";
 import styles from "./profil-kelompok.module.css";
 
@@ -27,7 +28,7 @@ type Props = {
 
 export function ProfilKelompok({ nama, periode, foto, tugas, anggota, kegiatan, program = [], berikutnya }: Props) {
   const { pimpinan, tim } = susunanTim(anggota);
-  return <article className={styles.halaman}>
+  return <GerakProfil>
     <header className={styles.hero}>
       <div className={styles.fotoBersama}><Gambar media={foto} alt={teksAltMedia(foto, `Foto bersama ${nama}`)} ukuran="hero" className={styles.foto} prioritas labelKosong="Foto bersama belum tersedia" /></div>
       <div className={styles.judul}><h1>{nama}</h1>{periode && <p>Periode {periode}</p>}</div>
@@ -57,5 +58,5 @@ export function ProfilKelompok({ nama, periode, foto, tugas, anggota, kegiatan, 
       <div className={styles.lanjutanIsi}><p>Selanjutnya</p><h2>{berikutnya.nama}</h2><Link href={berikutnya.href}>Kenali {berikutnya.nama} <span aria-hidden="true">→</span></Link></div>
     </nav> : null}
     <Link className={styles.kembali} href="/divisi">← Semua divisi</Link>
-  </article>;
+  </GerakProfil>;
 }

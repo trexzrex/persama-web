@@ -26,7 +26,7 @@ export default async function DivisiBertingkat({ payload, user, searchParams, ha
   ];
   const kelompok = pilihan.find((item) => item.id === kelompokID);
   const tautanFoto = (id: string) => ["inti", "pembina"].includes(id) ? `/admin/collections/periode/${dipilih?.id}` : `${ROOT}/${id}`;
-  const labelFoto = (id: string) => id === "inti" ? "Edit foto Pengurus Inti" : id === "pembina" ? "Edit foto Pembina" : "Edit informasi dan foto divisi";
+  const labelFoto = (id: string) => id === "inti" ? "Edit foto Pengurus Inti, tugas, dan kegiatan" : id === "pembina" ? "Edit foto Pembina" : "Edit informasi dan foto divisi";
   let anggota = null;
   if (dipilih && kelompok) {
     const filter: Where = kelompokID === "inti" ? { kelompok: { equals: "pengurus_inti" } } : kelompokID === "pembina" ? { kelompok: { in: ["pembina", "penanggung_jawab", "pengarah"] } } : { divisi: { equals: kelompokID }, kelompok: { in: ["koordinator_divisi", "anggota_divisi"] } };

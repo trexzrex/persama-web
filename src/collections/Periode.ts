@@ -79,6 +79,26 @@ export const Periode: CollectionConfig = {
       },
     },
     {
+      name: "tugasInti",
+      type: "array",
+      label: "Tugas Umum INTI PERSAMA",
+      fields: [{ name: "poin", type: "text", label: "Poin tugas", required: true }],
+    },
+    {
+      name: "kegiatanInti",
+      type: "textarea",
+      label: "What we do — uraian kegiatan INTI",
+    },
+    {
+      name: "programInti",
+      type: "array",
+      label: "Program dan kegiatan INTI",
+      fields: [
+        { name: "judul", type: "text", label: "Judul", required: true },
+        { name: "keterangan", type: "textarea", label: "Keterangan" },
+      ],
+    },
+    {
       name: "keterangan",
       type: "textarea",
       label: "Keterangan",

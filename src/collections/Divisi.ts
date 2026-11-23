@@ -77,6 +77,12 @@ export const Divisi: CollectionConfig = {
       },
     },
     {
+      name: "kegiatan",
+      type: "textarea",
+      label: "What we do — uraian kegiatan",
+      admin: { description: "Jelaskan kegiatan atau cara kerja divisi. Tampil setelah profil anggota." },
+    },
+    {
       name: "programKerja",
       type: "array",
       label: "Program kerja",

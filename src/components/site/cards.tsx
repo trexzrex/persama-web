@@ -209,7 +209,7 @@ export function KartuOrang({ orang }: { orang: Pengurus }) {
       <span className={styles.personGaris} aria-hidden="true" />
       <Link className={styles.personTautan} href={
         typeof orang.divisi === "object" && orang.divisi
-          ? `/divisi/${orang.divisi.slug}` : "/tentang#judul-inti"
+          ? `/divisi/${orang.divisi.slug}` : "/inti-persama"
       }>Lihat struktur →</Link>
     </article>
   );

@@ -26,6 +26,9 @@ export default async function DivisiPage() {
         <p>Tugas, koordinator, anggota, dan program kerja setiap divisi PERSAMA.</p>
       </PembukaHalaman>
 
+      <nav className={styles.sectionHead} aria-label="Pengurus inti">
+        <Link className={styles.textLink} href="/inti-persama">Kenali INTI PERSAMA →</Link>
+      </nav>
       <section className={styles.section} aria-label="Daftar divisi">
         {divisi.length > 0 ? (
           <div className={`${styles.grid} ${styles.grid3}`}>

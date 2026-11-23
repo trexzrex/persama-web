@@ -28,6 +28,9 @@ export interface Periode {
   aktif?: boolean | null;
   fotoInti?: MediaRel;
   fotoPembina?: MediaRel;
+  tugasInti?: PoinTugas[] | null;
+  kegiatanInti?: string | null;
+  programInti?: ProgramKerja[] | null;
   keterangan?: string | null;
 }
 
@@ -47,6 +50,7 @@ export interface Divisi {
   nama: string;
   slug: string;
   deskripsiSingkat?: string | null;
+  kegiatan?: string | null;
   tugasTanggungJawab?: PoinTugas[] | null;
   fotoGrup?: MediaRel;
   programKerja?: ProgramKerja[] | null;
@@ -66,6 +70,7 @@ export interface Pengurus {
   id: number;
   nama?: string | null;
   foto?: MediaRel;
+  motto?: string | null;
   jabatan: string;
   kelompok: KelompokPengurus;
   divisi?: Divisi | number | null;

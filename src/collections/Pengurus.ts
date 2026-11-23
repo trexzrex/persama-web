@@ -52,6 +52,13 @@ export const Pengurus: CollectionConfig = {
       },
     },
     {
+      name: "motto",
+      type: "textarea",
+      label: "Motto",
+      maxLength: 500,
+      admin: { description: "Motto pribadi yang tampil bersama foto anggota pada halaman INTI atau divisi. Boleh dikosongkan." },
+    },
+    {
       name: "jabatan",
       type: "text",
       label: "Jabatan",

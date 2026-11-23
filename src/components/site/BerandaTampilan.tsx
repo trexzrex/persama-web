@@ -199,7 +199,7 @@ export function BerandaTampilan({
         <div className={styles.divisiGrid}>
           <Link
             className={`${styles.divisiKartu} ${styles.divisiKartuFoto}`}
-            href="/tentang#judul-inti"
+            href="/inti-persama"
           >
             {fotoInti ? (
               <>

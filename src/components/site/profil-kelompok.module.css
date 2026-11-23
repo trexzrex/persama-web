@@ -1,0 +1,55 @@
+.halaman { padding-block: 24px 72px; color: var(--color-prestige); }
+.halaman h1, .halaman h2, .halaman h3 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; }
+.hero { position: relative; }
+.fotoBersama { position: relative; aspect-ratio: 16 / 8; min-height: 280px; overflow: hidden; background: #e8eeec; }
+.fotoBersama > div, .potret > div, .fotoLanjutan > div { height: 100%; min-height: 100%; }
+.foto { object-fit: cover; object-position: center; }
+.judul { position: relative; width: fit-content; max-width: calc(100% - 32px); margin: -70px 0 0 32px; padding: 26px 36px; background: var(--color-prestige); color: white; }
+.judul h1 { font-size: clamp(30px, 4.2vw, 56px); line-height: 1.18; letter-spacing: -.025em; }
+.judul p { margin-top: 10px; font-size: 14px; }
+.uraian { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; padding-block: 72px; }
+.uraian h2, .tim > h2 { font-size: clamp(26px, 3vw, 38px); line-height: 1.25; }
+.uraian p, .uraian li { max-width: 68ch; font-size: 16px; line-height: 1.9; }
+.uraian ul { margin: 0; padding-left: 22px; }
+.uraian li + li { margin-top: 12px; }
+.kosong { color: #48615e; line-height: 1.8; }
+.tim { padding-block: 56px 72px; border-top: 1px solid #dce5e3; }
+.tim > h2 { margin-bottom: 40px; }
+.anggota { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 40px; }
+.orang { min-width: 0; }
+.potret { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #e8eeec; }
+.identitas { padding-top: 24px; }
+.identitas h3 { font-size: clamp(22px, 2.1vw, 30px); line-height: 1.35; }
+.jabatan { margin-top: 8px; font-size: 15px; color: #48615e; }
+.identitas blockquote { margin: 24px 0 0; padding-top: 18px; border-top: 1px solid #dce5e3; }
+.identitas blockquote span { font-size: 13px; font-weight: 600; }
+.identitas blockquote p { margin-top: 10px; font-size: 17px; line-height: 1.8; overflow-wrap: anywhere; }
+.pekerjaan { padding-inline: 36px; background: #edf2f0; }
+.pekerjaan .uraian { padding-block: 48px; }
+.paragraf { white-space: pre-line; }
+.program { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 48px; padding: 0 0 48px; margin: 0; list-style: none; }
+.program li { border-top: 1px solid #c9d6d2; padding-top: 22px; }
+.program h3 { font-size: 21px; line-height: 1.4; }
+.program p { margin-top: 12px; font-size: 15px; line-height: 1.8; }
+.lanjutan { display: grid; grid-template-columns: 1fr 1fr; margin-top: 72px; background: var(--color-prestige); color: white; }
+.fotoLanjutan { position: relative; min-height: 300px; overflow: hidden; }
+.lanjutanIsi { align-self: center; padding: 40px; }
+.lanjutanIsi > p { font-size: 14px; margin-bottom: 14px; }
+.lanjutanIsi h2 { font-size: clamp(26px, 3vw, 40px); line-height: 1.25; }
+.lanjutanIsi a { display: inline-block; margin-top: 30px; color: white; font-weight: 600; text-decoration: underline; text-underline-offset: 6px; line-height: 1.8; }
+.kembali { display: inline-block; margin-top: 32px; color: var(--color-prestige); text-underline-offset: 5px; }
+.halaman a:focus-visible { outline: 3px solid var(--color-ruby); outline-offset: 6px; }
+@media (max-width: 767px) {
+  .halaman { padding-top: 16px; }
+  .fotoBersama { min-height: 220px; aspect-ratio: 4 / 3; }
+  .judul { margin: -36px 16px 0; padding: 20px 24px; max-width: calc(100% - 32px); }
+  .judul h1 { font-size: 30px; }
+  .uraian { grid-template-columns: 1fr; gap: 24px; padding-block: 48px; }
+  .tim { padding-block: 40px 48px; }
+  .anggota { grid-template-columns: 1fr; gap: 44px; }
+  .pekerjaan { padding-inline: 24px; }
+  .program { grid-template-columns: 1fr; gap: 28px; }
+  .lanjutan { grid-template-columns: 1fr; margin-top: 48px; }
+  .fotoLanjutan { min-height: 220px; }
+  .lanjutanIsi { padding: 28px; }
+}

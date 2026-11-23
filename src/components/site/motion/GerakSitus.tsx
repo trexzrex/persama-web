@@ -60,8 +60,12 @@ export function GerakSitus({ children }: { children: ReactNode }) {
     const cls = (name: string) => `.${styles[name]}`;
     media.add({ full: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 768px)" }, (context) => {
       if (!context.conditions?.full) return;
+      const seen = new WeakSet<Element>();
+      const initialize = () => {
       const hero = root.querySelector(cls("hero"));
-      if (hero && window.scrollY < 100) {
+      const newHero = hero && !seen.has(hero);
+      if (newHero) seen.add(hero);
+      if (newHero && window.scrollY < 100) {
         const timeline = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.7 } });
         const copy = hero.querySelector(cls("heroCopy"));
         if (copy) timeline.from(Array.from(copy.children), { y: 24, opacity: 0, stagger: 0.1 });
@@ -70,19 +74,27 @@ export function GerakSitus({ children }: { children: ReactNode }) {
       }
       const sections = root.querySelectorAll(`${cls("bagian")}, ${cls("section")}`);
       sections.forEach((section) => {
-        if (section.getBoundingClientRect().top < window.innerHeight * 0.8) return;
+        if (seen.has(section)) return;
+        seen.add(section);
+        if (section.getBoundingClientRect().bottom <= 0) return;
         const children = Array.from(section.children).filter((e) => e.tagName !== "SCRIPT");
         gsap.from(children, { y: 24, opacity: 0, duration: 0.65, stagger: 0.08, ease: "power2.out",
           scrollTrigger: { trigger: section, start: "top 88%", once: true },
         });
       });
-      if (context.conditions?.desktop && hero) {
+      if (context.conditions?.desktop && newHero) {
         hero.querySelectorAll(cls("heroOrnamen")).forEach((node, index) => {
           gsap.to(node, { y: index ? -20 : 20, ease: "none", scrollTrigger: {
             trigger: hero, start: "top top", end: "bottom top", scrub: 0.7,
           } });
         });
       }
+      };
+      context.add("initialize", initialize);
+      context.initialize();
+      const observer = new MutationObserver(() => context.initialize());
+      observer.observe(root, { childList: true, subtree: true });
+      return () => observer.disconnect();
     }, root);
     const refresh = () => { if (!disposed) ScrollTrigger.refresh(); };
     document.fonts.ready.then(refresh);

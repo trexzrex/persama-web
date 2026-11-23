@@ -18,19 +18,19 @@ export function GerakProfil({ children }: { children: ReactNode }) {
       const groups = new Map<Element, { el: Element; x: number; y: number; delay: number }[]>();
       const small = window.matchMedia("(max-width: 767px)").matches;
       const distance = small ? 18 : 40;
-      const add = (selector: string, children = false, sideways = false) => {
-        root.querySelectorAll(selector).forEach(group => {
+      const add = (className: string, children = false, sideways = false) => {
+        Array.from(root.getElementsByClassName(className)).forEach(group => {
           const targets = children ? Array.from(group.children) : [group];
           groups.set(group, targets.map((el, i) => ({ el, x: sideways && i === 0 ? -distance : 0, y: sideways && i === 0 ? 0 : distance, delay: i * 120 })));
         });
       };
-      add(`.${styles.judul}`);
-      add(`.${styles.uraian}`, true);
-      add(`.${styles.pimpinan}`, true, true);
-      add(`.${styles.timJudul}`);
-      add(`.${styles.orang}`, true);
-      add(`.${styles.program}`, true);
-      add(`.${styles.lanjutan}`, true);
+      add(styles.judul);
+      add(styles.uraian, true);
+      add(styles.pimpinan, true, true);
+      add(styles.timJudul);
+      add(styles.orang, true);
+      add(styles.program, true);
+      add(styles.lanjutan, true);
       const observer = new IntersectionObserver(entries => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;

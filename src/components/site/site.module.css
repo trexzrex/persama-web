@@ -1205,6 +1205,29 @@
   margin-top: 20px;
 }
 
+/* Photo cards: photo belongs to each Divisi record, not site settings. */
+.divisiGrid .divisiKartuFoto {
+  min-height: 190px;
+  aspect-ratio: 16 / 9;
+  padding: 24px;
+  border-radius: 12px;
+  background: #e8eeec;
+  color: var(--color-prestige);
+}
+.divisiFotoBeranda { object-fit: cover; object-position: center; }
+.divisiLapisan { position: absolute; inset: 0; background: rgb(255 255 255 / 68%); transition: background var(--dur-180) var(--ease-out); }
+.divisiKartuFoto:hover .divisiLapisan { background: rgb(255 255 255 / 50%); }
+.divisiKartuFoto .divisiNama { position: relative; z-index: 1; font-size: clamp(17px, 1.6vw, 23px); line-height: 1.4; text-shadow: 0 1px 3px #ffffff; }
+.divisiFotoKosong { position: absolute; inset: auto 16px 18px; z-index: 1; font-size: 11px; font-weight: 400; text-align: center; color: #48615e; }
+.divisiKartuFoto:focus-visible { outline: 3px solid var(--color-ruby); outline-offset: 5px; }
+@media (max-width: 767px) {
+  .divisiGrid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .divisiKartuFoto, .divisiLapisan { transition: none; }
+  .divisiKartuFoto:hover { transform: none; }
+}
+
 /* E-Tabloid */
 
 .tabloidKartu {
@@ -2217,7 +2240,7 @@
   }
 
   .divisiGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
   }
 

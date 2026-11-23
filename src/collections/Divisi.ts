@@ -19,7 +19,7 @@ export const Divisi: CollectionConfig = {
     defaultColumns: ["nama", "periode", "urutan"],
     group: "Kepengurusan",
     description:
-      "Tujuh divisi PERSAMA per periode. Anggota dan koordinator diambil dari koleksi Pengurus.",
+      "Kelola divisi per periode, termasuk foto anggota untuk beranda. Divisi baru otomatis tampil sesuai periode aktif dan urutan.",
   },
   access: {
     read: siapaSaja,
@@ -69,10 +69,11 @@ export const Divisi: CollectionConfig = {
       name: "fotoGrup",
       type: "upload",
       relationTo: "media",
-      label: "Foto grup",
+      label: "Foto anggota divisi",
+      filterOptions: { mimeType: { contains: "image" } },
       admin: {
         description:
-          "Foto lebar. Bila belum ada, situs menampilkan placeholder netral.",
+          "Unggah atau ganti foto bersama anggota langsung di sini, lalu simpan divisi. Dipakai pada kotak divisi di beranda, daftar divisi, dan detail divisi. Disarankan foto horizontal 16:9; posisikan semua anggota di tengah. Tanpa foto, situs menampilkan placeholder netral.",
       },
     },
     {

@@ -33,7 +33,7 @@ export type BerandaData = {
   visi?: string | null;
   misi: { id?: string | null; poin: string }[];
   events: EventBeranda[];
-  divisi: { id: number; slug: string; nama: string }[];
+  divisi: { id: number; slug: string; nama: string; fotoUrl: string | null; fotoAlt: string }[];
   ekskul: EkskulBeranda[];
   tabloidUtama: Tabloid | null;
   arsip: ArsipBeranda[];
@@ -200,19 +200,19 @@ export function BerandaTampilan({
             <span className={styles.divisiNama}>INTI</span>
             <span className={styles.divisiAksen} aria-hidden="true" />
           </Link>
-          {divisi.map((item, indeks) => (
+          {divisi.map((item) => (
             <Link
-              className={styles.divisiKartu}
+              className={`${styles.divisiKartu} ${styles.divisiKartuFoto}`}
               href={`/divisi/${item.slug}`}
               key={item.id}
             >
+              {item.fotoUrl ? (
+                <Image src={item.fotoUrl} alt={item.fotoAlt} fill sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw" className={styles.divisiFotoBeranda} />
+              ) : (
+                <span className={styles.divisiFotoKosong} data-foto-divisi-kosong="true">Foto anggota belum tersedia</span>
+              )}
+              <span className={styles.divisiLapisan} aria-hidden="true" />
               <span className={styles.divisiNama}>{item.nama}</span>
-              <span
-                className={`${styles.divisiAksen} ${
-                  indeks % 2 === 0 ? "" : styles.divisiAksenRubi
-                }`}
-                aria-hidden="true"
-              />
             </Link>
           ))}
         </div>

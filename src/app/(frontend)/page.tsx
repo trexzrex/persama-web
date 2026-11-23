@@ -111,6 +111,8 @@ export default async function Home() {
         id: item.id,
         slug: item.slug,
         nama: item.nama,
+        fotoUrl: alamatMedia(item.fotoGrup),
+        fotoAlt: teksAltMedia(item.fotoGrup, `Foto anggota divisi ${item.nama}`),
       }))}
       ekskul={kartuEkskul}
       tabloidUtama={tabloidUtama}

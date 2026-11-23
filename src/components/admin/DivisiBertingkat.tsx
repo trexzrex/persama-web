@@ -42,7 +42,7 @@ export default async function DivisiBertingkat({ payload, user, searchParams, ha
       {!divisi?.docs.length && <p>Divisi periode ini belum diisi. Pengurus inti dan pembina tetap dapat dikelola.</p>}
       {hasCreatePermission && <Link className="persama-admin-site-link" href={`${ROOT}/create?periode=${dipilih.id}`}>Tambah divisi untuk periode ini</Link>}
     </> : <>
-      <div className="persama-admin-actions"><Link href={tombolTambah(kelompokID)}>Tambah anggota</Link>{!["inti", "pembina"].includes(kelompokID) && <Link href={`${ROOT}/${kelompokID}`}>Edit informasi divisi</Link>}<Link href={url()}>Kembali ke struktur periode</Link></div>
+      <div className="persama-admin-actions"><Link href={tombolTambah(kelompokID)}>Tambah anggota</Link>{!["inti", "pembina"].includes(kelompokID) && <Link href={`${ROOT}/${kelompokID}`}>Edit informasi dan foto divisi</Link>}<Link href={url()}>Kembali ke struktur periode</Link></div>
       <div className="persama-admin-member-list">{anggota?.docs.map((orang) => <article key={orang.id} className="persama-admin-member"><div><h2>{orang.nama || "Nama belum diisi"}</h2><p>{orang.jabatan}</p><small>{orang.kelompok === "koordinator_divisi" ? "Koordinator divisi" : orang.kelompok === "anggota_divisi" ? "Anggota divisi" : orang.kelompok === "penanggung_jawab" ? "Penanggung jawab" : orang.kelompok === "pengarah" ? "Pengarah" : orang.kelompok === "pengurus_inti" ? "Pengurus inti" : "Pembina"}</small></div><Link href={`/admin/collections/pengurus/${orang.id}`}>Edit anggota →</Link></article>)}{!anggota?.docs.length && <p role="status">Belum ada anggota pada kelompok ini untuk periode yang dipilih.</p>}</div>
     </>}
   </div>;

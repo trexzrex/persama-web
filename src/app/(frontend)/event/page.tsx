@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
 import { KartuEvent } from "@/components/site/cards";
 import { KeadaanKosong } from "@/components/site/ui";
 import styles from "@/components/site/site.module.css";
@@ -55,15 +56,10 @@ export default async function EventPage({ searchParams }: Props) {
     nomor === 1 ? "/event" : `/event?halaman=${nomor}`;
 
   return (
-    <>
-      <p className={styles.eyebrow}>Agenda</p>
-      <h1 className={styles.title} style={{ maxWidth: "14ch" }}>
-        Event PERSAMA
-      </h1>
-      <p className={styles.lead} style={{ marginTop: "var(--sp-16)" }}>
-        Status dihitung otomatis dari tanggal. Halaman ini hanya memuat
-        informasi dan dokumentasi, tanpa pendaftaran.
-      </p>
+    <HalamanPublik jenis="event">
+      <PembukaHalaman label="Agenda & dokumentasi" judul="Event PERSAMA" keterangan={`${semua.length} kegiatan dalam arsip`}>
+        <p>Temukan agenda mendatang dan cerita dari kegiatan yang telah berlangsung. Ruang informasi dan dokumentasi kegiatan PERSAMA.</p>
+      </PembukaHalaman>
 
       {semua.length === 0 ? (
         <section className={styles.section} aria-label="Keadaan kosong">
@@ -148,6 +144,6 @@ export default async function EventPage({ searchParams }: Props) {
           </p>
         </>
       )}
-    </>
+    </HalamanPublik>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
 import { KartuDivisi } from "@/components/site/cards";
 import { KeadaanKosong } from "@/components/site/ui";
 import styles from "@/components/site/site.module.css";
@@ -21,16 +22,10 @@ export default async function DivisiPage() {
   ]);
 
   return (
-    <>
-      <p className={styles.eyebrow}>Bidang</p>
-      <h1 className={styles.title} style={{ maxWidth: "16ch" }}>
-        Divisi PERSAMA
-      </h1>
-      <p className={styles.lead} style={{ marginTop: "var(--sp-16)" }}>
-        Tujuh bidang yang menjalankan program kerja PERSAMA
-        {periode?.nama ? ` pada periode ${periode.nama}` : ""}. Pilih satu untuk
-        melihat tugas, koordinator, anggota, dan program kerjanya.
-      </p>
+    <HalamanPublik jenis="divisi">
+      <PembukaHalaman label="Bidang organisasi" judul="Divisi PERSAMA" keterangan={periode?.nama ? `Periode ${periode.nama}` : undefined}>
+        <p>Tujuh bidang, satu semangat kebersamaan. Kenali tugas, koordinator, anggota, dan program kerja setiap divisi PERSAMA.</p>
+      </PembukaHalaman>
 
       <section className={styles.section} aria-label="Daftar divisi">
         {divisi.length > 0 ? (
@@ -71,6 +66,6 @@ export default async function DivisiPage() {
           </Link>
         </div>
       </section>
-    </>
+    </HalamanPublik>
   );
 }

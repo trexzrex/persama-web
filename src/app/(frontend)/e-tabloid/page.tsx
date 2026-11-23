@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
 import { KartuTabloid } from "@/components/site/cards";
 import { KeadaanKosong } from "@/components/site/ui";
 import styles from "@/components/site/site.module.css";
@@ -15,15 +16,10 @@ export default async function TabloidPage() {
   const tabloid = await ambilTabloid();
 
   return (
-    <>
-      <p className={styles.eyebrow}>Publikasi</p>
-      <h1 className={styles.title} style={{ maxWidth: "14ch" }}>
-        E-Tabloid
-      </h1>
-      <p className={styles.lead} style={{ marginTop: "var(--sp-16)" }}>
-        Kumpulan edisi tabloid digital PERSAMA, dari yang terbaru. Semua edisi
-        bisa dibaca langsung di situs atau diunduh tanpa login.
-      </p>
+    <HalamanPublik jenis="tabloid">
+      <PembukaHalaman label="Ruang publikasi" judul="E-Tabloid PERSAMA" keterangan="Baca di situs atau unduh PDF · Tanpa login">
+        <p>Cerita, gagasan, dan kabar dalam setiap edisi. Jelajahi terbitan digital PERSAMA, mulai dari edisi terbaru.</p>
+      </PembukaHalaman>
 
       <section className={styles.section} aria-label="Daftar e-tabloid">
         {tabloid.length > 0 ? (
@@ -42,6 +38,6 @@ export default async function TabloidPage() {
           />
         )}
       </section>
-    </>
+    </HalamanPublik>
   );
 }

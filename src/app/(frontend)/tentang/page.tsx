@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
 import { KartuOrang } from "@/components/site/cards";
 import { KeadaanKosong } from "@/components/site/ui";
 import styles from "@/components/site/site.module.css";
@@ -35,16 +36,10 @@ export default async function TentangPage() {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
   return (
-    <>
-      <p className={styles.eyebrow}>Profil</p>
-      <h1 className={styles.title} style={{ maxWidth: "18ch" }}>
-        Tentang {pengaturan.namaSitus?.trim() || "PERSAMA"}
-      </h1>
-      {periode?.nama ? (
-        <p className={styles.lead} style={{ marginTop: "var(--sp-16)" }}>
-          Kepengurusan periode {periode.nama}.
-        </p>
-      ) : null}
+    <HalamanPublik jenis="tentang">
+      <PembukaHalaman label="Profil organisasi" judul={`Tentang ${pengaturan.namaSitus?.trim() || "PERSAMA"}`} keterangan={periode?.nama ? `Kepengurusan periode ${periode.nama}` : undefined}>
+        <p>Kenali organisasi, arah gerak, dan orang-orang di balik PERSAMA SMK-SMAK Makassar.</p>
+      </PembukaHalaman>
 
       {pengenalan ? (
         <section className={styles.section} aria-labelledby="judul-pengertian">
@@ -144,6 +139,6 @@ export default async function TentangPage() {
         )}
       </section>
 
-    </>
+    </HalamanPublik>
   );
 }

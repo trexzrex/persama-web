@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
-import { KartuDivisi } from "@/components/site/cards";
+import { DivisiPublik, HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
 import { KeadaanKosong } from "@/components/site/ui";
 import styles from "@/components/site/site.module.css";
 import { ambilDivisi, ambilPengurus, ambilPeriodeAktif } from "@/lib/content";
@@ -23,8 +22,8 @@ export default async function DivisiPage() {
 
   return (
     <HalamanPublik jenis="divisi">
-      <PembukaHalaman label="Bidang organisasi" judul="Divisi PERSAMA" keterangan={periode?.nama ? `Periode ${periode.nama}` : undefined}>
-        <p>Tujuh bidang, satu semangat kebersamaan. Kenali tugas, koordinator, anggota, dan program kerja setiap divisi PERSAMA.</p>
+      <PembukaHalaman judul="Divisi PERSAMA" keterangan={periode?.nama ? `Periode ${periode.nama}` : undefined}>
+        <p>Tugas, koordinator, anggota, dan program kerja setiap divisi PERSAMA.</p>
       </PembukaHalaman>
 
       <section className={styles.section} aria-label="Daftar divisi">
@@ -33,7 +32,7 @@ export default async function DivisiPage() {
             {divisi.map((item) => {
               const ringkas = ringkasanDivisi(pengurus, item.id);
               return (
-                <KartuDivisi
+                <DivisiPublik
                   key={item.id}
                   divisi={item}
                   koordinator={ringkas.koordinator}

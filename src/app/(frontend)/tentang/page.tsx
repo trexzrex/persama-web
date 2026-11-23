@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
-import { KartuOrang } from "@/components/site/cards";
+import { HalamanPublik, PembukaHalaman, PengurusPublik } from "@/components/site/HalamanPublik";
 import { KeadaanKosong } from "@/components/site/ui";
 import styles from "@/components/site/site.module.css";
 import {
@@ -32,13 +31,12 @@ export default async function TentangPage() {
 
   const misi = (pengaturan.misi ?? []).filter((item) => item.poin?.trim());
   const pengenalanResmi = pengaturan.pengenalan?.trim();
-  const pengenalan = pengenalanResmi ||
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+  const pengenalan = pengenalanResmi || "Profil organisasi belum tersedia.";
 
   return (
     <HalamanPublik jenis="tentang">
-      <PembukaHalaman label="Profil organisasi" judul={`Tentang ${pengaturan.namaSitus?.trim() || "PERSAMA"}`} keterangan={periode?.nama ? `Kepengurusan periode ${periode.nama}` : undefined}>
-        <p>Kenali organisasi, arah gerak, dan orang-orang di balik PERSAMA SMK-SMAK Makassar.</p>
+      <PembukaHalaman judul={`Tentang ${pengaturan.namaSitus?.trim() || "PERSAMA"}`} keterangan={periode?.nama ? `Kepengurusan periode ${periode.nama}` : undefined}>
+        <p>Profil dan kepengurusan PERSAMA SMK-SMAK Makassar.</p>
       </PembukaHalaman>
 
       {pengenalan ? (
@@ -46,9 +44,6 @@ export default async function TentangPage() {
           <h2 id="judul-pengertian" className={styles.sectionTitle}>
             Pengertian PERSAMA
           </h2>
-          {!pengenalanResmi ? (
-            <span className={`${styles.badge} ${styles.badgeSoft}`}>Contoh</span>
-          ) : null}
           <div className={styles.prose} style={{ marginTop: "var(--sp-16)" }}>
             {pengenalan
               .split(/\n{2,}/)
@@ -91,10 +86,6 @@ export default async function TentangPage() {
           <h2 id="judul-pembina" className={styles.sectionTitle}>
             Penanggung jawab dan pembina
           </h2>
-          <p className={styles.small} style={{ marginBlock: "var(--sp-8) var(--sp-16)" }}>
-            Ditampilkan sesuai jabatan yang diberikan. Jabatan tanpa nama pribadi
-            ditulis apa adanya.
-          </p>
           <div className={styles.roles}>
             {pembina.map((orang) => (
               <div className={styles.roleRow} key={orang.id}>
@@ -125,7 +116,7 @@ export default async function TentangPage() {
         {inti.length > 0 ? (
           <div className={styles.people}>
             {inti.map((orang) => (
-              <KartuOrang key={orang.id} orang={orang} />
+              <PengurusPublik key={orang.id} orang={orang} />
             ))}
           </div>
         ) : (

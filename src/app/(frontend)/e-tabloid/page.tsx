@@ -17,8 +17,8 @@ export default async function TabloidPage() {
 
   return (
     <HalamanPublik jenis="tabloid">
-      <PembukaHalaman label="Ruang publikasi" judul="E-Tabloid PERSAMA" keterangan="Baca di situs atau unduh PDF · Tanpa login">
-        <p>Cerita, gagasan, dan kabar dalam setiap edisi. Jelajahi terbitan digital PERSAMA, mulai dari edisi terbaru.</p>
+      <PembukaHalaman judul="E-Tabloid PERSAMA">
+        <p>Terbitan digital PERSAMA. Baca di situs atau unduh berkas PDF setiap edisi.</p>
       </PembukaHalaman>
 
       <section className={styles.section} aria-label="Daftar e-tabloid">

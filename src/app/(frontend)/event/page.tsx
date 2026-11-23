@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
-import { KartuEvent } from "@/components/site/cards";
+import { EventPublik, HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
 import { KeadaanKosong } from "@/components/site/ui";
 import styles from "@/components/site/site.module.css";
 import { ambilEvent } from "@/lib/content";
@@ -57,8 +56,8 @@ export default async function EventPage({ searchParams }: Props) {
 
   return (
     <HalamanPublik jenis="event">
-      <PembukaHalaman label="Agenda & dokumentasi" judul="Event PERSAMA" keterangan={`${semua.length} kegiatan dalam arsip`}>
-        <p>Temukan agenda mendatang dan cerita dari kegiatan yang telah berlangsung. Ruang informasi dan dokumentasi kegiatan PERSAMA.</p>
+      <PembukaHalaman judul="Event PERSAMA" keterangan={`${semua.length} kegiatan dalam arsip`}>
+        <p>Agenda dan dokumentasi kegiatan PERSAMA SMK-SMAK Makassar.</p>
       </PembukaHalaman>
 
       {semua.length === 0 ? (
@@ -83,7 +82,7 @@ export default async function EventPage({ searchParams }: Props) {
                 style={{ marginTop: "var(--sp-16)" }}
               >
                 {akanDatang.map((event) => (
-                  <KartuEvent key={event.id} event={event} />
+                  <EventPublik key={event.id} event={event} />
                 ))}
               </div>
             </section>
@@ -99,7 +98,7 @@ export default async function EventPage({ searchParams }: Props) {
                 style={{ marginTop: "var(--sp-16)" }}
               >
                 {selesai.map((event) => (
-                  <KartuEvent key={event.id} event={event} />
+                  <EventPublik key={event.id} event={event} />
                 ))}
               </div>
             </section>
@@ -139,7 +138,7 @@ export default async function EventPage({ searchParams }: Props) {
           ) : null}
 
           <p className={styles.small} style={{ marginTop: "var(--sp-16)" }}>
-            Menampilkan {mulai + 1}–{Math.min(mulai + PER_HALAMAN, semua.length)} dari{" "}
+            Menampilkan {mulai + 1}-{Math.min(mulai + PER_HALAMAN, semua.length)} dari{" "}
             {semua.length} event.
           </p>
         </>

@@ -2,7 +2,17 @@ import Link from "next/link";
 import { Gambar } from "./ui";
 import { teksAltMedia } from "@/lib/content";
 import type { MediaRel, Pengurus, PoinTugas, ProgramKerja } from "@/lib/types";
+import { susunanTim } from "@/lib/susunan-tim";
 import styles from "./profil-kelompok.module.css";
+
+function ProfilOrang({ orang, utama = false }: { orang: Pengurus; utama?: boolean }) {
+  return <article className={utama ? styles.pimpinan : styles.orang} data-profil={utama ? "pimpinan" : "anggota"}>
+    <div className={styles.potret}><Gambar media={orang.foto} alt={teksAltMedia(orang.foto, orang.nama || orang.jabatan || "Pengurus PERSAMA")} className={styles.foto} labelKosong="Foto anggota belum tersedia" /></div>
+    <div className={styles.identitas}><h3>{orang.nama?.trim() || "Nama belum diisi"}</h3><p className={styles.jabatan}>{orang.jabatan}</p>
+      <blockquote className={styles.motto}><span>Motto Hidup</span><p>{orang.motto?.trim() ? `“${orang.motto.trim()}”` : "Motto belum diisi"}</p></blockquote>
+    </div>
+  </article>;
+}
 
 type Props = {
   nama: string;
@@ -16,6 +26,7 @@ type Props = {
 };
 
 export function ProfilKelompok({ nama, periode, foto, tugas, anggota, kegiatan, program = [], berikutnya }: Props) {
+  const { pimpinan, tim } = susunanTim(anggota);
   return <article className={styles.halaman}>
     <header className={styles.hero}>
       <div className={styles.fotoBersama}><Gambar media={foto} alt={teksAltMedia(foto, `Foto bersama ${nama}`)} ukuran="hero" className={styles.foto} prioritas labelKosong="Foto bersama belum tersedia" /></div>
@@ -27,14 +38,13 @@ export function ProfilKelompok({ nama, periode, foto, tugas, anggota, kegiatan, 
       <div>{tugas.length ? <ul>{tugas.map((item, i) => <li key={item.id ?? i}>{item.poin}</li>)}</ul> : <p className={styles.kosong}>Tugas umum belum tersedia.</p>}</div>
     </section>
 
+    {pimpinan.length > 0 && <section className={styles.pemimpin} aria-label="Ketua atau koordinator">
+      {pimpinan.map(orang => <ProfilOrang key={orang.id} orang={orang} utama />)}
+    </section>}
+
     <section className={styles.tim} aria-labelledby="judul-anggota">
-      <h2 id="judul-anggota">Kenali pengurus kami.</h2>
-      {anggota.length ? <div className={styles.anggota}>{anggota.map((orang) => <article className={styles.orang} key={orang.id}>
-        <div className={styles.potret}><Gambar media={orang.foto} alt={teksAltMedia(orang.foto, orang.nama || orang.jabatan || "Pengurus PERSAMA")} className={styles.foto} labelKosong="Foto anggota belum tersedia" /></div>
-        <div className={styles.identitas}><h3>{orang.nama?.trim() || "Nama belum diisi"}</h3><p className={styles.jabatan}>{orang.jabatan}</p>
-          {orang.motto?.trim() ? <blockquote><span>Motto</span><p>“{orang.motto}”</p></blockquote> : null}
-        </div>
-      </article>)}</div> : <p className={styles.kosong}>Anggota periode ini belum diisi.</p>}
+      <div className={styles.timJudul}><h2 id="judul-anggota">Anggota Tim</h2><p>{tim.length ? `${tim.length} pengurus mendampingi ${pimpinan[0]?.jabatan?.toLowerCase() || "kepengurusan"} ${nama}.` : "Anggota tim periode ini belum diisi."}</p></div>
+      {tim.length > 0 && <div className={styles.anggota}>{tim.map(orang => <ProfilOrang key={orang.id} orang={orang} />)}</div>}
     </section>
 
     <section className={styles.pekerjaan} aria-labelledby="judul-kegiatan">

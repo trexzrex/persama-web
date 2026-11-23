@@ -1160,14 +1160,6 @@
   transition: transform var(--dur-180) var(--ease-out);
 }
 
-.divisiKartu:nth-child(3n) {
-  background: #103839;
-}
-
-.divisiKartu:nth-child(3n + 1):not(:first-child) {
-  background: #184a48;
-}
-
 .divisiKartu:hover {
   transform: translateY(-2px);
 }

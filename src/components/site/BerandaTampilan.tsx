@@ -194,11 +194,11 @@ export function BerandaTampilan({
 
         <div className={styles.divisiGrid}>
           <Link
-            className={`${styles.divisiKartu} ${styles.divisiInti}`}
+            className={`${styles.divisiKartu} ${styles.divisiKartuFoto}`}
             href="/tentang#judul-inti"
           >
+            <span className={styles.divisiFotoKosong} data-foto-divisi-kosong="true">Foto pengurus belum tersedia</span>
             <span className={styles.divisiNama}>INTI</span>
-            <span className={styles.divisiAksen} aria-hidden="true" />
           </Link>
           {divisi.map((item) => (
             <Link
@@ -211,7 +211,7 @@ export function BerandaTampilan({
               ) : (
                 <span className={styles.divisiFotoKosong} data-foto-divisi-kosong="true">Foto anggota belum tersedia</span>
               )}
-              <span className={styles.divisiLapisan} aria-hidden="true" />
+              {item.fotoUrl ? <span className={styles.divisiLapisan} aria-hidden="true" /> : null}
               <span className={styles.divisiNama}>{item.nama}</span>
             </Link>
           ))}

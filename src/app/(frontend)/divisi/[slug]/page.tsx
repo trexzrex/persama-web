@@ -20,7 +20,7 @@ export default async function DivisiDetailPage({ params }: Props) {
   const periode = typeof divisi.periode === "object" ? divisi.periode : null;
   const periodeId = periode?.id ?? (typeof divisi.periode === "number" ? divisi.periode : null);
   const [anggota, daftar, events] = await Promise.all([
-    ambilPengurus(periodeId, { divisiId: divisi.id }),
+    ambilPengurus(periodeId, { divisiId: divisi.id, kelompok: ["koordinator_divisi", "anggota_divisi"] }),
     ambilDivisi(periodeId),
     ambilEventDivisi(divisi.id),
   ]);

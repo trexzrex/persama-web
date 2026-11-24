@@ -2,7 +2,9 @@
 
 import { Link } from "@payloadcms/ui";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useSyncExternalStore, type MouseEvent } from "react";
+import { useEffect, useState, useSyncExternalStore, type MouseEvent } from "react";
+import { createPortal } from "react-dom";
+import { tempatKembali } from "@/lib/admin-penempatan";
 import { catatHalaman, indukAdmin } from "@/lib/admin-kembali";
 
 const KEY = "persama-admin-history";
@@ -21,6 +23,31 @@ export default function TombolKembali() {
   const search = useSearchParams().toString();
   const current = `${pathname}${search ? `?${search}` : ""}`;
   const previous = useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    let active = true;
+    const container = document.createElement("div");
+    container.className = "persama-admin-back-slot";
+    const place = () => {
+      if (!active) return;
+      const target = tempatKembali(document);
+      if (!target) {
+        container.remove();
+        setSlot(null);
+        return;
+      }
+      if (container.parentElement !== target) target.prepend(container);
+      setSlot(container);
+    };
+    const observer = new MutationObserver(place);
+    observer.observe(document.body, { childList: true, subtree: true });
+    queueMicrotask(place);
+    return () => {
+      active = false;
+      observer.disconnect();
+      container.remove();
+    };
+  }, [current]);
   useEffect(() => {
     const onPopState = () => { tujuanKembali = `${window.location.pathname}${window.location.search}`; };
     window.addEventListener("popstate", onPopState);
@@ -47,11 +74,12 @@ export default function TombolKembali() {
     listeners.forEach((listener) => listener());
   }, [current, pathname]);
   if (pathname === "/admin" || /\/admin\/(login|logout|forgot|reset)/.test(pathname)) return null;
-  return <nav className="persama-admin-back" aria-label="Kembali ke halaman sebelumnya">
+  if (!slot) return null;
+  return createPortal(<nav className="persama-admin-back" aria-label="Kembali ke halaman sebelumnya">
     <Link href={previous ?? indukAdmin(current)} replace onClick={(event: MouseEvent<HTMLAnchorElement>) => {
       if (event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
         tujuanKembali = previous ?? indukAdmin(current);
       }
     }}>← Kembali</Link>
-  </nav>;
+  </nav>, slot);
 }

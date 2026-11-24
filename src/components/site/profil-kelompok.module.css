@@ -19,7 +19,7 @@
 .pimpinan + .pimpinan { margin-top: 56px; }
 .pimpinan .potret { aspect-ratio: 1 / 1; }
 .pimpinan .potret .foto { object-fit: cover; object-position: center bottom; }
-.potret::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url("/motif/kertas-profil.svg") center / cover; opacity: .6; }
+.potret::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url("/motif/kertas-profil.svg") center / cover; opacity: 1; }
 .pimpinan .potret::before { opacity: 1; }
 .potret > img { z-index: 1; }
 .pimpinan .identitas { padding: 0; }

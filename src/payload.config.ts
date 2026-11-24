@@ -41,6 +41,13 @@ export default buildConfig({
       beforeDashboard: ["@/components/admin/RingkasanAdmin"],
       beforeNavLinks: ["@/components/admin/IdentitasAdmin#TautanDashboard"],
       afterNavLinks: ["@/components/admin/IdentitasAdmin#TautanSitus"],
+      views: {
+        penyimpanan: {
+          Component: "@/components/admin/PenyimpananAdmin#default",
+          path: "/penyimpanan",
+          meta: { title: "Penyimpanan" },
+        },
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),

@@ -72,6 +72,21 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.025em; }
   text-decoration: none;
 }
 .persama-admin-dashboard-link:hover { background: #1c5a58; color: #fff; }
+.persama-admin-menu { display: grid; gap: 8px; margin-bottom: 20px; }
+.persama-admin-menu .persama-admin-dashboard-link { margin-bottom: 0; }
+.persama-admin-storage-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 10px;
+  color: var(--theme-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.persama-admin-storage-link:hover { background: var(--theme-elevation-100); }
 .persama-admin-site-link { display: block; margin: 24px 0; padding: 12px; border: 1px solid var(--theme-elevation-150); border-radius: 12px; text-decoration: none; font-weight: 600; }
 
 .login .login__form { padding: 28px; border: 1px solid var(--theme-elevation-150); border-radius: 24px; background: var(--theme-elevation-0); }
@@ -118,3 +133,89 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.025em; }
   .login .login__form { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .nav__link, .persama-admin-stat { transition: none; } }
+
+/* Pemantauan penyimpanan: ringkasan, tabel responsif, dan status pemuatan. */
+.persama-admin-storage { padding: 24px var(--gutter-h, 24px) 48px; }
+.persama-admin-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.persama-admin-storage-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
+.persama-admin-storage-head > div { min-width: 0; }
+.persama-admin-storage-head h1 { margin: 0 0 0.75rem; overflow-wrap: anywhere; font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem); }
+.persama-admin-storage-head p:last-child { margin: 0; max-width: 58ch; line-height: 1.7; color: var(--theme-elevation-500); }
+.persama-admin-refresh {
+  flex: none;
+  min-height: 44px;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid #144647;
+  border-radius: 0.75rem;
+  background: #144647;
+  color: #fff;
+  font: 600 0.9375rem/1.2 var(--font-body);
+  cursor: pointer;
+}
+.persama-admin-refresh:hover:not(:disabled) { background: #1c5a58; }
+.persama-admin-refresh:disabled { cursor: progress; opacity: 0.7; }
+.persama-admin-storage-judul { margin: 2.5rem 0 0.5rem; font-size: 1.25rem; }
+.persama-admin-storage-catatan { margin: 0 0 1rem; color: var(--theme-elevation-500); }
+.persama-admin-storage-kartu { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; margin-top: 1rem; }
+.persama-admin-storage-kartu article {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 1rem;
+  background: var(--theme-elevation-0);
+}
+.persama-admin-storage-kartu span { font-weight: 600; }
+.persama-admin-storage-kartu strong { overflow-wrap: anywhere; font: 700 1.75rem/1.25 'Poppins', sans-serif; }
+.persama-admin-storage-kartu .persama-admin-storage-waktu { font-size: 1.0625rem; }
+.persama-admin-storage-kartu small { line-height: 1.5; color: var(--theme-elevation-500); }
+.persama-admin-storage-notice { margin: 1rem 0 0; padding: 0.875rem 1rem; border: 1px solid #f0c36b; border-radius: 0.75rem; background: #fdf6e3; color: #6b4a00; }
+.persama-admin-table-wrap {
+  max-inline-size: 100%;
+  overflow: auto;
+  container-type: inline-size;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 0.875rem;
+  background: var(--theme-elevation-0);
+}
+.persama-admin-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.persama-admin-table thead { position: sticky; inset-block-start: 0; z-index: 1; background: var(--theme-elevation-50); }
+.persama-admin-table th, .persama-admin-table td { padding: 0.875rem 1rem; text-align: start; border-bottom: 1px solid var(--theme-elevation-150); }
+.persama-admin-table thead th { font-weight: 700; }
+.persama-admin-table tbody th { position: sticky; inset-inline-start: 0; z-index: 1; overflow-wrap: anywhere; background: var(--theme-elevation-0); font-weight: 600; }
+.persama-admin-table th:last-child, .persama-admin-table td:last-child { text-align: end; font-variant-numeric: tabular-nums; }
+.persama-admin-table tbody tr:last-child > * { border-bottom: 0; }
+
+@container (width < 37.5em) {
+  .persama-admin-table, .persama-admin-table tbody, .persama-admin-table tr, .persama-admin-table th, .persama-admin-table td { display: block; }
+  .persama-admin-table thead { display: none; }
+  .persama-admin-table tbody th {
+    position: sticky;
+    inset-block-start: 0;
+    inset-inline-start: auto;
+    z-index: 2;
+    background: var(--theme-elevation-50);
+    border-bottom: 1px solid var(--theme-elevation-150);
+  }
+  .persama-admin-table td { padding-block: 0.5rem; border-bottom: 0; text-align: start; }
+  .persama-admin-table th:last-child, .persama-admin-table td:last-child { text-align: start; }
+  .persama-admin-table td::before { content: var(--label-kedua) ": "; font-weight: 600; }
+  .persama-admin-table--ukuran { --label-kedua: "Ukuran"; }
+  .persama-admin-table--jumlah { --label-kedua: "Dokumen"; }
+}
+
+@media (max-width: 37.5em) {
+  .persama-admin-storage-head { flex-direction: column; align-items: flex-start; }
+}

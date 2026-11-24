@@ -32,6 +32,7 @@ export default buildConfig({
     user: Users.slug,
     theme: "light",
     components: {
+      header: ["@/components/admin/TombolKembali"],
       graphics: {
         Logo: "@/components/admin/IdentitasAdmin#LogoAdmin",
         Icon: "@/components/admin/IdentitasAdmin#IkonAdmin",

@@ -1,4 +1,8 @@
 /* Tema admin PERSAMA; komponen dan autentikasi bawaan Payload dipertahankan. */
+.persama-admin-back { padding: 12px var(--gutter-h, 24px); background: var(--theme-bg); border-bottom: 1px solid var(--theme-elevation-150); }
+.persama-admin-back a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; border: 1px solid #144647; border-radius: 8px; color: #144647; background: #fff; font-weight: 700; text-decoration: none; }
+.persama-admin-back a:hover { background: #e8efed; }
+.persama-admin-back a:focus-visible { outline: 3px solid #15ae9e; outline-offset: 3px; }
 .persama-admin-divisi { padding: 24px var(--gutter-h, 24px) 48px; }
 .persama-admin-breadcrumb { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
 .persama-admin-divisi-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 28px; }

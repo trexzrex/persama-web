@@ -134,6 +134,30 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.025em; }
 }
 @media (prefers-reduced-motion: reduce) { .nav__link, .persama-admin-stat { transition: none; } }
 
+/* Kaca tenang: tanpa animasi dekoratif atau ketergantungan backdrop-filter. */
+.persama-storage-bars { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr)); gap: 1.25rem; margin: 1rem 0; }
+.persama-storage-glass { min-width: 0; padding: 1.5rem; border: 1px solid #b9d6d1; border-radius: 1.75rem; background: linear-gradient(135deg, #fff, #e3f1ee); box-shadow: inset 0 2px 1px #fff, 0 8px 24px #14464710; color: #144647; }
+.persama-storage-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .75rem; }
+.persama-storage-label h3 { margin: 0; font-size: 1.0625rem; }
+.persama-storage-label strong { font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.persama-storage-usage { margin: 1rem 0; font-size: 1.25rem; font-weight: 700; overflow-wrap: anywhere; }
+.persama-storage-usage span { font-size: 1rem; font-weight: 500; }
+.persama-storage-glass meter { display: block; width: 100%; height: 1.4rem; appearance: none; border: 1px solid #668d87; border-radius: 2rem; overflow: hidden; background: #d0e0dc; }
+.persama-storage-glass meter::-webkit-meter-bar { border: 0; border-radius: 2rem; background: #d0e0dc; box-shadow: inset 0 2px 4px #14464725; }
+.persama-storage-glass meter::-webkit-meter-optimum-value { background: linear-gradient(90deg, #144647, #248b80); border-radius: 2rem; }
+.persama-storage-glass meter::-webkit-meter-suboptimum-value, .persama-storage-glass meter::-webkit-meter-even-less-good-value { background: #a35b10; border-radius: 2rem; }
+.persama-storage-glass meter::-moz-meter-bar { background: linear-gradient(90deg, #144647, #248b80); border-radius: 2rem; }
+.persama-storage-glass[data-warning="true"] meter::-moz-meter-bar { background: #a35b10; }
+.persama-storage-detail { margin: .85rem 0; font-size: .9375rem; font-weight: 700; }
+.persama-storage-note { margin: 0; font-size: .875rem; line-height: 1.6; }
+.persama-storage-unavailable { border: 1px dashed #668d87; padding: .75rem; border-radius: .5rem; }
+.persama-storage-controls { max-width: 26rem; }
+.persama-storage-controls small { display: block; margin-top: .6rem; line-height: 1.5; }
+.persama-storage-buttons { display: flex; flex-wrap: wrap; gap: .6rem; }
+.persama-storage-pause { min-height: 44px; padding: .6rem 1rem; border: 1px solid #144647; border-radius: .75rem; background: white; color: #144647; font: inherit; cursor: pointer; }
+.persama-storage-pause[aria-pressed="true"] { background: #e3f1ee; }
+@media (forced-colors: active) { .persama-storage-glass { border-color: CanvasText; } .persama-storage-glass meter { appearance: auto; } }
+
 /* Pemantauan penyimpanan: ringkasan, tabel responsif, dan status pemuatan. */
 .persama-admin-storage { padding: 24px var(--gutter-h, 24px) 48px; }
 .persama-admin-sr {

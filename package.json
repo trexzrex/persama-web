@@ -15,6 +15,7 @@
     "node": ">=22.23.5"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1175.0",
     "@gsap/react": "^2.1.2",
     "@payloadcms/db-postgres": "^3.94.1",
     "@payloadcms/next": "^3.94.1",

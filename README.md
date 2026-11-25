@@ -127,8 +127,11 @@ Integrasi R2 aktif bila bucket, access key, secret key, dan endpoint terisi. Unt
 - **Ukuran database** berasal dari `pg_database_size(current_database())`, mencakup database PostgreSQL, bukan hanya dokumen konten.
 - **Tabel terbesar** menampilkan maksimal delapan tabel di skema `public`, memakai `pg_total_relation_size` yang mencakup indeks.
 - **Ukuran media tercatat** menjumlahkan ukuran berkas asli dan turunan gambar pada koleksi Media.
-- Angka media **bukan** pembacaan pemakaian atau kuota bucket R2. Berkas yang tidak tercatat di CMS tidak masuk hitungan.
-- Waktu pengambilan data ditampilkan dalam **WITA**. Tombol **Muat ulang** mengambil data terbaru.
+- Bar database membandingkan ukuran saat ini dengan acuan Free **500 MB**. Ini bukan pembacaan disk atau rata-rata pemakaian organisasi.
+- Bar R2 membaca seluruh objek bucket langsung melalui API S3, termasuk berkas yang tidak tercatat di CMS, lalu membandingkannya dengan acuan Standard **10 GB-month** gratis per akun per bulan. Ini bukan batas keras bucket atau laporan tagihan bulanan; bucket lain dan biaya operasi tidak dihitung.
+- Waktu pengambilan data ditampilkan dalam **WITA**. Data diperbarui otomatis 15 detik setelah pembacaan selesai saat tab aktif dan online, bukan pembaruan seketika. Tombol jeda menghentikan pembaruan otomatis; **Muat ulang** tetap tersedia.
+- Jika bucket gagal dibaca, bar R2 tidak menampilkan nol atau total parsial. Pembacaan dibatasi 10 detik dan maksimal 100 halaman (100.000 objek); bucket lebih besar ditampilkan sebagai tidak tersedia.
+- Pembacaan R2 memerlukan izin listing bucket dan menggunakan operasi Class A. Interval pembaruan dan jumlah admin aktif memengaruhi jumlah operasi.
 - Halaman hanya membaca data dan membutuhkan login admin.
 
 </details>

@@ -4,6 +4,8 @@ import type { AdminViewServerProps, Payload } from "payload";
 
 import { formatAngka, formatByte, formatWaktu } from "@/lib/metrik-penyimpanan";
 import TombolMuatUlang from "./TombolMuatUlang";
+import BarPenyimpanan from "./BarPenyimpanan";
+import { bacaStorageR2 } from "@/lib/storage-r2";
 
 const KOLEKSI = [
   { slug: "event", label: "Event" },
@@ -77,8 +79,9 @@ export default async function PenyimpananAdmin(props: AdminViewServerProps) {
   if (!user) return null;
   const { req } = initPageResult;
 
-  const [metrik, jumlah] = await Promise.all([
+  const [metrik, r2, jumlah] = await Promise.all([
     bacaMetrik(payload),
+    bacaStorageR2(),
     Promise.all(
       KOLEKSI.map(async (item) => {
         try {
@@ -114,11 +117,23 @@ export default async function PenyimpananAdmin(props: AdminViewServerProps) {
             <p className="persama-admin-eyebrow">Ruang kelola PERSAMA</p>
             <h1>Penyimpanan</h1>
             <p>
-              Pantau ukuran database dan berkas media. Angka diperbarui setiap halaman dimuat.
+              Pantau pemakaian langsung dari database dan bucket media dibanding acuan paket gratis.
             </p>
           </div>
           <TombolMuatUlang />
         </header>
+
+        <section className="persama-storage-live" aria-labelledby="kapasitas-penyimpanan">
+          <h2 id="kapasitas-penyimpanan" className="persama-admin-storage-judul">Pemakaian & kapasitas gratis</h2>
+          <div className="persama-storage-bars">
+            <BarPenyimpanan id="kuota-database" judul="Database · Supabase" terpakai={metrik?.database ?? null} kapasitas={500_000_000}
+              catatan="Acuan Free: 500 MB database, bukan kapasitas disk. Bar hanya database situs ini; kuota organisasi dapat mencakup proyek lain. Tidak menunjukkan rata-rata tagihan." />
+            <BarPenyimpanan id="kuota-r2" judul="Media · Cloudflare R2" terpakai={r2?.byte ?? null} kapasitas={10_000_000_000}
+              catatan="Acuan Standard: 10 GB-month gratis per akun per bulan, bukan batas keras bucket. Bar hanya ukuran bucket saat ini; tidak mencakup bucket lain, rata-rata bulanan, atau biaya operasi." />
+          </div>
+          <p className="persama-admin-storage-catatan">Sumber database: {metrik ? `${formatWaktu(metrik.waktu)} WITA` : "gagal dibaca"}. Sumber R2: {r2 ? `${formatWaktu(new Date(r2.waktu))} WITA · ${formatAngka(r2.jumlah)} objek` : "belum tersedia; periksa konfigurasi dan izin baca bucket"}. Satuan bar desimal (1 MB = 1.000.000 byte).</p>
+          <p className="persama-admin-storage-catatan"><a href="https://supabase.com/docs/guides/platform/database-size" target="_blank" rel="noopener noreferrer">Ketentuan Supabase</a> · <a href="https://developers.cloudflare.com/r2/pricing/" target="_blank" rel="noopener noreferrer">Ketentuan R2</a></p>
+        </section>
 
         <section aria-labelledby="ringkasan-penyimpanan">
           <h2 id="ringkasan-penyimpanan" className="persama-admin-storage-judul">

@@ -1,3 +1,12 @@
+export function hitungKuota(terpakai: number | null, total: number) {
+  if (terpakai === null || !Number.isFinite(terpakai) || terpakai < 0 || !Number.isFinite(total) || total <= 0) return null;
+  const persen = terpakai * 100 / total;
+  return {
+    persen, bar: Math.min(100, persen), sisa: Math.max(0, total - terpakai),
+    status: persen >= 100 ? "Melebihi acuan gratis" : persen >= 90 ? "Hampir penuh" : persen >= 80 ? "Perlu perhatian" : "Normal",
+  };
+}
+
 const UKURAN = ["B", "KB", "MB", "GB", "TB"] as const;
 
 const angka = new Intl.NumberFormat("id-ID");

@@ -28,8 +28,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
 
 :root {
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-serif: 'Poppins', sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --persama-prestige: #144647;
   --persama-ruby: #d73445;
   --persama-hammam: #65dad2;
@@ -93,7 +93,8 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.025em; }
 .nav { border-right: 1px solid var(--theme-elevation-150); }
 .nav__link { border-radius: 10px; transition: background-color 150ms ease; }
 .nav__link:hover { background: var(--theme-elevation-100); }
-.nav__link--active { background: var(--theme-elevation-100); font-weight: 700; }
+.nav__link:has(.nav__link-indicator) { background: #e5eeea; color: #144647; font-weight: 700; }
+.nav__link-indicator { background: #144647; }
 .nav-group__toggle { font-weight: 700; }
 .card { border-radius: 16px; border: 1px solid var(--theme-elevation-150); box-shadow: none; }
 .btn { border-radius: 12px; font-weight: 600; }
@@ -104,28 +105,49 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.025em; }
 .table th { font-weight: 700; }
 .table td, .table th { padding-block: 16px; }
 
-.persama-admin-overview { margin-bottom: 40px; }
-.persama-admin-welcome { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 32px; border-radius: 24px; background: #144647; color: #fff; }
-.persama-admin-eyebrow { margin: 0 0 12px; color: #65dad2; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-.persama-admin-welcome h1 { margin: 0 0 12px; font-size: clamp(24px, 3vw, 36px); color: #fff; }
-.persama-admin-welcome p:last-child { margin: 0; max-width: 58ch; line-height: 1.7; color: #d7e7e5; }
-.persama-admin-outline { flex: none; padding: 12px 18px; border: 1px solid #65dad2; border-radius: 12px; color: #fff; text-decoration: none; }
+/* App Dashboard Layout — shadcnstore / 21st.dev: solid workspace,
+   quiet navigation and four real content totals. No demo charts or runtime effects. */
+html[data-theme='light'] { --theme-bg: #fafbfb; --theme-elevation-500: #526760; }
+.template-default { background: #fafbfb; }
+.template-default__wrap { background: #fafbfb; }
+.app-header { background: #fff; border-bottom: 1px solid #e1e7e4; }
+.nav { background: #f5f7f6; }
+.nav__link { min-height: 40px; padding-block: 8px; }
+.nav-group__toggle { color: #526760; font-size: .8125rem; }
+.card, .table, .persama-admin-choice, .persama-admin-member, .persama-admin-storage-kartu article { border-radius: 12px; box-shadow: 0 1px 2px #142d2310; }
+.persama-admin-overview { --persama-ui-version: solid-1; margin-bottom: 32px; container-type: inline-size; }
+.persama-admin-welcome { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 4px 0 28px; background: transparent; color: #183f40; }
+.persama-admin-welcome > div { min-width: 0; }
+.persama-admin-eyebrow { margin: 0 0 10px; color: #346359; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.persama-admin-welcome h1 { margin: 0 0 10px; font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2rem); color: #183f40; line-height: 1.25; overflow-wrap: anywhere; }
+.persama-admin-welcome p:last-child { margin: 0; max-width: 58ch; line-height: 1.7; color: #526760; }
+.persama-admin-outline { display: inline-flex; align-items: center; min-height: 44px; flex: none; padding: 10px 16px; border: 1px solid #ccd8d2; border-radius: 8px; background: #fff; color: #144647; font-size: .875rem; font-weight: 600; text-decoration: none; }
+.persama-admin-outline:hover { background: #edf3f0; }
 .persama-admin-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
-.persama-admin-stat { display: flex; min-width: 0; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid var(--theme-elevation-150); border-radius: 18px; background: var(--theme-elevation-0); color: var(--theme-text); text-decoration: none; transition: border-color 150ms ease; }
+.persama-admin-stat { display: flex; min-width: 0; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #dce5df; border-radius: 12px; background: #fff; color: #183f40; box-shadow: 0 1px 2px #142d2310; text-decoration: none; transition: border-color 150ms ease; }
+.persama-admin-stat > span::after { content: '↗'; float: right; color: #526760; font-weight: 400; }
+.persama-admin-stat strong { margin-top: 16px; font-variant-numeric: tabular-nums; }
+@container (width < 38rem) { .persama-admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (width < 22rem) { .persama-admin-stats { grid-template-columns: minmax(0, 1fr); } }
 .persama-admin-stat:hover { border-color: #15ae9e; }
 .persama-admin-stat > span { font-weight: 600; }
 .persama-admin-stat strong { font: 700 36px/1.3 'Poppins', sans-serif; }
 .persama-admin-stat small { font-size: 12px; color: var(--theme-elevation-500); }
-.persama-admin-quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-top: 24px; padding: 24px; border: 1px solid var(--theme-elevation-150); border-radius: 18px; background: var(--theme-elevation-0); }
+.persama-admin-quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; margin-top: 24px; padding: 24px; border: 1px solid #dce5df; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px #142d2310; }
+.persama-admin-quick > div { min-width: 0; }
+.persama-admin-quick p { color: #526760; line-height: 1.6; }
 .persama-admin-quick h2 { margin: 0 0 8px; font-size: 20px; }
 .persama-admin-quick p { margin: 0; }
 .persama-admin-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .persama-admin-actions a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px; border-radius: 12px; background: #144647; color: #fff; font-weight: 600; text-decoration: none; }
-.persama-admin-actions a:first-child { background: #b42335; }
+.persama-admin-actions a:first-child { background: #144647; }
+.persama-admin-actions a:not(:first-child) { background: #fff; color: #144647; border: 1px solid #ccd8d2; }
+.persama-admin-actions a { border-radius: 8px; }
+.persama-admin-actions a:hover { background: #e8f0ec; color: #144647; }
 
 @media (max-width: 1000px) { .persama-admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
-  .persama-admin-welcome { flex-direction: column; align-items: flex-start; padding: 24px; }
+  .persama-admin-welcome { flex-direction: column; align-items: flex-start; padding: 0 0 24px; }
   .persama-admin-stat { padding: 16px; }
   .persama-admin-brand { gap: 10px; }
   .persama-admin-brand strong { font-size: 22px; }
@@ -134,9 +156,9 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.025em; }
 }
 @media (prefers-reduced-motion: reduce) { .nav__link, .persama-admin-stat { transition: none; } }
 
-/* Kaca tenang: tanpa animasi dekoratif atau ketergantungan backdrop-filter. */
+/* Pemantauan solid: tanpa animasi dekoratif atau backdrop-filter. */
 .persama-storage-bars { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr)); gap: 1.25rem; margin: 1rem 0; }
-.persama-storage-glass { min-width: 0; padding: 1.5rem; border: 1px solid #b9d6d1; border-radius: 1.75rem; background: linear-gradient(135deg, #fff, #e3f1ee); box-shadow: inset 0 2px 1px #fff, 0 8px 24px #14464710; color: #144647; }
+.persama-storage-glass { min-width: 0; padding: 1.5rem; border: 1px solid #dce5df; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px #142d2310; color: #144647; }
 .persama-storage-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .75rem; }
 .persama-storage-label h3 { margin: 0; font-size: 1.0625rem; }
 .persama-storage-label strong { font-size: 1.5rem; font-variant-numeric: tabular-nums; }

@@ -29,7 +29,7 @@ type PoolSederhana = {
   query: (teks: string) => Promise<{ rows: Record<string, unknown>[] }>;
 };
 
-async function bacaMetrik(payload: Payload): Promise<Metrik | null> {
+export async function bacaMetrik(payload: Payload): Promise<Metrik | null> {
   const pool = (payload.db as unknown as { pool?: PoolSederhana }).pool;
   if (!pool) return null;
   try {

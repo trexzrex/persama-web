@@ -94,10 +94,6 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.025em; }
 .nav__link { border-radius: 10px; transition: background-color 150ms ease; }
 .nav__link:hover { background: var(--theme-elevation-100); }
 .nav__link--active { background: var(--theme-elevation-100); font-weight: 700; }
-html[data-theme='light'] .nav { background: #f0f6f3; }
-html[data-theme='light'] .nav__link--active { background: #dceee8; box-shadow: inset 0 1px 0 #fff; }
-html[data-theme='light'] .persama-admin-dashboard-link { background: #e0f0ea; color: #144647; border: 1px solid #adcfc3; box-shadow: inset 0 1px 0 #fff; }
-html[data-theme='light'] .persama-admin-dashboard-link:hover { background: #cde7dd; color: #144647; }
 .nav-group__toggle { font-weight: 700; }
 .card { border-radius: 16px; border: 1px solid var(--theme-elevation-150); box-shadow: none; }
 .btn { border-radius: 12px; font-weight: 600; }
@@ -305,94 +301,5 @@ html[data-theme='light'] .persama-admin-dashboard-link:hover { background: #cde7
   .persama-admin-storage-head { flex-direction: column; align-items: flex-start; }
 }
 
-/* Material diadaptasi dari Glass Dashboard — automateflows / 21st.dev.
-   Hanya dashboard: formulir, login, data, dan navigasi native Payload tetap. */
-.persama-admin-overview {
-  --persama-glass-version: 2;
-  --glass-ink: #103d3c;
-  --glass-muted: #284f4c;
-  --glass-rim: rgb(240 255 251 / .56);
-  --glass-shadow: inset 1px 1px 1px rgb(255 255 255 / .75), inset -1px -1px 1px rgb(13 55 50 / .18), 0 12px 32px rgb(5 35 33 / .16);
-  color: var(--glass-ink);
-  isolation: isolate;
-  border: 1px solid var(--glass-rim);
-  border-radius: 1.75rem;
-  padding: clamp(.85rem, 2vw, 2rem);
-  background: #2a716b;
-  background: radial-gradient(ellipse at 0 0, #65dad2, transparent 56%), radial-gradient(ellipse at 100% 100%, #368a7b, transparent 60%), linear-gradient(130deg, #205d5a, #144647);
-  box-shadow: var(--glass-shadow);
-}
-@supports (background: linear-gradient(in oklab, white, black)) {
-  .persama-admin-overview { background: radial-gradient(ellipse at 0 0 in oklab, #65dad2, transparent 56%), radial-gradient(ellipse at 100% 100% in oklab, #368a7b, transparent 60%), linear-gradient(130deg in oklab, #205d5a, #144647); }
-}
-.persama-admin-overview .persama-admin-welcome,
-.persama-admin-overview .persama-admin-stat,
-.persama-admin-overview .persama-admin-quick,
-.persama-admin-overview .persama-dashboard-recent,
-.persama-admin-overview .persama-storage-glass {
-  color: var(--glass-ink);
-  border: 1px solid var(--glass-rim);
-  background: #d4ebe5;
-  box-shadow: var(--glass-shadow);
-  border-radius: 1.25rem;
-}
-.persama-admin-overview .persama-admin-welcome { padding: 1.5rem; margin-bottom: 1.5rem; }
-.persama-admin-overview .persama-admin-welcome h1 { color: var(--glass-ink); }
-.persama-admin-overview .persama-admin-welcome p:last-child,
-.persama-admin-overview .persama-admin-stat small,
-.persama-admin-overview .persama-admin-quick > p,
-.persama-admin-overview .persama-admin-actions small,
-.persama-admin-overview .persama-dashboard-section-head > span,
-.persama-admin-overview .persama-recent-type,
-.persama-admin-overview .persama-recent-list time,
-.persama-admin-overview .persama-dashboard-empty { color: var(--glass-muted); }
-.persama-admin-overview .persama-admin-stats { margin-top: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
-.persama-admin-overview .persama-stat-icon { background: rgb(255 255 255 / .4); box-shadow: inset 0 1px 0 #ffffffb3; }
-.persama-admin-overview .persama-dashboard-recent { background: #e0f0eb; }
-.persama-admin-overview .persama-recent-list li + li { border-color: rgb(16 61 60 / .18); }
-.persama-admin-overview .persama-recent-list a { color: var(--glass-ink); }
-.persama-admin-overview .persama-admin-actions a,
-.persama-admin-overview .persama-admin-actions a:first-child,
-.persama-admin-overview .persama-admin-outline { background: rgb(255 255 255 / .63); color: var(--glass-ink); border-color: rgb(16 61 60 / .3); box-shadow: inset 0 1px 1px #fff, 0 3px 8px #14464712; }
-.persama-admin-overview .persama-dashboard-storage > .persama-dashboard-section-head,
-.persama-admin-overview .persama-dashboard-storage > .persama-dashboard-section-head :is(h2,p,a),
-.persama-admin-overview .persama-dashboard-storage-footer > p,
-.persama-admin-overview .persama-storage-controls > small { color: #f0fffa; }
-.persama-admin-overview .persama-dashboard-storage > .persama-dashboard-section-head { padding: .25rem .25rem .5rem; }
-.persama-admin-overview .persama-admin-refresh { border-color: #bfece0; background: #123f3c; }
-.persama-admin-overview .persama-storage-pause { background: #e2f3ee; }
-.persama-admin-overview .persama-dashboard-storage > .persama-dashboard-section-head a:focus-visible { outline-color: #f0fffa; }
-@supports (backdrop-filter: blur(20px)) {
-  .persama-admin-overview .persama-admin-welcome,
-  .persama-admin-overview .persama-admin-stat,
-  .persama-admin-overview .persama-admin-quick,
-  .persama-admin-overview .persama-storage-glass { background: linear-gradient(145deg, rgb(255 255 255 / .38), transparent 65%), rgb(225 247 240 / .78); backdrop-filter: blur(20px) saturate(1.25); }
-  .persama-admin-overview .persama-dashboard-recent { background: rgb(232 248 242 / .9); backdrop-filter: blur(16px); }
-}
-@media (hover: hover) {
-  .persama-admin-overview .persama-admin-stat:hover,
-  .persama-admin-overview .persama-admin-actions a:hover { background-color: #e7faf2; border-color: #fff; box-shadow: inset 1px 1px 1px #fff, 0 14px 30px #092f3433; }
-  .persama-admin-overview .persama-recent-list a:hover { background: rgb(255 255 255 / .5); }
-}
-.persama-admin-overview .persama-admin-stat:focus-visible,
-.persama-admin-overview .persama-admin-actions a:focus-visible { background-color: #e7faf2; }
-.persama-admin-overview .persama-admin-stat:active,
-.persama-admin-overview .persama-admin-actions a:active { background-color: #bde0d3; }
-/* Material navigasi hanya aktif saat dashboard ditampilkan. */
-html:has(.persama-admin-overview) .nav { background: #123e3c; color: #effff9; border-right: 1px solid #9ddfd170; }
-html:has(.persama-admin-overview) .nav :is(.nav__link,.nav-group__toggle,.persama-admin-site-link,.persama-admin-storage-link) { color: #effff9; }
-html:has(.persama-admin-overview) .nav :is(.nav__link--active,.persama-admin-dashboard-link) { background: #397f73; color: #fff; border-color: #b1ecdb88; box-shadow: inset 0 1px 1px #e2fff780; }
-html:has(.persama-admin-overview) .nav :is(.nav__link:hover,.persama-admin-site-link:hover,.persama-admin-storage-link:hover) { background: #2a655d; }
-html:has(.persama-admin-overview) .nav :is(a,button):focus-visible { outline-color: #b9f8e7; }
-@supports (backdrop-filter: blur(20px)) {
-  html:has(.persama-admin-overview) .nav { background: linear-gradient(160deg, rgb(48 147 135 / .42), transparent 65%), rgb(12 49 47 / .94); backdrop-filter: blur(20px); }
-}
-@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-  .persama-admin-overview :is(.persama-admin-welcome,.persama-admin-stat,.persama-admin-quick,.persama-dashboard-recent,.persama-storage-glass) { background: #e1f2ec; backdrop-filter: none; }
-  html:has(.persama-admin-overview) .nav { background: #123e3c; backdrop-filter: none; }
-}
-@media (forced-colors: active) {
-  .persama-admin-overview, .persama-admin-overview :is(.persama-admin-welcome,.persama-admin-stat,.persama-admin-quick,.persama-dashboard-recent,.persama-storage-glass), html:has(.persama-admin-overview) .nav { background: Canvas; color: CanvasText; border-color: CanvasText; box-shadow: none; backdrop-filter: none; }
-  .persama-admin-overview :is(a,h1,h2,h3,p,small,strong,span,time), html:has(.persama-admin-overview) .nav :is(a,button) { color: CanvasText !important; }
-  .persama-admin-overview :is(a,button):focus-visible, html:has(.persama-admin-overview) .nav :is(a,button):focus-visible { outline-color: Highlight; }
-}
+/* Tema tunggal; menggantikan eksperimen kaca bertumpuk. */
+@import './glass.scss';

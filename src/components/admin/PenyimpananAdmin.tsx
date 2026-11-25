@@ -1,4 +1,5 @@
 import { DefaultTemplate } from "@payloadcms/next/templates";
+import { redirect } from "next/navigation";
 import { SetStepNav } from "@payloadcms/ui";
 import type { AdminViewServerProps, Payload } from "payload";
 
@@ -76,7 +77,7 @@ async function bacaMetrik(payload: Payload): Promise<Metrik | null> {
 export default async function PenyimpananAdmin(props: AdminViewServerProps) {
   const { i18n, initPageResult, locale, params, payload, permissions, searchParams, user } =
     props;
-  if (!user) return null;
+  if (!user) redirect("/admin/login?redirect=%2Fadmin%2Fpenyimpanan");
   const { req } = initPageResult;
 
   const [metrik, r2, jumlah] = await Promise.all([

@@ -156,6 +156,26 @@ html[data-theme='light'] { --theme-bg: #fafbfb; --theme-elevation-500: #526760; 
 }
 @media (prefers-reduced-motion: reduce) { .nav__link, .persama-admin-stat { transition: none; } }
 
+.persama-work-shortcuts { margin-bottom: 24px; }
+.persama-work-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 20px; margin-top: 24px; align-items: start; }
+.persama-work-main { display: grid; gap: 20px; min-width: 0; }
+.persama-work-panel { min-width: 0; background: #fff; border: 1px solid #dce5df; border-radius: 12px; box-shadow: 0 1px 2px #142d2310; }
+.persama-work-panel header { padding: 20px; border-bottom: 1px solid #e8efed; }
+.persama-work-panel h2 { margin: 0 0 6px; font-size: 1.0625rem; }
+.persama-work-panel header p, .persama-work-list p { margin: 0; color: #526760; font-size: .8125rem; line-height: 1.6; }
+.persama-work-list { list-style: none; padding: 0; margin: 0; }
+.persama-work-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
+.persama-work-list li + li { border-top: 1px solid #e8efed; }
+.persama-work-list li > div { min-width: 0; }
+.persama-work-list strong { display: block; margin-bottom: 6px; font-size: .9375rem; overflow-wrap: anywhere; }
+.persama-work-list time { color: #526760; font-size: .8125rem; }
+.persama-work-list a { display: inline-flex; align-items: center; min-height: 44px; color: #144647; font-size: .8125rem; font-weight: 700; text-underline-offset: 3px; }
+.persama-work-row-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.persama-work-status { background: #edf3f0; border: 1px solid #dce5df; border-radius: 6px; padding: 3px 8px; font-size: .75rem; color: #36594c; }
+.persama-work-empty { padding: 20px; margin: 0; color: #526760; line-height: 1.7; }
+.persama-work-agenda strong { margin-top: 10px; }
+@container (width < 55rem) { .persama-work-grid { grid-template-columns: minmax(0, 1fr); } }
+
 /* Pemantauan solid: tanpa animasi dekoratif atau backdrop-filter. */
 .persama-storage-bars { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr)); gap: 1.25rem; margin: 1rem 0; }
 .persama-storage-glass { min-width: 0; padding: 1.5rem; border: 1px solid #dce5df; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px #142d2310; color: #144647; }

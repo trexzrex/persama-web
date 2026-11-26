@@ -28,6 +28,7 @@ import { TautanSitus as TautanSitus_5b94ebf7692914683ee002f6273b2a11 } from '@/c
 import { default as default_d5ab553ec7cc80278e98efc71f86270a } from '@/components/admin/RingkasanAdmin'
 import { default as default_storage_penyimpanan } from '@/components/admin/PenyimpananAdmin'
 import { default as default_lupa_sandi } from '@/components/admin/LupaSandi'
+import { default as default_sel_periode } from '@/components/admin/SelPeriode'
 import { PengantarLogin as PengantarLogin_5b94ebf7692914683ee002f6273b2a11 } from '@/components/admin/IdentitasAdmin'
 import { TautanDashboard as TautanDashboard_5b94ebf7692914683ee002f6273b2a11 } from '@/components/admin/IdentitasAdmin'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
@@ -68,6 +69,7 @@ export const importMap = {
   "@/components/admin/RingkasanAdmin#default": default_d5ab553ec7cc80278e98efc71f86270a,
   "@/components/admin/PenyimpananAdmin#default": default_storage_penyimpanan,
   "@/components/admin/LupaSandi#default": default_lupa_sandi,
+  "@/components/admin/SelPeriode#default": default_sel_periode,
   "@/components/admin/IdentitasAdmin#PengantarLogin": PengantarLogin_5b94ebf7692914683ee002f6273b2a11,
   "@/components/admin/IdentitasAdmin#TautanDashboard": TautanDashboard_5b94ebf7692914683ee002f6273b2a11,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,

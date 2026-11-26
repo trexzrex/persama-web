@@ -29,10 +29,12 @@ export function SiteFooter({
   pengaturan,
   periode,
   logoSekolah,
+  logoPersama,
 }: {
   pengaturan: PengaturanSitus;
   periode?: string | null;
   logoSekolah: string;
+  logoPersama: string;
 }) {
   const nama = pengaturan.namaSitus?.trim() || "PERSAMA";
   const sekolah = pengaturan.sekolah?.trim() || "SMK-SMAK Makassar";
@@ -55,7 +57,7 @@ export function SiteFooter({
             className={styles.footerLogo}
           />
           <Image
-            src="/persama.png"
+            src={logoPersama}
             alt={`Logo ${nama}`}
             width={52}
             height={32}

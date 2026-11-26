@@ -324,3 +324,7 @@ html[data-theme='light'] { --theme-bg: #fafbfb; --theme-elevation-500: #526760; 
 /* Tautan pemulihan kata sandi dihapus dari formulir masuk; pemulihan diatur lewat admin. */
 form.login__form > a[href$="/forgot"] { display: none; }
 .persama-lupa-sandi { padding: 24px var(--gutter-h, 24px); }
+
+/* Sel daftar periode: nama membuka struktur divisi, tautan kecil untuk menyunting dokumen periode. */
+.persama-periode-sel { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 10px; row-gap: 2px; }
+.persama-periode-edit { font-size: 0.75rem; font-weight: 600; }

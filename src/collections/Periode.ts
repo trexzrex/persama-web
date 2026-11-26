@@ -30,6 +30,9 @@ export const Periode: CollectionConfig = {
       required: true,
       admin: {
         description: "Tulis persis, contoh: 2026–2027.",
+        components: {
+          Cell: "@/components/admin/SelPeriode#default",
+        },
       },
     },
     {

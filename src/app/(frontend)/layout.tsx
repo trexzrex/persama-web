@@ -76,6 +76,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     ambilPeriodeAktif(),
   ]);
   const logoSekolah = alamatMedia(pengaturan.logoSekolah) || "/smak.png";
+  const logoPersama = alamatMedia(pengaturan.logoPersama) || "/persama.png";
   const tahun = tahunPeriode(periode?.nama);
 
   return (
@@ -88,7 +89,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <SiteHeader
             pengaturan={pengaturan}
             periode={tahun}
-            logo={alamatMedia(pengaturan.logoPersama) || "/persama.png"}
+            logo={logoPersama}
           />
           <main className={styles.main} id="utama">
             {children}
@@ -97,6 +98,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             pengaturan={pengaturan}
             periode={tahun}
             logoSekolah={logoSekolah}
+            logoPersama={logoPersama}
           />
         </div></GerakSitus>
       </body>

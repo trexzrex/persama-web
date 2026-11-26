@@ -286,55 +286,12 @@ html[data-theme='light'] { --theme-bg: #fafbfb; --theme-elevation-500: #526760; 
   .persama-admin-storage-head { flex-direction: column; align-items: flex-start; }
 }
 
-/* Tindakan per baris e-tabloid: batalkan publikasi & hapus. */
-.persama-row-actions { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.persama-row-title { font-weight: 600; color: var(--theme-text); overflow-wrap: anywhere; }
-a.persama-row-title { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; }
-a.persama-row-title:hover { text-decoration-color: currentColor; }
-a.persama-row-title:focus-visible { outline: 3px solid #15ae9e; outline-offset: 2px; border-radius: 3px; }
-.persama-row-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
-.persama-row-button {
-  min-height: 34px;
-  padding: 4px 10px;
-  border: 1px solid var(--theme-elevation-250);
-  border-radius: 6px;
-  background: var(--theme-elevation-0);
-  color: var(--theme-text);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.2;
-  cursor: pointer;
+/* Baris aksi pilihan daftar admin: bungkus tombol agar semua terlihat di layar sempit. */
+.collection-list__list-selection { padding-inline: var(--gutter-h, 16px); padding-block: 12px calc(12px + env(safe-area-inset-bottom)); }
+.list-selection { flex-wrap: wrap; justify-content: flex-end; row-gap: 8px; column-gap: 12px; margin-left: auto; max-width: 100%; }
+.list-selection__actions { flex-wrap: wrap; row-gap: 8px; column-gap: 12px; justify-content: flex-end; }
+.list-selection__button { white-space: normal; overflow: visible; text-overflow: clip; min-height: 32px; }
+@media (max-width: 48em) {
+  .list-selection { width: 100%; margin-left: 0; justify-content: flex-start; }
+  .list-selection__actions { justify-content: flex-start; }
 }
-.persama-row-button:hover:not(:disabled) { border-color: #144647; background: #edf3f0; }
-.persama-row-button:focus-visible { outline: 3px solid #15ae9e; outline-offset: 2px; }
-.persama-row-button:disabled { opacity: 0.6; cursor: progress; }
-.persama-row-button--hapus { border-color: #d73445; color: #a3212e; }
-.persama-row-button--hapus:hover:not(:disabled) { border-color: #a3212e; background: #fdeff1; }
-.persama-row-note { margin: 0; font-size: 12px; line-height: 1.4; color: var(--theme-elevation-600); }
-.persama-row-note:empty { display: none; }
-
-.persama-row-dialog {
-  width: min(28rem, calc(100vw - 2rem));
-  padding: 24px;
-  border: 1px solid var(--theme-elevation-200);
-  border-radius: 12px;
-  background: var(--theme-elevation-0);
-  color: var(--theme-text);
-  box-shadow: 0 18px 40px rgb(20 70 71 / 18%);
-}
-.persama-row-dialog::backdrop { background: rgb(16 38 39 / 45%); }
-.persama-row-dialog__title { margin: 0 0 10px; font-size: 18px; line-height: 1.3; }
-.persama-row-dialog__text { margin: 0 0 20px; font-size: 14px; line-height: 1.6; color: var(--theme-elevation-700); overflow-wrap: anywhere; }
-.persama-row-dialog__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
-.persama-row-dialog__actions .persama-row-button { min-height: 44px; padding-inline: 16px; font-size: 13px; }
-
-.persama-row-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px dashed var(--theme-elevation-150);
-}
-.persama-row-button--publikasi { border-color: #144647; color: #144647; }
-.persama-row-button--publikasi:hover:not(:disabled) { background: #e6f2ee; }

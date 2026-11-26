@@ -285,3 +285,30 @@ html[data-theme='light'] { --theme-bg: #fafbfb; --theme-elevation-500: #526760; 
 @media (max-width: 37.5em) {
   .persama-admin-storage-head { flex-direction: column; align-items: flex-start; }
 }
+
+/* Tindakan per baris e-tabloid: batalkan publikasi & hapus. */
+.persama-row-actions { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.persama-row-title { font-weight: 600; color: var(--theme-text); overflow-wrap: anywhere; }
+a.persama-row-title { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; }
+a.persama-row-title:hover { text-decoration-color: currentColor; }
+a.persama-row-title:focus-visible { outline: 3px solid #15ae9e; outline-offset: 2px; border-radius: 3px; }
+.persama-row-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+.persama-row-button {
+  min-height: 34px;
+  padding: 4px 10px;
+  border: 1px solid var(--theme-elevation-250);
+  border-radius: 6px;
+  background: var(--theme-elevation-0);
+  color: var(--theme-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.persama-row-button:hover:not(:disabled) { border-color: #144647; background: #edf3f0; }
+.persama-row-button:focus-visible { outline: 3px solid #15ae9e; outline-offset: 2px; }
+.persama-row-button:disabled { opacity: 0.6; cursor: progress; }
+.persama-row-button--hapus { border-color: #d73445; color: #a3212e; }
+.persama-row-button--hapus:hover:not(:disabled) { border-color: #a3212e; background: #fdeff1; }
+.persama-row-note { margin: 0; font-size: 12px; line-height: 1.4; color: var(--theme-elevation-600); }
+.persama-row-note:empty { display: none; }

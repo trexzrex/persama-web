@@ -36,6 +36,11 @@ export const Tabloid: CollectionConfig = {
       label: "Judul edisi",
       required: true,
       maxLength: 140,
+      admin: {
+        components: {
+          Cell: "@/components/admin/TindakanTabloid",
+        },
+      },
     },
     kolomSlug("judul"),
     {

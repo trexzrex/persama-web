@@ -1,0 +1,173 @@
+.catatan {
+  --tinta: var(--color-prestige, #144647);
+  --redup: #46615b;
+  --garis: #afc0b8;
+  --kertas: #f1f5ec;
+  --huruf-editorial: Georgia, "Times New Roman", serif;
+  --jeda: clamp(2.75rem, 1.8rem + 4vw, 5.5rem);
+  container: catatan / inline-size;
+  max-inline-size: 70rem;
+  margin-inline: auto;
+  padding-block: clamp(.75rem, 3vw, 2.5rem) 1rem;
+  color: var(--tinta);
+  overflow-wrap: break-word;
+}
+
+.catatan :where(h1, h2, h3, p, ol, ul) { margin: 0; }
+
+.masthead {
+  display: grid;
+  gap: 1.5rem;
+  align-items: end;
+  border-block-start: 2px solid var(--tinta);
+  border-block-end: 1px solid var(--garis);
+  padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+}
+
+.judul {
+  font: 700 clamp(2.5rem, 1.6rem + 5.5vw, 6.25rem)/.98 var(--font-display, system-ui);
+  letter-spacing: -.055em;
+}
+
+.judul span {
+  display: block;
+  margin-block-end: .3em;
+  font: italic 400 .61em/1 var(--huruf-editorial);
+  letter-spacing: -.035em;
+}
+
+.identitas {
+  display: grid;
+  justify-items: start;
+  gap: .3rem;
+  padding-inline-start: 1rem;
+  border-inline-start: 1px solid var(--garis);
+  color: var(--redup);
+  font-size: .9375rem;
+}
+
+.label {
+  font: 700 .8125rem/1.4 var(--font-body, system-ui);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.identitas .sekolah {
+  color: var(--tinta);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.pengenalan {
+  display: grid;
+  gap: 1rem;
+  max-inline-size: 58ch;
+  margin-block-start: clamp(1.25rem, .9rem + 2vw, 2.75rem);
+  font-size: clamp(1rem, .95rem + .4vw, 1.25rem);
+  line-height: 1.65;
+}
+
+.bagian, .lanjutan { margin-block-start: var(--jeda); }
+
+.bagian h2 {
+  font: 400 clamp(1.9rem, 1.55rem + 1.65vw, 3.15rem)/1.08 var(--huruf-editorial);
+  letter-spacing: -.035em;
+}
+
+.arah, .arahTunggal {
+  display: grid;
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  align-items: start;
+  margin-block-start: 1.4rem;
+}
+
+.arahTunggal { max-inline-size: 45rem; }
+
+.visi {
+  padding: clamp(1.25rem, .8rem + 2vw, 2.75rem);
+  background: var(--tinta);
+  color: #f4f8ef;
+}
+
+.visi p {
+  margin-block-start: 1rem;
+  font: 400 clamp(1.35rem, 1.15rem + 1vw, 2.1rem)/1.35 var(--huruf-editorial);
+}
+
+.misi ol {
+  padding: 0;
+  margin-block-start: .8rem;
+  list-style: decimal-leading-zero inside;
+  border-block-end: 1px solid var(--garis);
+}
+
+.misi li {
+  border-block-start: 1px solid var(--garis);
+  padding-block: .9rem;
+  line-height: 1.6;
+}
+
+.misi li::marker {
+  color: var(--redup);
+  font: 700 .875em var(--font-body, system-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.pembina {
+  display: grid;
+  align-items: start;
+  gap: 1.4rem;
+}
+
+.daftarPembina {
+  padding: 0;
+  list-style: none;
+  border-block-end: 1px solid var(--garis);
+}
+
+.daftarPembina li {
+  display: grid;
+  gap: .25rem 1.25rem;
+  padding-block: .9rem;
+  border-block-start: 1px solid var(--garis);
+}
+
+.daftarPembina span { color: var(--redup); }
+
+.lanjutan {
+  display: grid;
+  gap: .65rem 1.5rem;
+  padding: clamp(1rem, .75rem + 2vw, 2.25rem);
+  background: var(--kertas);
+  border-block-start: 2px solid var(--tinta);
+}
+
+.lanjutan > .label { padding-block-start: .85rem; }
+
+.lanjutan a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  min-block-size: 44px;
+  padding-block: .55rem;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .22em;
+}
+
+.lanjutan a + a { border-block-start: 1px solid var(--garis); }
+.lanjutan a:hover { background-color: #e4ede0; }
+.lanjutan a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+@container catatan (min-width: 34rem) {
+  .daftarPembina li { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+}
+
+@container catatan (min-width: 45rem) {
+  .masthead { grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr); }
+  .arah { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .pembina { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); }
+  .lanjutan { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+}

@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { HalamanPublik, PembukaHalaman } from "@/components/site/HalamanPublik";
-import styles from "@/components/site/site.module.css";
 import {
   ambilPengaturan,
   ambilPengurus,
   ambilPeriodeAktif,
 } from "@/lib/content";
+import styles from "./tentang.module.css";
 
 export const metadata: Metadata = {
   title: "Tentang PERSAMA",
@@ -26,51 +25,46 @@ export default async function TentangPage() {
   });
 
   const misi = (pengaturan.misi ?? []).filter((item) => item.poin?.trim());
-  const pengenalanResmi = pengaturan.pengenalan?.trim();
-  const pengenalan = pengenalanResmi || "Profil organisasi belum tersedia.";
+  const pengenalan = pengaturan.pengenalan?.trim();
+  const visi = pengaturan.visi?.trim();
+  const nama = pengaturan.namaSitus?.trim() || "PERSAMA";
 
   return (
-    <HalamanPublik jenis="tentang">
-      <PembukaHalaman judul={`Tentang ${pengaturan.namaSitus?.trim() || "PERSAMA"}`} keterangan={periode?.nama ? `Kepengurusan periode ${periode.nama}` : undefined}>
-        <p>Profil dan kepengurusan PERSAMA SMK-SMAK Makassar.</p>
-      </PembukaHalaman>
-
-      {pengenalan ? (
-        <section className={styles.section} aria-labelledby="judul-pengertian">
-          <h2 id="judul-pengertian" className={styles.sectionTitle}>
-            Pengertian PERSAMA
-          </h2>
-          <div className={styles.prose} style={{ marginTop: "var(--sp-16)" }}>
-            {pengenalan
-              .split(/\n{2,}/)
-              .filter((paragraf) => paragraf.trim())
-              .map((paragraf, indeks) => (
-                <p key={indeks}>{paragraf.trim()}</p>
-              ))}
+    <div className={styles.catatan}>
+      <header className={styles.pembuka}>
+        <div className={styles.masthead}>
+          <h1 className={styles.judul}><span>Tentang</span>{" "}{nama}</h1>
+          <div className={styles.identitas}>
+            <p className={styles.label}>Profil organisasi</p>
+            <p className={styles.sekolah}>SMK-SMAK Makassar</p>
+            {periode?.nama ? <p>Periode {periode.nama}</p> : null}
           </div>
-        </section>
-      ) : null}
+        </div>
+        {pengenalan ? (
+          <div className={styles.pengenalan}>
+            {pengenalan.split(/\n\s*\n/).map((paragraf, indeks) => (
+              <p key={indeks}>{paragraf.trim()}</p>
+            ))}
+          </div>
+        ) : null}
+      </header>
 
-      {pengaturan.visi?.trim() || misi.length > 0 ? (
-        <section className={styles.section} aria-labelledby="judul-visi-misi">
-          <h2 id="judul-visi-misi" className={styles.sectionTitle}>
-            Visi dan misi
-          </h2>
-          <div className={styles.visiMisi} style={{ marginTop: "var(--sp-16)" }}>
-            {pengaturan.visi?.trim() ? (
-              <div className={styles.programItem}>
-                <p className={styles.eyebrow}>Visi</p>
-                <p>{pengaturan.visi}</p>
+      {visi || misi.length > 0 ? (
+        <section className={styles.bagian} aria-labelledby="judul-visi-misi">
+          <h2 id="judul-visi-misi">Visi dan misi</h2>
+          <div className={visi && misi.length > 0 ? styles.arah : styles.arahTunggal}>
+            {visi ? (
+              <div className={styles.visi}>
+                <h3 className={styles.label}>Visi</h3>
+                <p>{visi}</p>
               </div>
             ) : null}
             {misi.length > 0 ? (
-              <div className={styles.programItem}>
-                <p className={styles.eyebrow}>Misi</p>
-                <ul className={styles.checklist}>
-                  {misi.map((item, indeks) => (
-                    <li key={item.id ?? indeks}>{item.poin}</li>
-                  ))}
-                </ul>
+              <div className={styles.misi}>
+                <h3 className={styles.label}>Misi</h3>
+                <ol>
+                  {misi.map((item, indeks) => <li key={item.id ?? indeks}>{item.poin?.trim()}</li>)}
+                </ol>
               </div>
             ) : null}
           </div>
@@ -78,28 +72,26 @@ export default async function TentangPage() {
       ) : null}
 
       {pembina.length > 0 ? (
-        <section className={styles.section} aria-labelledby="judul-pembina">
-          <h2 id="judul-pembina" className={styles.sectionTitle}>
-            Penanggung jawab dan pembina
-          </h2>
-          <div className={styles.roles}>
+        <section className={`${styles.bagian} ${styles.pembina}`} aria-labelledby="judul-pembina">
+          <h2 id="judul-pembina">Penanggung jawab dan pembina</h2>
+          <ul className={styles.daftarPembina} role="list">
             {pembina.map((orang) => (
-              <div className={styles.roleRow} key={orang.id}>
-                <span className={styles.roleTitle}>{orang.jabatan}</span>
-                {orang.nama?.trim() ? (
-                  <span className={styles.roleName}>{orang.nama}</span>
-                ) : null}
-              </div>
+              <li key={orang.id}>
+                <span>{orang.jabatan}</span>
+                {orang.nama?.trim() ? <strong>{orang.nama}</strong> : null}
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
       ) : null}
 
-      <nav className={styles.sectionHead} aria-label="Kepengurusan PERSAMA">
-        <Link className={styles.textLink} href="/inti-persama">Kenali INTI PERSAMA →</Link>
-        <Link className={styles.textLink} href="/tentang/arsip">Arsip kepengurusan →</Link>
+      <nav className={styles.lanjutan} aria-label="Kepengurusan PERSAMA">
+        <p className={styles.label}>Kepengurusan PERSAMA</p>
+        <div>
+          <Link href="/inti-persama">Kenali INTI PERSAMA <span aria-hidden="true">→</span></Link>
+          <Link href="/tentang/arsip">Arsip kepengurusan <span aria-hidden="true">→</span></Link>
+        </div>
       </nav>
-
-    </HalamanPublik>
+    </div>
   );
 }

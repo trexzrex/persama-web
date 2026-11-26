@@ -327,3 +327,14 @@ a.persama-row-title:focus-visible { outline: 3px solid #15ae9e; outline-offset: 
 .persama-row-dialog__text { margin: 0 0 20px; font-size: 14px; line-height: 1.6; color: var(--theme-elevation-700); overflow-wrap: anywhere; }
 .persama-row-dialog__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
 .persama-row-dialog__actions .persama-row-button { min-height: 44px; padding-inline: 16px; font-size: 13px; }
+
+.persama-row-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--theme-elevation-150);
+}
+.persama-row-button--publikasi { border-color: #144647; color: #144647; }
+.persama-row-button--publikasi:hover:not(:disabled) { background: #e6f2ee; }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSelection } from "@payloadcms/ui";
 import { useRouter } from "next/navigation";
 import { useId, useRef, useState, useTransition } from "react";
 import type { DefaultCellComponentProps } from "payload";
@@ -8,6 +9,8 @@ type BarisTabloid = {
   id?: number | string;
   _status?: string;
 };
+
+type Tindakan = "publikasi" | "batalkan" | "hapus";
 
 async function bacaGalat(res: Response): Promise<string> {
   try {
@@ -26,8 +29,8 @@ async function bacaGalat(res: Response): Promise<string> {
 }
 
 /**
- * Kolom judul e-tabloid dengan tindakan per baris: batalkan publikasi dan hapus.
- * Memakai API admin yang sama dengan tombol bawaan Payload, tanpa mengubah alur.
+ * Kolom judul e-tabloid dengan tindakan per baris.
+ * Tombol hanya muncul saat baris dicentang, agar daftar tetap ringkas.
  */
 export default function TindakanTabloid({
   cellData,
@@ -35,36 +38,43 @@ export default function TindakanTabloid({
   linkURL,
 }: DefaultCellComponentProps) {
   const router = useRouter();
+  const { selected } = useSelection();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const judulDialog = useId();
   const [memuat, mulai] = useTransition();
-  const [sibuk, setSibuk] = useState<"batalkan" | "hapus" | null>(null);
+  const [sibuk, setSibuk] = useState<Tindakan | null>(null);
   const [pesan, setPesan] = useState<string | null>(null);
 
   const baris = (rowData ?? {}) as BarisTabloid;
   const id = baris.id;
   const terbit = baris._status === "published";
+  const dipilih = id !== undefined && Boolean(selected.get(id));
   const judul = typeof cellData === "string" && cellData ? cellData : "Edisi ini";
 
-  async function batalkanPublikasi() {
+  async function ubahStatus(tujuan: "published" | "draft") {
     if (id === undefined) return;
-    setSibuk("batalkan");
+    const tindakan: Tindakan = tujuan === "published" ? "publikasi" : "batalkan";
+    setSibuk(tindakan);
     setPesan(null);
     try {
       const res = await fetch(`/api/tabloid/${id}?depth=0`, {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ _status: "draft" }),
+        body: JSON.stringify({ _status: tujuan }),
       });
       if (!res.ok) throw new Error(await bacaGalat(res));
-      setPesan("Publikasi dibatalkan. Edisi kini tersimpan sebagai draf.");
+      setPesan(
+        tujuan === "published"
+          ? "Edisi diterbitkan dan tampil di situs."
+          : "Publikasi dibatalkan. Edisi kini tersimpan sebagai draf.",
+      );
       mulai(() => router.refresh());
     } catch (galat) {
       setPesan(
         galat instanceof Error
           ? galat.message
-          : "Gagal membatalkan publikasi.",
+          : "Gagal mengubah status publikasi.",
       );
     } finally {
       setSibuk(null);
@@ -95,7 +105,7 @@ export default function TindakanTabloid({
   const nonaktif = sibuk !== null || memuat;
 
   return (
-    <div className="persama-row-actions">
+    <div className={`persama-row-actions${dipilih ? " persama-row-actions--aktif" : ""}`}>
       {linkURL ? (
         <a className="persama-row-title" href={linkURL}>
           {judul}
@@ -103,26 +113,42 @@ export default function TindakanTabloid({
       ) : (
         <span className="persama-row-title">{judul}</span>
       )}
-      <div className="persama-row-buttons">
-        {terbit ? (
-          <button
-            type="button"
-            className="persama-row-button"
-            onClick={batalkanPublikasi}
-            disabled={nonaktif}
-          >
-            {sibuk === "batalkan" ? "Membatalkan…" : "Batalkan publikasi"}
-          </button>
-        ) : null}
-        <button
-          type="button"
-          className="persama-row-button persama-row-button--hapus"
-          onClick={() => dialogRef.current?.showModal()}
-          disabled={nonaktif}
-        >
-          {sibuk === "hapus" ? "Menghapus…" : "Hapus"}
-        </button>
-      </div>
+      {dipilih ? (
+        <div className="persama-row-panel">
+          <div className="persama-row-buttons">
+            {terbit ? (
+              <button
+                type="button"
+                className="persama-row-button"
+                onClick={() => ubahStatus("draft")}
+                disabled={nonaktif}
+              >
+                {sibuk === "batalkan" ? "Membatalkan…" : "Batalkan publikasi"}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="persama-row-button persama-row-button--publikasi"
+                onClick={() => ubahStatus("published")}
+                disabled={nonaktif}
+              >
+                {sibuk === "publikasi" ? "Menerbitkan…" : "Publikasikan"}
+              </button>
+            )}
+            <button
+              type="button"
+              className="persama-row-button persama-row-button--hapus"
+              onClick={() => dialogRef.current?.showModal()}
+              disabled={nonaktif}
+            >
+              {sibuk === "hapus" ? "Menghapus…" : "Hapus"}
+            </button>
+          </div>
+          <p className="persama-row-note" role="status">
+            {pesan}
+          </p>
+        </div>
+      ) : null}
       <dialog
         ref={dialogRef}
         className="persama-row-dialog"
@@ -156,9 +182,6 @@ export default function TindakanTabloid({
           </button>
         </div>
       </dialog>
-      <p className="persama-row-note" role="status">
-        {pesan}
-      </p>
     </div>
   );
 }

@@ -23,9 +23,7 @@ export const Event: CollectionConfig = {
     delete: adminSaja,
   },
   versions: {
-    drafts: {
-      autosave: true,
-    },
+    drafts: true,
     maxPerDoc: 20,
   },
   defaultSort: "-tanggalMulai",

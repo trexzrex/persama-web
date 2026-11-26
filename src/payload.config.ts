@@ -47,6 +47,11 @@ export default buildConfig({
           path: "/penyimpanan",
           meta: { title: "Penyimpanan" },
         },
+        forgot: {
+          Component: "@/components/admin/LupaSandi#default",
+          path: "/forgot",
+          meta: { title: "Lupa Kata Sandi" },
+        },
       },
     },
     importMap: {

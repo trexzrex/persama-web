@@ -294,4 +294,33 @@ html[data-theme='light'] { --theme-bg: #fafbfb; --theme-elevation-500: #526760; 
 @media (max-width: 48em) {
   .list-selection { width: 100%; margin-left: 0; justify-content: flex-start; }
   .list-selection__actions { justify-content: flex-start; }
+
+  .collection-edit--users .doc-controls__content {
+    min-inline-size: 0;
+    padding-inline: var(--gutter-h);
+  }
+  .collection-edit--users .doc-controls__meta {
+    flex-wrap: wrap;
+    min-inline-size: 0;
+  }
+  .collection-edit--users .doc-controls__meta::after { content: none; }
+  .collection-edit--users .doc-controls__value-wrap {
+    flex-wrap: wrap;
+    min-inline-size: 0;
+  }
+  .collection-edit--users :is(.doc-controls__label, .doc-controls__value) {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  /* Batasi latar preferensi sampai tepi gutter, bukan lebar viewport. */
+  .payload-settings::before,
+  .payload-settings::after {
+    inset-inline: calc(-1 * var(--gutter-h));
+    inline-size: auto;
+  }
 }
+
+/* Tautan pemulihan kata sandi dihapus dari formulir masuk; pemulihan diatur lewat admin. */
+form.login__form > a[href$="/forgot"] { display: none; }
+.persama-lupa-sandi { padding: 24px var(--gutter-h, 24px); }

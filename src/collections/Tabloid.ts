@@ -23,9 +23,7 @@ export const Tabloid: CollectionConfig = {
     delete: adminSaja,
   },
   versions: {
-    drafts: {
-      autosave: true,
-    },
+    drafts: true,
     maxPerDoc: 20,
   },
   defaultSort: "-tanggalTerbit",

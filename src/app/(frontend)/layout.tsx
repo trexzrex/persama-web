@@ -33,10 +33,10 @@ export async function generateMetadata(): Promise<Metadata> {
     pengaturan.namaLengkap?.trim() || "Persatuan Siswa Analis Kimia";
   const sekolah = pengaturan.sekolah?.trim() || "SMK-SMAK Makassar";
   const situs = process.env.NEXT_PUBLIC_SITE_URL || "https://persama.my.id";
+  const logo = alamatMedia(pengaturan.logoPersama) || "/persama.png";
   const gambar =
     alamatMedia(pengaturan.gambarPratinjau, "hero") ||
-    alamatMedia(pengaturan.logoPersama) ||
-    "/persama.png";
+    logo;
 
   return {
     metadataBase: new URL(situs),
@@ -49,8 +49,8 @@ export async function generateMetadata(): Promise<Metadata> {
       `${nama} (${namaLengkap}), organisasi siswa ${sekolah}. Profil, divisi, event, dan e-tabloid.`,
     applicationName: nama,
     icons: {
-      icon: "/persama.png",
-      apple: "/persama.png",
+      icon: logo,
+      apple: logo,
     },
     openGraph: {
       type: "website",

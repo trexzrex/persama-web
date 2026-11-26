@@ -1,17 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function LogoAdmin() {
+import { alamatMedia, ambilPengaturan } from "@/lib/content";
+
+const LOGO_BAWAAN = "/persama.png";
+
+async function alamatLogo(): Promise<string> {
+  const pengaturan = await ambilPengaturan();
+  return alamatMedia(pengaturan.logoPersama) || LOGO_BAWAAN;
+}
+
+export async function LogoAdmin() {
+  const src = await alamatLogo();
   return (
     <div className="persama-admin-brand">
-      <Image src="/persama.png" width={88} height={64} alt="Logo PERSAMA" style={{ objectFit: "contain" }} />
+      <Image src={src} width={88} height={64} alt="Logo PERSAMA" unoptimized style={{ objectFit: "contain" }} />
       <div><strong>PERSAMA</strong><span>Ruang kelola · SMK-SMAK Makassar</span></div>
     </div>
   );
 }
 
-export function IkonAdmin() {
-  return <Image src="/persama.png" width={40} height={32} alt="PERSAMA" style={{ objectFit: "contain" }} />;
+export async function IkonAdmin() {
+  const src = await alamatLogo();
+  return <Image src={src} width={40} height={32} alt="PERSAMA" unoptimized style={{ objectFit: "contain" }} />;
 }
 
 export function PengantarLogin() {

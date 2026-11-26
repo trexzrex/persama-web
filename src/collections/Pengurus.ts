@@ -48,7 +48,7 @@ export const Pengurus: CollectionConfig = {
       label: "Foto",
       admin: {
         description:
-          "Foto potret. Bila kosong, situs memakai placeholder netral.",
+          "Foto potret. Syarat: rasio 4:5 atau 3:4, minimal 800 × 1000 piksel (ideal 1200 × 1500), JPG/PNG/WebP maksimal 2 MB, subjek dari pinggang ke atas dengan ruang kepala sekitar 10%, latar terang dan pencahayaan rata. Bila kosong, situs memakai placeholder netral.",
       },
     },
     {

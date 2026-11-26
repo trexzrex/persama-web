@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ProfilKelompok } from "@/components/site/ProfilKelompok";
 import { KartuEvent } from "@/components/site/cards";
 import styles from "@/components/site/site.module.css";
-import { ambilDivisi, ambilDivisiBySlug, ambilEventDivisi, ambilPengurus } from "@/lib/content";
+import { ambilDivisi, ambilDivisiBySlug, ambilEventDivisi, ambilPengaturan, ambilPengurus } from "@/lib/content";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -19,10 +19,11 @@ export default async function DivisiDetailPage({ params }: Props) {
   if (!divisi) notFound();
   const periode = typeof divisi.periode === "object" ? divisi.periode : null;
   const periodeId = periode?.id ?? (typeof divisi.periode === "number" ? divisi.periode : null);
-  const [anggota, daftar, events] = await Promise.all([
+  const [anggota, daftar, events, pengaturan] = await Promise.all([
     ambilPengurus(periodeId, { divisiId: divisi.id, kelompok: ["koordinator_divisi", "anggota_divisi"] }),
     ambilDivisi(periodeId),
     ambilEventDivisi(divisi.id),
+    ambilPengaturan(),
   ]);
   const indeks = daftar.findIndex(item => item.id === divisi.id);
   const berikut = indeks >= 0 ? daftar[indeks + 1] : undefined;
@@ -32,6 +33,7 @@ export default async function DivisiDetailPage({ params }: Props) {
       anggota={anggota} kegiatan={divisi.kegiatan}
       program={(divisi.programKerja ?? []).filter(item => item.judul?.trim())}
       berikutnya={berikut ? { nama: berikut.nama, href: `/divisi/${berikut.slug}`, foto: berikut.fotoGrup } : { nama: "Semua divisi PERSAMA", href: "/divisi", foto: null }}
+      ukuranFoto={pengaturan.ukuranFotoAnggota || "besar"}
     />
     {events.length > 0 && <section className={styles.section} aria-labelledby="judul-event-divisi"><h2 id="judul-event-divisi" className={styles.sectionTitle}>Event terkait</h2><div className={`${styles.grid} ${styles.grid3}`}>{events.map(event => <KartuEvent key={event.id} event={event} />)}</div></section>}
   </>;

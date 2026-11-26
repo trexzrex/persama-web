@@ -141,5 +141,6 @@ export interface PengaturanSitus {
   logoPersama?: MediaRel;
   logoSekolah?: MediaRel;
   gambarPratinjau?: MediaRel;
+  ukuranFotoAnggota?: "sedang" | "besar" | "sangat-besar" | null;
   teksFooter?: string | null;
 }

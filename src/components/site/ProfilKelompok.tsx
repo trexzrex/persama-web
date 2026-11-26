@@ -27,11 +27,12 @@ type Props = {
   kegiatan?: string | null;
   program?: ProgramKerja[];
   berikutnya?: { nama: string; href: string; foto: MediaRel };
+  ukuranFoto?: "sedang" | "besar" | "sangat-besar";
 };
 
-export function ProfilKelompok({ nama, periode, foto, tugas, anggota, kegiatan, program = [], berikutnya }: Props) {
+export function ProfilKelompok({ nama, periode, foto, tugas, anggota, kegiatan, program = [], berikutnya, ukuranFoto }: Props) {
   const { pimpinan, tim } = susunanTim(anggota);
-  return <GerakProfil>
+  return <GerakProfil ukuranFoto={ukuranFoto || "besar"}>
     <header className={styles.hero}>
       <div className={styles.fotoBersama}><Gambar media={foto} alt={teksAltMedia(foto, `Foto bersama ${nama}`)} ukuran="hero" className={styles.foto} prioritas labelKosong="Foto bersama belum tersedia" /></div>
       <div className={styles.judul}><h1>{nama}</h1>{periode && <p>Periode {periode}</p>}</div>

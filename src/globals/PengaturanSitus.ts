@@ -170,6 +170,26 @@ export const PengaturanSitus: GlobalConfig = {
           ],
         },
         {
+          label: "Tampilan",
+          fields: [
+            {
+              name: "ukuranFotoAnggota",
+              type: "select",
+              label: "Ukuran foto anggota tim",
+              defaultValue: "besar",
+              options: [
+                { label: "Sedang — potret persegi, seluruh badan terlihat", value: "sedang" },
+                { label: "Besar — potret 4:5, subjek lebih dekat (disarankan)", value: "besar" },
+                { label: "Sangat besar — potret 3:4, subjek paling dekat", value: "sangat-besar" },
+              ],
+              admin: {
+                description:
+                  "Mengatur foto pengurus selain ketua/koordinator di halaman INTI dan divisi. Syarat foto: rasio 4:5 atau 3:4, minimal 800 × 1000 piksel (ideal 1200 × 1500), JPG/PNG/WebP maksimal 2 MB, subjek dari pinggang ke atas dengan ruang kepala sekitar 10%, latar terang dan pencahayaan rata.",
+              },
+            },
+          ],
+        },
+        {
           label: "Footer",
           fields: [
             {

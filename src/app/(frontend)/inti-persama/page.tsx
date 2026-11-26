@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ProfilKelompok } from "@/components/site/ProfilKelompok";
-import { ambilDivisi, ambilPengurus, ambilPeriodeAktif } from "@/lib/content";
+import { ambilDivisi, ambilPengaturan, ambilPengurus, ambilPeriodeAktif } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "INTI PERSAMA",
@@ -9,9 +9,10 @@ export const metadata: Metadata = {
 
 export default async function IntiPersamaPage() {
   const periode = await ambilPeriodeAktif();
-  const [anggota, divisi] = await Promise.all([
+  const [anggota, divisi, pengaturan] = await Promise.all([
     ambilPengurus(periode?.id, { kelompok: ["pengurus_inti"] }),
     ambilDivisi(periode?.id),
+    ambilPengaturan(),
   ]);
   const pertama = divisi[0];
   return <ProfilKelompok nama="INTI PERSAMA" periode={periode?.nama} foto={periode?.fotoInti}
@@ -19,5 +20,6 @@ export default async function IntiPersamaPage() {
     anggota={anggota} kegiatan={periode?.kegiatanInti}
     program={(periode?.programInti ?? []).filter(item => item.judul?.trim())}
     berikutnya={pertama ? { nama: pertama.nama, href: `/divisi/${pertama.slug}`, foto: pertama.fotoGrup } : undefined}
+    ukuranFoto={pengaturan.ukuranFotoAnggota || "besar"}
   />;
 }

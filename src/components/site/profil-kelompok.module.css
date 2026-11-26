@@ -37,6 +37,11 @@
 .orang { min-width: 0; }
 .potret { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #f4f7f5; }
 .potret .foto { mix-blend-mode: multiply; }
+/* Foto anggota tim: potret lebih tinggi dan di-crop agar subjek terlihat jelas. */
+.halaman[data-ukuran-foto="besar"] .tim .potret { aspect-ratio: 4 / 5; }
+.halaman[data-ukuran-foto="besar"] .tim .potret .foto { object-fit: cover; object-position: center 18%; }
+.halaman[data-ukuran-foto="sangat-besar"] .tim .potret { aspect-ratio: 3 / 4; }
+.halaman[data-ukuran-foto="sangat-besar"] .tim .potret .foto { object-fit: cover; object-position: center 15%; }
 .identitas { text-align: center; }
 .halaman .identitas h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
 .pimpinan .jabatan { margin: 0 0 16px; font-weight: 600; letter-spacing: .08em; }

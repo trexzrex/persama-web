@@ -4,7 +4,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import styles from "../profil-kelompok.module.css";
 
 /** Animate only this hydrated boundary. Server HTML stays visible without JavaScript. */
-export function GerakProfil({ children }: { children: ReactNode }) {
+export function GerakProfil({ children, ukuranFoto = "besar" }: { children: ReactNode; ukuranFoto?: "sedang" | "besar" | "sangat-besar" }) {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const root = ref.current;
@@ -54,5 +54,5 @@ export function GerakProfil({ children }: { children: ReactNode }) {
     preference.addEventListener("change", setup);
     return () => { stop(); preference.removeEventListener("change", setup); };
   }, []);
-  return <article ref={ref} className={styles.halaman} data-gerak-profil>{children}</article>;
+  return <article ref={ref} className={styles.halaman} data-gerak-profil data-ukuran-foto={ukuranFoto}>{children}</article>;
 }

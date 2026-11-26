@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useId, useRef, useState, useTransition } from "react";
 import type { DefaultCellComponentProps } from "payload";
 
 type BarisTabloid = {
@@ -35,6 +35,8 @@ export default function TindakanTabloid({
   linkURL,
 }: DefaultCellComponentProps) {
   const router = useRouter();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const judulDialog = useId();
   const [memuat, mulai] = useTransition();
   const [sibuk, setSibuk] = useState<"batalkan" | "hapus" | null>(null);
   const [pesan, setPesan] = useState<string | null>(null);
@@ -71,13 +73,6 @@ export default function TindakanTabloid({
 
   async function hapus() {
     if (id === undefined) return;
-    if (
-      !window.confirm(
-        `Hapus "${judul}" secara permanen? Tindakan ini tidak bisa dibatalkan.`,
-      )
-    ) {
-      return;
-    }
     setSibuk("hapus");
     setPesan(null);
     try {
@@ -122,12 +117,45 @@ export default function TindakanTabloid({
         <button
           type="button"
           className="persama-row-button persama-row-button--hapus"
-          onClick={hapus}
+          onClick={() => dialogRef.current?.showModal()}
           disabled={nonaktif}
         >
           {sibuk === "hapus" ? "Menghapus…" : "Hapus"}
         </button>
       </div>
+      <dialog
+        ref={dialogRef}
+        className="persama-row-dialog"
+        aria-labelledby={judulDialog}
+      >
+        <h2 id={judulDialog} className="persama-row-dialog__title">
+          Hapus edisi ini?
+        </h2>
+        <p className="persama-row-dialog__text">
+          &ldquo;{judul}&rdquo; akan dihapus permanen. Tindakan ini tidak bisa
+          dibatalkan.
+        </p>
+        <div className="persama-row-dialog__actions">
+          <button
+            type="button"
+            className="persama-row-button"
+            onClick={() => dialogRef.current?.close()}
+            autoFocus
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            className="persama-row-button persama-row-button--hapus"
+            onClick={() => {
+              dialogRef.current?.close();
+              void hapus();
+            }}
+          >
+            Hapus permanen
+          </button>
+        </div>
+      </dialog>
       <p className="persama-row-note" role="status">
         {pesan}
       </p>

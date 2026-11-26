@@ -91,7 +91,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             periode={tahun}
             logo={logoPersama}
           />
-          <main className={styles.main} id="utama">
+          <main className={styles.main} id="utama" tabIndex={-1}>
             {children}
           </main>
           <SiteFooter

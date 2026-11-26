@@ -87,7 +87,7 @@ export function SiteHeader({
       data-terbuka={terbuka ? "ya" : "tidak"}
     >
       <div className={styles.headerInner}>
-        <Link className={styles.brand} href="/" aria-label={`${nama} — Beranda`}>
+        <Link className={styles.brand} href="/">
           <Image
             src={logo}
             alt=""

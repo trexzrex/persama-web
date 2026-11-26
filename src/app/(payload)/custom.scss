@@ -328,3 +328,75 @@ form.login__form > a[href$="/forgot"] { display: none; }
 /* Sel daftar periode: nama membuka struktur divisi, tautan kecil untuk menyunting dokumen periode. */
 .persama-periode-sel { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 10px; row-gap: 2px; }
 .persama-periode-edit { font-size: 0.75rem; font-weight: 600; }
+
+/* Teks sekunder tetap terbaca tanpa meredupkan seluruh tombol tab. */
+html[data-theme='light'] {
+  .field-description { color: var(--theme-elevation-500); }
+  .tabs-field__tab-button { opacity: 1; }
+  .tabs-field__tab-button:not(.tabs-field__tab-button--active, .tabs-field__tab-button--has-error) {
+    color: var(--theme-elevation-500);
+  }
+}
+
+/* Perbesar elemen yang benar-benar menerima klik, bukan ikon di dalamnya. */
+.collection-list {
+  --persama-list-target: 24px;
+
+  :is(.sort-column__button, .paginator__page, .paginator .clickable-arrow, .per-page .popup__trigger, .list-selection__button, .persama-periode-sel a, .list-controls__toggle-columns, .list-controls__toggle-where, .list-controls__toggle-sort, .list-controls__toggle-group-by) {
+    min-inline-size: var(--persama-list-target);
+    min-block-size: var(--persama-list-target);
+  }
+
+  .cell-_select input[type='checkbox'] {
+    inset: 50% auto auto 50%;
+    translate: -50% -50%;
+    margin: 0;
+    min-inline-size: var(--persama-list-target);
+    min-block-size: var(--persama-list-target);
+  }
+
+  .persama-periode-sel a { display: inline-flex; align-items: center; }
+  .paginator { flex-wrap: wrap; }
+
+  @media (pointer: coarse) { --persama-list-target: 44px; }
+}
+
+@media (max-width: 48em) {
+  .app-header {
+    height: auto;
+    min-block-size: var(--app-header-height);
+  }
+
+  .app-header__content {
+    height: auto;
+    min-block-size: inherit;
+    padding-block: 4px;
+  }
+
+  .app-header__wrapper { min-inline-size: 0; height: auto; }
+  .app-header__step-nav-wrapper { min-inline-size: 0; }
+  .app-header .step-nav { flex-wrap: wrap; min-inline-size: 0; }
+  .app-header .step-nav::after { content: none; }
+  .app-header .step-nav > a { min-inline-size: 0; }
+  .app-header .step-nav :is(a > span, .step-nav__last) {
+    max-inline-size: 100%;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  /* Tinggi metadata berubah saat membungkus, jadi jangan pakai offset sticky tetap. */
+  .doc-controls.gutter { position: relative; inset-block-start: auto; }
+  .doc-controls__content { min-inline-size: 0; overflow: visible; padding-inline: var(--gutter-h); }
+  .doc-controls__meta { flex-wrap: wrap; min-inline-size: 0; }
+  .doc-controls__meta::after, .doc-controls__controls::after { content: none; }
+  .doc-controls__value-wrap { flex-wrap: wrap; min-inline-size: 0; overflow: visible; }
+  .doc-controls :is(.doc-controls__label, .doc-controls__value) {
+    overflow: visible;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+  .doc-controls__controls-wrapper { height: auto; min-block-size: var(--doc-controls-height); padding-block: 4px; transform: none; }
+  .doc-controls__controls { flex-wrap: wrap; min-inline-size: 0; overflow: visible; }
+  .doc-controls__controls button { min-inline-size: 0; white-space: normal; overflow-wrap: anywhere; }
+}

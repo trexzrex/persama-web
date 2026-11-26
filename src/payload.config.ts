@@ -42,6 +42,8 @@ export default buildConfig({
       beforeNavLinks: ["@/components/admin/IdentitasAdmin#TautanDashboard"],
       afterNavLinks: ["@/components/admin/IdentitasAdmin#TautanSitus"],
       views: {
+        dashboard: { Component: "@/components/admin/TampilanUtamaAdmin#DashboardUtama" },
+        login: { Component: "@/components/admin/TampilanUtamaAdmin#LoginUtama" },
         penyimpanan: {
           Component: "@/components/admin/PenyimpananAdmin#default",
           path: "/penyimpanan",

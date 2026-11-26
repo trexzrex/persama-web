@@ -31,7 +31,7 @@ export default function GlobalNotFound() {
     <html lang="id" className={`${poppins.variable} ${jakarta.variable}`}>
       <body>
         <div className={styles.page}>
-          <main className={styles.main} id="utama">
+          <main className={styles.main} id="utama" tabIndex={-1}>
             <div className={styles.notFound}>
               <p className={styles.kode}>404</p>
               <h1 className={styles.sectionTitle}>Halaman tidak ditemukan</h1>

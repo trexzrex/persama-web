@@ -1,0 +1,56 @@
+.barisPenanda[role="group"] {
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-block-start: 8px;
+}
+
+.penanda {
+  display: grid;
+  min-inline-size: 24px;
+  min-block-size: 24px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #748985;
+  cursor: pointer;
+}
+
+.penanda::before {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 3px;
+  background: currentColor;
+  content: "";
+}
+
+.penanda[aria-current="true"] {
+  color: var(--color-prestige);
+}
+
+.penanda[aria-current="true"]::before {
+  inline-size: 20px;
+}
+
+.penanda:focus-visible {
+  outline: 2px solid var(--color-prestige);
+  outline-offset: -2px;
+}
+
+@media (pointer: coarse) {
+  .penanda {
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+}
+
+@media (forced-colors: active) {
+  .penanda::before {
+    border: 1px solid ButtonText;
+  }
+
+  .penanda[aria-current="true"]::before {
+    border-color: Highlight;
+  }
+}

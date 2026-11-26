@@ -1,7 +1,13 @@
+import { createServerFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import type { CollectionConfig } from "payload";
 
 import { adminSaja, terbitSaja } from "../access";
 import { kolomSlug } from "../fields/slug";
+
+const NamaEditorFeature = createServerFeature({
+  key: "namaEditorPersama",
+  feature: { ClientFeature: "@/components/admin/NamaEditorLexical#NamaEditorLexical" },
+});
 
 export const Event: CollectionConfig = {
   slug: "event",
@@ -62,6 +68,7 @@ export const Event: CollectionConfig = {
       label: "Tanggal mulai",
       required: true,
       admin: {
+        components: { Field: "@/components/admin/TanggalEvent" },
         date: {
           pickerAppearance: "dayOnly",
           displayFormat: "d MMMM yyyy",
@@ -74,6 +81,7 @@ export const Event: CollectionConfig = {
       type: "date",
       label: "Tanggal selesai",
       admin: {
+        components: { Field: "@/components/admin/TanggalEvent" },
         date: {
           pickerAppearance: "dayOnly",
           displayFormat: "d MMMM yyyy",
@@ -92,6 +100,7 @@ export const Event: CollectionConfig = {
       name: "deskripsi",
       type: "richText",
       label: "Deskripsi",
+      editor: lexicalEditor({ features: ({ rootFeatures }) => [...rootFeatures, NamaEditorFeature()] }),
       admin: {
         description: "Teks sederhana: paragraf, daftar, dan tautan.",
       },

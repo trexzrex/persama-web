@@ -5,8 +5,9 @@ import { useReducedMotion } from "motion/react";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import carouselStyles from "./beranda-carousel.module.css";
 import styles from "./site.module.css";
 import { KeadaanKosong } from "./ui";
 
@@ -44,7 +45,6 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
   const jalurRef = useRef<HTMLDivElement | null>(null);
   const [aktif, setAktif] = useState(() => Math.floor(events.length / 2));
   const [bisaGeser, setBisaGeser] = useState(false);
-  const [jeda, setJeda] = useState(false);
 
   const keKartu = useCallback(
     (indeks: number, halus = true) => {
@@ -110,20 +110,6 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
     return () => jalur.removeEventListener("scroll", saatGeser);
   }, [events.length]);
 
-  useEffect(() => {
-    if (!bisaGeser || jeda || events.length < 2) return;
-    if (!pakaiGerak()) return;
-
-    const jam = window.setInterval(() => {
-      if (document.visibilityState !== "visible" || !pakaiGerak()) return;
-      const rect = jalurRef.current?.getBoundingClientRect();
-      if (!rect || rect.bottom <= 0 || rect.top >= window.innerHeight) return;
-      berikut();
-    }, 6000);
-    return () => window.clearInterval(jam);
-  }, [berikut, bisaGeser, jeda, events.length]);
-
-
   if (events.length === 0) {
     return (
       <KeadaanKosong
@@ -137,15 +123,7 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
   }
 
   return (
-    <div
-      className={styles.eventCarousel}
-      onPointerEnter={() => setJeda(true)}
-      onPointerLeave={() => setJeda(false)}
-      onFocusCapture={() => setJeda(true)}
-      onBlurCapture={() => setJeda(false)}
-      onTouchStart={() => setJeda(true)}
-      onTouchEnd={() => setJeda(false)}
-    >
+    <div className={styles.eventCarousel}>
       <div className={styles.eventTrack} ref={jalurRef}>
         {events.map((event, indeks) => (
           <article className={styles.eventCard} key={event.id}>
@@ -215,16 +193,18 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
             ›
           </button>
 
-          <div className={styles.eventDots} aria-label="Pilih event">
+          <div
+            className={`${styles.eventDots} ${carouselStyles.barisPenanda}`}
+            role="group"
+            aria-label="Pilih event"
+          >
             {events.map((event, indeks) => (
               <button
                 key={event.id}
                 type="button"
-                className={`${styles.dot} ${
-                  indeks === aktif ? styles.dotAktif : ""
-                }`}
+                className={carouselStyles.penanda}
                 aria-label={`Event ${indeks + 1}: ${event.judul}`}
-                aria-pressed={indeks === aktif}
+                aria-current={indeks === aktif ? "true" : undefined}
                 onClick={() => keKartu(indeks)}
               />
             ))}
@@ -237,9 +217,9 @@ export function CarouselEvent({ events }: { events: EventBeranda[] }) {
 
 export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
   const [aktif, setAktif] = useState(0);
-  const [jeda, setJeda] = useState(false);
   const reduced = useReducedMotion();
-  const tumpukRef = useRef<HTMLDivElement>(null);
+  const tombolDepanRef = useRef<HTMLButtonElement>(null);
+  const pindahFokusRef = useRef(false);
 
   const pilih = useCallback((indeks: number) => {
     if (!items.length || indeks === aktif) return;
@@ -251,17 +231,11 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
     pilih((aktif + 1) % items.length);
   }, [aktif, items.length, pilih]);
 
-  useEffect(() => {
-    if (jeda || items.length < 2) return;
-    if (!pakaiGerak()) return;
-    const jam = window.setInterval(() => {
-      if (document.visibilityState !== "visible" || !pakaiGerak()) return;
-      const rect = tumpukRef.current?.getBoundingClientRect();
-      if (!rect || rect.bottom <= 0 || rect.top >= window.innerHeight) return;
-      berikut();
-    }, 6000);
-    return () => window.clearInterval(jam);
-  }, [berikut, jeda, items.length]);
+  useLayoutEffect(() => {
+    if (!pindahFokusRef.current) return;
+    pindahFokusRef.current = false;
+    tombolDepanRef.current?.focus({ preventScroll: true });
+  }, [aktif]);
 
   if (items.length === 0) {
     return (
@@ -283,14 +257,7 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
     .sort((kiri, kanan) => kanan.offset - kiri.offset);
 
   return (
-    <div
-      className={styles.tumpuk}
-      ref={tumpukRef}
-      onPointerEnter={() => setJeda(true)}
-      onPointerLeave={() => setJeda(false)}
-      onFocusCapture={() => setJeda(true)}
-      onBlurCapture={() => setJeda(false)}
-    >
+    <div className={styles.tumpuk}>
       <div className={styles.tumpukPanggung}>
         {urutan.map(({ indeks, offset }) => {
           const data = items[indeks];
@@ -364,9 +331,14 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
                     <button
                       type="button"
                       className={styles.tumpukTombol}
+                      ref={depan ? tombolDepanRef : undefined}
                       tabIndex={depan ? undefined : -1}
                       onClick={(event) => {
                         event.stopPropagation();
+                        if (items.length < 2) return;
+                        // Kartu lama menjadi inert: pertahankan fokus pada kontrol berikutnya.
+                        pindahFokusRef.current =
+                          document.activeElement === event.currentTarget;
                         berikut();
                       }}
                     >
@@ -380,22 +352,28 @@ export function TumpukEkskul({ items }: { items: EkskulBeranda[] }) {
         })}
       </div>
 
-      <div className={styles.ekskulDots} aria-label="Pilih ekstrakurikuler">
+      <div
+        className={`${styles.ekskulDots} ${carouselStyles.barisPenanda}`}
+        role="group"
+        aria-label="Pilih ekstrakurikuler"
+      >
         {items.map((data, indeks) => (
           <button
             key={data.id}
             type="button"
-            className={`${styles.dot} ${indeks === aktif ? styles.dotAktif : ""}`}
+            className={carouselStyles.penanda}
             aria-label={`Ekstrakurikuler ${indeks + 1}: ${data.nama}`}
-            aria-pressed={indeks === aktif}
+            aria-current={indeks === aktif ? "true" : undefined}
             onClick={() => pilih(indeks)}
           />
         ))}
       </div>
 
-      <p className={`${styles.eventHint} ${styles.ekskulHint}`}>
-        ⤿ Kartu berganti otomatis · Ketuk untuk menaikkan kartu berikutnya
-      </p>
+      {items.length > 1 ? (
+        <p className={`${styles.eventHint} ${styles.ekskulHint}`}>
+          Ketuk kartu untuk melihat kegiatan berikutnya.
+        </p>
+      ) : null}
     </div>
   );
 }

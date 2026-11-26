@@ -156,7 +156,7 @@ export function KartuEkskul({ ekskul }: { ekskul: Ekstrakurikuler }) {
         )}
       </div>
       <div className={styles.tumpukIsi}>
-        <h3 className={styles.tumpukJudul}>{ekskul.nama}</h3>
+        <h2 className={styles.tumpukJudul}>{ekskul.nama}</h2>
         {ekskul.deskripsiSingkat ? (
           <p className={styles.ekskulDaftarTeks}>{ekskul.deskripsiSingkat}</p>
         ) : null}

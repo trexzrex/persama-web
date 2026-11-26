@@ -1200,7 +1200,7 @@
 
 /* Photo cards: photo belongs to each Divisi record, not site settings. */
 .divisiGrid .divisiKartuFoto {
-  min-height: 190px;
+  min-height: 0;
   aspect-ratio: 16 / 9;
   padding: 24px;
   border-radius: 12px;
@@ -1215,9 +1215,8 @@
 .divisiKartuFoto:focus-visible { outline: 3px solid var(--color-ruby); outline-offset: 5px; }
 @media (max-width: 767px) {
   .divisiGrid { grid-template-columns: minmax(0, 1fr); }
-  /* Kartu foto tidak boleh dipaksa lebar oleh min-height + aspect-ratio
-     saat layar sempit; tinggi mengikuti lebar kolom. */
-  .divisiGrid .divisiKartuFoto { min-height: 0; aspect-ratio: 16 / 10; }
+  /* Kartu foto mengikuti lebar kolom; rasio sedikit lebih tinggi di ponsel. */
+  .divisiGrid .divisiKartuFoto { aspect-ratio: 16 / 10; }
 }
 @media (prefers-reduced-motion: reduce) {
   .divisiKartuFoto, .divisiLapisan { transition: none; }

@@ -89,6 +89,7 @@ export const ambilPengaturan = cache(async (): Promise<PengaturanSitus> => {
     async () => {
       const payload = await ambilPayload();
       return (await payload.findGlobal({
+        overrideAccess: false,
         slug: "pengaturan-situs",
         depth: 1,
       })) as unknown as PengaturanSitus;
@@ -105,6 +106,7 @@ export const ambilPeriodeAktif = cache(async (): Promise<Periode | null> => {
     async () => {
       const payload = await ambilPayload();
       const aktif = await payload.find({
+        overrideAccess: false,
         collection: "periode",
         where: { aktif: { equals: true } },
         limit: 1,
@@ -115,6 +117,7 @@ export const ambilPeriodeAktif = cache(async (): Promise<Periode | null> => {
         return aktif.docs[0] as unknown as Periode;
       }
       const terbaru = await payload.find({
+        overrideAccess: false,
         collection: "periode",
         limit: 1,
         depth: 1,
@@ -132,6 +135,7 @@ export const ambilDaftarPeriode = cache(async (): Promise<Periode[]> => {
     async () => {
       const payload = await ambilPayload();
       const hasil = await payload.find({
+        overrideAccess: false,
         collection: "periode",
         limit: 50,
         depth: 0,
@@ -150,6 +154,7 @@ export const ambilPeriodeById = cache(
       async () => {
         const payload = await ambilPayload();
         const hasil = await payload.findByID({
+          overrideAccess: false,
           collection: "periode",
           id,
           depth: 0,
@@ -169,6 +174,7 @@ export const ambilDivisi = cache(
       async () => {
         const payload = await ambilPayload();
         const hasil = await payload.find({
+          overrideAccess: false,
           collection: "divisi",
           where: { periode: { equals: periodeId } },
           limit: 50,
@@ -189,6 +195,7 @@ export const ambilDivisiBySlug = cache(
       async () => {
         const payload = await ambilPayload();
         const hasil = await payload.find({
+          overrideAccess: false,
           collection: "divisi",
           where: { slug: { equals: slug } },
           limit: 1,
@@ -221,6 +228,7 @@ export const ambilPengurus = cache(
           syarat.push({ kelompok: { in: opsi.kelompok } });
         }
         const hasil = await payload.find({
+          overrideAccess: false,
           collection: "pengurus",
           where: { and: syarat },
           limit: 200,
@@ -240,6 +248,7 @@ export const ambilEvent = cache(async (): Promise<EventItem[]> => {
     async () => {
       const payload = await ambilPayload();
       const hasil = await payload.find({
+        overrideAccess: false,
         collection: "event",
         limit: 200,
         depth: 1,
@@ -258,6 +267,7 @@ export const ambilEventBySlug = cache(
       async () => {
         const payload = await ambilPayload();
         const hasil = await payload.find({
+          overrideAccess: false,
           collection: "event",
           where: { slug: { equals: slug } },
           limit: 1,
@@ -277,6 +287,7 @@ export const ambilEventDivisi = cache(
       async () => {
         const payload = await ambilPayload();
         const hasil = await payload.find({
+          overrideAccess: false,
           collection: "event",
           where: { divisiPenyelenggara: { in: [divisiId] } },
           limit: 6,
@@ -296,6 +307,7 @@ export const ambilTabloid = cache(async (): Promise<Tabloid[]> => {
     async () => {
       const payload = await ambilPayload();
       const hasil = await payload.find({
+        overrideAccess: false,
         collection: "tabloid",
         limit: 100,
         depth: 1,
@@ -314,6 +326,7 @@ export const ambilTabloidBySlug = cache(
       async () => {
         const payload = await ambilPayload();
         const hasil = await payload.find({
+          overrideAccess: false,
           collection: "tabloid",
           where: { slug: { equals: slug } },
           limit: 1,
@@ -333,6 +346,7 @@ export const ambilEkstrakurikuler = cache(
       async () => {
         const payload = await ambilPayload();
         const hasil = await payload.find({
+          overrideAccess: false,
           collection: "ekstrakurikuler",
           limit: 100,
           depth: 1,

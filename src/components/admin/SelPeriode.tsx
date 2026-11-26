@@ -18,7 +18,7 @@ export default function SelPeriode({ cellData, rowData }: DefaultCellComponentPr
   return (
     <span className="persama-periode-sel">
       <Link href={`/admin/collections/divisi?periode=${kode}`}>{teks}</Link>
-      <Link className="persama-periode-edit" href={`/admin/collections/periode/${kode}`}>
+      <Link className="persama-periode-edit" href={`/admin/collections/periode/${kode}`} aria-label={`Edit periode ${teks}`}>
         Edit
       </Link>
     </span>

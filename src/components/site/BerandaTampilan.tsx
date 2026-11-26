@@ -189,7 +189,7 @@ export function BerandaTampilan({
       </section>
 
       <section
-        className={`${styles.bagian} ${styles.bagianAlt} ${styles.bagianDivisi}`}
+        className={`${styles.bagian} ${styles.bagianTerang} ${styles.bagianDivisi}`}
         aria-labelledby="judul-divisi"
       >
         <h2 id="judul-divisi" className={styles.bagianJudul}>

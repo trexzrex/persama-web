@@ -1148,6 +1148,7 @@
 .divisiKartu {
   position: relative;
   display: flex;
+  min-width: 0;
   min-height: 110px;
   align-items: center;
   justify-content: center;
@@ -1213,7 +1214,10 @@
 .divisiFotoKosong { position: absolute; inset: auto 16px 18px; z-index: 1; font-size: 11px; font-weight: 400; text-align: center; color: #48615e; }
 .divisiKartuFoto:focus-visible { outline: 3px solid var(--color-ruby); outline-offset: 5px; }
 @media (max-width: 767px) {
-  .divisiGrid { grid-template-columns: 1fr; }
+  .divisiGrid { grid-template-columns: minmax(0, 1fr); }
+  /* Kartu foto tidak boleh dipaksa lebar oleh min-height + aspect-ratio
+     saat layar sempit; tinggi mengikuti lebar kolom. */
+  .divisiGrid .divisiKartuFoto { min-height: 0; aspect-ratio: 16 / 10; }
 }
 @media (prefers-reduced-motion: reduce) {
   .divisiKartuFoto, .divisiLapisan { transition: none; }

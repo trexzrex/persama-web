@@ -2,6 +2,8 @@
   --jalur: #285c52;
   --tebal-jalur: 3px;
   --panjang-jalur: 1.5rem;
+  --ukuran-potret: clamp(4rem, 3.4rem + 1.6vw, 5.5rem);
+  --ukuran-potret-ringkas: min(64px, clamp(2.75rem, 2.5rem + 1vw, 3.5rem));
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
   gap: 1.25rem .75rem;
@@ -25,7 +27,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  inline-size: min(100%, clamp(4rem, 3.4rem + 1.6vw, 5.5rem));
+  inline-size: min(100%, var(--ukuran-potret));
   aspect-ratio: 1;
   border: 3px solid #568475;
   border-radius: 50%;
@@ -53,48 +55,60 @@
 .plakat span { font-size: .875rem; }
 
 .akar .anak {
+  --jarak-anak: .85rem;
+  --ruang-rel: .75rem;
+  --jarak-siku: .6rem;
   display: grid;
-  gap: .85rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--jarak-anak);
   position: relative;
-  padding-block-start: var(--panjang-jalur);
-  padding-inline: .5rem 0;
+  padding-block-start: calc(var(--panjang-jalur) + var(--jarak-siku));
+  /* Reserve space on both sides so the main branch keeps the parent's center. */
+  padding-inline: var(--ruang-rel);
 }
 
 .anak::before {
   content: "";
   position: absolute;
   inset-block-start: 0;
-  inset-inline: 0 50%;
+  inset-inline: 0 calc(50% - var(--tebal-jalur) / 2);
   box-sizing: border-box;
   block-size: var(--panjang-jalur);
   border-inline-end: var(--tebal-jalur) solid var(--jalur);
   border-block-end: var(--tebal-jalur) solid var(--jalur);
 }
 
-.anak > li { position: relative; isolation: isolate; }
+.anak > li {
+  --tengah-potret: calc(var(--ukuran-potret) / 2);
+  position: relative;
+  isolation: isolate;
+}
 .anak > li::before {
   content: "";
   position: absolute;
-  inset-inline-start: -.5rem;
-  inset-block-start: -.85rem;
+  inset-inline-start: calc(-1 * var(--ruang-rel));
+  inset-block-start: calc(-1 * var(--jarak-anak) - 1px);
   inset-block-end: 0;
   border-inline-start: var(--tebal-jalur) solid var(--jalur);
 }
 
-.anak > li:first-child::before { inset-block-start: 0; }
-.anak > li:last-child::before { inset-block-end: auto; block-size: calc(2rem + .85rem); }
+.anak > li:first-child::before { inset-block-start: calc(-1 * var(--jarak-siku) - 1px); }
+.anak > li:last-child::before {
+  inset-block-end: auto;
+  block-size: calc(var(--jarak-anak) + 1px + var(--tengah-potret) + var(--tebal-jalur) / 2);
+}
 
 .anak > li::after {
   content: "";
   position: absolute;
-  inset-inline-start: -.5rem;
+  inset-inline-start: calc(-1 * var(--ruang-rel));
   inset-inline-end: 50%;
-  inset-block-start: 2rem;
+  inset-block-start: calc(var(--tengah-potret) - var(--tebal-jalur) / 2);
   border-block-start: var(--tebal-jalur) solid var(--jalur);
   z-index: -1;
 }
 
-.akar .anak[data-tata-cabang="lurus"] { padding-inline: 0; }
+.akar .anak[data-tata-cabang="lurus"] { padding: var(--panjang-jalur) 0 0; }
 .anak[data-tata-cabang="lurus"]::before {
   inset-inline: calc(50% - var(--tebal-jalur) / 2) auto;
   border: 0;
@@ -102,6 +116,66 @@
 }
 .anak[data-tata-cabang="lurus"] > li::before,
 .anak[data-tata-cabang="lurus"] > li::after { content: none; }
+
+@container cabang (width < 56rem) {
+  .akar .anak[data-tata-cabang="samping"] { padding: var(--panjang-jalur) 0 0; }
+
+  .anak[data-tata-cabang="samping"]::before {
+    inset-inline: calc(50% - var(--tebal-jalur) / 2) auto;
+    border: 0;
+    border-inline-start: var(--tebal-jalur) solid var(--jalur);
+  }
+
+  /* Keep the main spine centered while the office label stays clear of it. */
+  .anak[data-tata-cabang="samping"] > li:first-child {
+    --ukuran-potret: var(--ukuran-potret-ringkas);
+    --ruang-label-cabang: min(.75rem, 12px);
+  }
+
+  .anak[data-tata-cabang="samping"] > li:first-child > .simpul {
+    inline-size: calc(50% - var(--ruang-label-cabang));
+  }
+
+  .anak[data-tata-cabang="samping"] > li:first-child::before {
+    inset-block: -1px calc(-1 * var(--jarak-anak) - 1px);
+    inset-inline-start: calc(50% - var(--tebal-jalur) / 2);
+    z-index: -1;
+  }
+
+  .anak[data-tata-cabang="samping"] > li:first-child::after {
+    inset-inline: calc(25% - var(--ruang-label-cabang) / 2) calc(50% - var(--tebal-jalur) / 2);
+  }
+
+  .anak[data-tata-cabang="samping"] > li:last-child::before,
+  .anak[data-tata-cabang="samping"] > li:last-child::after { content: none; }
+
+  .anak[data-tata-cabang="sejajar"] {
+    --ukuran-potret: var(--ukuran-potret-ringkas);
+    --ruang-rel: min(.75rem, 12px);
+  }
+
+  .anak[data-tata-cabang="sejajar"] > li::after {
+    inset-inline-end: auto;
+    inline-size: calc(var(--ruang-rel) + var(--tengah-potret));
+  }
+
+  .anak[data-tata-cabang="sejajar"] > li > .simpul {
+    grid-template-columns: var(--ukuran-potret) minmax(0, 1fr);
+    align-items: start;
+    column-gap: min(.6rem, 12px);
+    text-align: start;
+  }
+
+  .anak[data-tata-cabang="sejajar"] > li > .simpul > .plakat {
+    place-self: center stretch;
+    max-inline-size: none;
+  }
+
+  .anak[data-tata-cabang="samping"] > li:first-child > .simpul > .plakat,
+  .anak[data-tata-cabang="sejajar"] > li > .simpul > .plakat {
+    padding-inline: min(.8rem, 12px);
+  }
+}
 
 @container cabang (min-width: 56rem) {
   .akar .anak:is([data-tata-cabang="sejajar"], [data-tata-cabang="samping"]) {

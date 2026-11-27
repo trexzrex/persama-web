@@ -631,6 +631,7 @@
 .heroFotoPanggung {
   position: relative;
   z-index: 2;
+  pointer-events: none;
   width: min(100%, 420px);
   height: 400px;
   flex: none;

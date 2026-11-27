@@ -1,6 +1,8 @@
-import type { CollectionConfig } from "payload";
+import { sql } from "@payloadcms/db-postgres";
+import { ValidationError, type CollectionConfig, type Where } from "payload";
 
 import { adminSaja, siapaSaja } from "../access";
+import { idRelasi, KELOMPOK_BAGAN, kelompokBagan } from "../lib/bagan-pembina";
 
 const kelompok = [
   { label: "Penanggung jawab", value: "penanggung_jawab" },
@@ -31,6 +33,50 @@ export const Pengurus: CollectionConfig = {
     delete: adminSaja,
   },
   defaultSort: "urutan",
+  hooks: {
+    beforeOperation: [async ({ operation, req }) => {
+      if (operation !== "create" && operation !== "update") return;
+      const transaction = await req.transactionID;
+      const db = transaction == null ? undefined : req.payload.db.sessions?.[transaction]?.db;
+      if (!db || typeof db !== "object" || !("execute" in db) || typeof db.execute !== "function") {
+        throw new Error("Perubahan Pengurus memerlukan transaksi PostgreSQL.");
+      }
+      // Take the lock before Payload reads the previous document, not after validation.
+      await db.execute(sql`SELECT pg_advisory_xact_lock(17019, 1)`);
+    }],
+    beforeChange: [async ({ data, originalDoc, req }) => {
+      const kini = { ...originalDoc, ...data };
+      const id = idRelasi(originalDoc?.id);
+      const periode = idRelasi(kini.periode);
+      const induk = idRelasi(kini.indukBagan);
+      const tolak = (message: string) => {
+        throw new ValidationError({ errors: [{ path: "indukBagan", message }] });
+      };
+
+      if (induk !== undefined) {
+        if (!periode || !kelompokBagan(kini.kelompok)) {
+          tolak("Induk hanya berlaku untuk penanggung jawab, pengarah, dan pembina dalam satu periode.");
+        }
+        const dilihat = new Set(id === undefined ? [] : [id]);
+        let berikut: number | undefined = induk;
+        while (berikut !== undefined) {
+          if (dilihat.has(berikut)) tolak("Induk tidak boleh membuat hubungan melingkar di bagan.");
+          dilihat.add(berikut);
+          const parent = await req.payload.findByID({ collection: "pengurus", id: berikut, depth: 0, disableErrors: true, req });
+          if (!parent || idRelasi(parent.periode) !== periode || !kelompokBagan(parent.kelompok)) {
+            tolak("Pilih induk dari penanggung jawab, pengarah, atau pembina pada periode yang sama.");
+          }
+          berikut = idRelasi(parent?.indukBagan);
+        }
+      }
+
+      if (id !== undefined && (periode !== idRelasi(originalDoc.periode) || !kelompokBagan(kini.kelompok))) {
+        const anak = await req.payload.find({ collection: "pengurus", where: { indukBagan: { equals: id } }, depth: 0, limit: 1, req });
+        if (anak.docs.length) tolak("Lepas atau pindahkan cabang yang terhubung sebelum mengubah kelompok atau periode.");
+      }
+      return data;
+    }],
+  },
   fields: [
     {
       name: "nama",
@@ -91,6 +137,27 @@ export const Pengurus: CollectionConfig = {
       relationTo: "periode",
       label: "Periode",
       required: true,
+    },
+    {
+      name: "indukBagan",
+      type: "relationship",
+      relationTo: "pengurus",
+      label: "Induk di bagan",
+      maxDepth: 0,
+      filterOptions: ({ id, siblingData }) => {
+        const periode = idRelasi(siblingData && typeof siblingData === "object" && "periode" in siblingData ? siblingData.periode : undefined);
+        if (!periode) return false;
+        const diri = idRelasi(id);
+        const and: Where[] = [{ periode: { equals: periode } }, { kelompok: { in: [...KELOMPOK_BAGAN] } }];
+        if (diri !== undefined) and.push({ id: { not_equals: diri } });
+        return { and };
+      },
+      admin: {
+        condition: (data) => kelompokBagan(data.kelompok),
+        allowCreate: false,
+        allowEdit: false,
+        description: "Pilih orang yang langsung menaungi jabatan ini di /tentang. Kosongkan untuk posisi mandiri. Untuk jabatan tanpa nama, cocokkan ID dengan daftar Pengurus.",
+      },
     },
     {
       name: "urutan",

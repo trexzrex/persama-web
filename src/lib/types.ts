@@ -75,6 +75,7 @@ export interface Pengurus {
   kelompok: KelompokPengurus;
   divisi?: Divisi | number | null;
   periode?: Periode | number | null;
+  indukBagan?: number | null;
   urutan?: number | null;
 }
 

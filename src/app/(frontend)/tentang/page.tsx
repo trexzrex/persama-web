@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { KELOMPOK_BAGAN } from "@/lib/bagan-pembina";
 import {
   ambilPengaturan,
   ambilPengurus,
   ambilPeriodeAktif,
 } from "@/lib/content";
+import { BaganPembina } from "./BaganPembina";
 import styles from "./tentang.module.css";
 
 export const metadata: Metadata = {
@@ -21,7 +23,7 @@ export default async function TentangPage() {
   ]);
 
   const pembina = await ambilPengurus(periode?.id, {
-    kelompok: ["penanggung_jawab", "pembina", "pengarah"],
+    kelompok: [...KELOMPOK_BAGAN],
   });
 
   const misi = (pengaturan.misi ?? []).filter((item) => item.poin?.trim());
@@ -74,14 +76,7 @@ export default async function TentangPage() {
       {pembina.length > 0 ? (
         <section className={`${styles.bagian} ${styles.pembina}`} aria-labelledby="judul-pembina">
           <h2 id="judul-pembina">Penanggung jawab dan pembina</h2>
-          <ul className={styles.daftarPembina} role="list">
-            {pembina.map((orang) => (
-              <li key={orang.id}>
-                <span>{orang.jabatan}</span>
-                {orang.nama?.trim() ? <strong>{orang.nama}</strong> : null}
-              </li>
-            ))}
-          </ul>
+          <BaganPembina pembina={pembina} />
         </section>
       ) : null}
 

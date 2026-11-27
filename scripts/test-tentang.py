@@ -39,5 +39,20 @@ with sync_playwright() as playwright:
             page.evaluate("document.activeElement.blur(); window.scrollTo(0, 0)")
             page.screenshot(path=Path(output) / f"tentang-{width}.png", full_page=True)
         print(f"{width}px: editorial list, links, focus, and reflow passed", flush=True)
+
+        # Fresh fragment navigation must leave the entire heading below the sticky header.
+        for scale in (100, 200):
+            anchor = browser.new_page(viewport={"width": width, "height": 720}, reduced_motion="reduce")
+            if scale != 100:
+                anchor.add_init_script(f"document.addEventListener('DOMContentLoaded', () => {{ document.documentElement.style.fontSize = '{scale}%'; }});")
+            anchor.goto(f"{base}/tentang#judul-pembina", wait_until="load", timeout=90_000)
+            expect(anchor.get_by_role("heading", name="Penanggung jawab dan pembina")).to_be_in_viewport(ratio=1)
+            anchor.wait_for_function("""() => {
+                const title = document.querySelector('#judul-pembina').getBoundingClientRect();
+                const header = document.querySelector('header').getBoundingClientRect();
+                return title.top >= header.bottom && title.bottom <= innerHeight;
+            }""", timeout=5000)
+            anchor.close()
+        print(f"{width}px: direct chart link clears sticky header at 100% and 200% text", flush=True)
         page.close()
     browser.close()

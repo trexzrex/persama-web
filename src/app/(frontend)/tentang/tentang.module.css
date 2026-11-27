@@ -121,6 +121,11 @@
   gap: 1.4rem;
 }
 
+.pembina > h2 {
+  /* Match the site's sticky-header clearance for direct fragment links. */
+  scroll-margin-block-start: 7rem;
+}
+
 .lanjutan {
   display: grid;
   gap: .65rem 1.5rem;

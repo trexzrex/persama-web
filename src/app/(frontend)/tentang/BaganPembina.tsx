@@ -9,6 +9,10 @@ function Simpul({ simpul }: { simpul: SimpulBagan<Pengurus> }) {
   const { orang, anak } = simpul;
   const nama = orang.nama?.trim();
   const foto = alamatMedia(orang.foto, "thumbnail");
+  const tataCabang = anak.length === 1 ? "lurus"
+    : anak.length === 2 && anak[0].anak.length === 0 && anak[1].anak.length > 0 ? "samping"
+    : anak.every((node) => node.anak.length === 0) && anak.length <= 7 ? "sejajar"
+    : "susun";
   return (
     <li className={anak.length ? styles.bercabang : undefined}>
       <div className={styles.simpul}>
@@ -29,7 +33,7 @@ function Simpul({ simpul }: { simpul: SimpulBagan<Pengurus> }) {
       </div>
       {anak.length ? (
         <div className={styles.kontainer}>
-          <ul className={styles.anak} role="list" data-sebaris={anak.length <= 4}>
+          <ul className={styles.anak} role="list" data-tata-cabang={tataCabang}>
             {anak.map((node) => <Simpul key={node.orang.id} simpul={node} />)}
           </ul>
         </div>

@@ -32,7 +32,7 @@ with sync_playwright() as playwright:
     periode = kirim("/api/periode", {"nama": "Periode Fixture", "tahunMulai": 2026, "tahunSelesai": 2027, "aktif": True})["id"]
     lain = kirim("/api/periode", {"nama": "Periode Lain", "tahunMulai": 2025, "tahunSelesai": 2026})["id"]
     induk = kirim("/api/pengurus", {"nama": "Orang Induk Fixture", "jabatan": "Kepala Fixture", "kelompok": "penanggung_jawab", "periode": periode})["id"]
-    anak = kirim("/api/pengurus", {"nama": "Orang Cabang Fixture", "jabatan": "Pembina Fixture", "kelompok": "pembina", "periode": periode})["id"]
+    anak = kirim("/api/pengurus", {"nama": "Orang Cabang Fixture", "jabatan": "Pembina Fixture", "kelompok": "pembina", "periode": periode, "urutan": 3})["id"]
     asing = kirim("/api/pengurus", {"nama": "Orang Periode Lain", "jabatan": "Pengarah Fixture", "kelompok": "pengarah", "periode": lain})["id"]
 
     page = context.new_page()
@@ -70,8 +70,15 @@ with sync_playwright() as playwright:
     with ThreadPoolExecutor(max_workers=2) as pool:
         status = sorted(result.result() for result in (pool.submit(sambung, a, b), pool.submit(sambung, b, a)))
     assert status == [200, 400], status
-    kirim("/api/pengurus", {"nama": "Orang Cabang Kedua", "jabatan": "Pengarah Fixture", "kelompok": "pengarah", "periode": periode, "indukBagan": induk})
-    kirim("/api/pengurus", {"jabatan": "Jabatan Tanpa Nama Fixture", "kelompok": "pembina", "periode": periode, "indukBagan": anak})
+    kirim("/api/pengurus", {"nama": "Orang Cabang Kedua", "jabatan": "Pengarah Fixture", "kelompok": "pengarah", "periode": periode, "indukBagan": induk, "urutan": 2})
+    bidang = kirim("/api/pengurus", {"jabatan": "Pembina Bidang Fixture", "kelompok": "pembina", "periode": periode, "indukBagan": anak})["id"]
+    jabatan = (
+        "Jabatan Tanpa Nama Fixture", "Pembina Bidang Pendidikan dan Latihan", "Pembina Bidang Dana dan Usaha",
+        "Pembina Bidang Rohani Islam", "Pembina Bidang Rohani Kristen", "Pembina Bidang Seni dan Olahraga",
+        "Pembina Bidang Pemerhati Lingkungan",
+    )
+    for urutan, peran in enumerate(jabatan):
+        kirim("/api/pengurus", {"jabatan": peran, "kelompok": "pembina", "periode": periode, "indukBagan": bidang, "urutan": urutan})
     print("Payload admin: selected and saved parent; rejects cycles, cross-period and self-parenting", flush=True)
 
     for width in (320, 390, 1440):
@@ -83,9 +90,18 @@ with sync_playwright() as playwright:
         branch = branches.locator(":scope > li").filter(has=public.get_by_text("Orang Cabang Fixture", exact=True))
         expect(branch.get_by_text("Jabatan Tanpa Nama Fixture", exact=True)).to_be_visible()
         expect(branches.get_by_text("Orang Cabang Kedua", exact=True)).to_be_visible()
-        expect(branches).to_have_css("display", "flex" if width == 1440 else "grid")
+        leaves = chart.get_by_text("Pembina Bidang Fixture", exact=True).locator("xpath=../../..").locator(":scope > div > ul > li")
+        expect(leaves).to_have_count(7)
+        boxes = leaves.evaluate_all("els => els.map(el => { const r = el.getBoundingClientRect(); return [r.x, r.y, r.width]; })")
+        assert (len({round(box[1]) for box in boxes}) == 1) == (width == 1440), (width, boxes)
+        assert leaves.first.evaluate("el => parseFloat(getComputedStyle(el, '::after').borderTopWidth) >= 3 || parseFloat(getComputedStyle(el, '::after').borderInlineStartWidth) >= 3")
         if width == 1440:
-            assert branch.evaluate("el => getComputedStyle(el, '::after').top === '0px'")
+            centers = [
+                public.get_by_text(label, exact=True).evaluate("el => { const r = el.parentElement.getBoundingClientRect(); return r.x + r.width / 2; }")
+                for label in ("Orang Induk Fixture", "Orang Cabang Fixture", "Pembina Bidang Fixture")
+            ]
+            assert max(centers) - min(centers) <= 1, centers
+            assert leaves.nth(3).evaluate("el => getComputedStyle(el, '::after').borderInlineStartWidth") == "3px"
         expect(chart.get_by_text("Orang Periode Lain", exact=True)).to_have_count(0)
         for scale in (100, 200):
             public.evaluate("scale => document.documentElement.style.fontSize = `${scale}%`", scale)

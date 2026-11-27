@@ -1,5 +1,7 @@
 .akar {
-  --jalur: #7d9d90;
+  --jalur: #285c52;
+  --tebal-jalur: 3px;
+  --panjang-jalur: 1.5rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
   gap: 1.25rem .75rem;
@@ -54,7 +56,7 @@
   display: grid;
   gap: .85rem;
   position: relative;
-  padding-block-start: 1rem;
+  padding-block-start: var(--panjang-jalur);
   padding-inline: .5rem 0;
 }
 
@@ -63,9 +65,10 @@
   position: absolute;
   inset-block-start: 0;
   inset-inline: 0 50%;
-  block-size: 1rem;
-  border-inline-end: 1px solid var(--jalur);
-  border-block-end: 1px solid var(--jalur);
+  box-sizing: border-box;
+  block-size: var(--panjang-jalur);
+  border-inline-end: var(--tebal-jalur) solid var(--jalur);
+  border-block-end: var(--tebal-jalur) solid var(--jalur);
 }
 
 .anak > li { position: relative; isolation: isolate; }
@@ -75,12 +78,11 @@
   inset-inline-start: -.5rem;
   inset-block-start: -.85rem;
   inset-block-end: 0;
-  border-inline-start: 1px solid var(--jalur);
+  border-inline-start: var(--tebal-jalur) solid var(--jalur);
 }
 
 .anak > li:first-child::before { inset-block-start: 0; }
 .anak > li:last-child::before { inset-block-end: auto; block-size: calc(2rem + .85rem); }
-.anak > li:only-child::before { block-size: 2rem; }
 
 .anak > li::after {
   content: "";
@@ -88,44 +90,78 @@
   inset-inline-start: -.5rem;
   inset-inline-end: 50%;
   inset-block-start: 2rem;
-  border-block-start: 1px solid var(--jalur);
+  border-block-start: var(--tebal-jalur) solid var(--jalur);
   z-index: -1;
 }
 
-@container cabang (min-width: 42rem) {
-  .akar .anak[data-sebaris="true"] {
-    display: flex;
+.akar .anak[data-tata-cabang="lurus"] { padding-inline: 0; }
+.anak[data-tata-cabang="lurus"]::before {
+  inset-inline: calc(50% - var(--tebal-jalur) / 2) auto;
+  border: 0;
+  border-inline-start: var(--tebal-jalur) solid var(--jalur);
+}
+.anak[data-tata-cabang="lurus"] > li::before,
+.anak[data-tata-cabang="lurus"] > li::after { content: none; }
+
+@container cabang (min-width: 56rem) {
+  .akar .anak:is([data-tata-cabang="sejajar"], [data-tata-cabang="samping"]) {
     gap: 0;
-    padding: 1.1rem 0 0;
-    border: 0;
+    padding: var(--panjang-jalur) 0 0;
   }
 
-  .anak[data-sebaris="true"]::before {
-    inset-inline-start: 50%;
-    inset-inline-end: auto;
-    block-size: 1.1rem;
+  .anak:is([data-tata-cabang="sejajar"], [data-tata-cabang="samping"])::before {
+    inset-inline: calc(50% - var(--tebal-jalur) / 2) auto;
     border: 0;
-    border-inline-start: 1px solid var(--jalur);
+    border-inline-start: var(--tebal-jalur) solid var(--jalur);
   }
 
-  .anak[data-sebaris="true"] > li { flex: 1 1 0; padding: 1.1rem .4rem 0; }
-  .anak[data-sebaris="true"] > li:nth-child(n)::before,
-  .anak[data-sebaris="true"] > li::after {
-    content: "";
-    position: absolute;
+  .akar .anak[data-tata-cabang="sejajar"] {
+    display: flex;
+  }
+
+  .anak[data-tata-cabang="sejajar"] > li { flex: 1 1 0; padding: var(--panjang-jalur) .35rem 0; }
+  .anak[data-tata-cabang="sejajar"] > li:nth-child(n)::before,
+  .anak[data-tata-cabang="sejajar"] > li::after {
     inset-block-start: 0;
     inset-block-end: auto;
     inset-inline-end: auto;
     inline-size: 50%;
-    block-size: 1.1rem;
+    block-size: var(--panjang-jalur);
     border: 0;
-    border-block-start: 1px solid var(--jalur);
+    border-block-start: var(--tebal-jalur) solid var(--jalur);
     box-sizing: border-box;
     z-index: auto;
   }
 
-  .anak[data-sebaris="true"] > li:nth-child(n)::before { inset-inline-start: 0; }
-  .anak[data-sebaris="true"] > li::after { inset-inline-start: 50%; border-inline-start: 1px solid var(--jalur); }
-  .anak[data-sebaris="true"] > li:first-child::before,
-  .anak[data-sebaris="true"] > li:last-child::after { border-block-start: 0; }
+  .anak[data-tata-cabang="sejajar"] > li:nth-child(n)::before { inset-inline-start: 0; }
+  .anak[data-tata-cabang="sejajar"] > li::after { inset-inline-start: 50%; border-inline-start: var(--tebal-jalur) solid var(--jalur); }
+  .anak[data-tata-cabang="sejajar"] > li:first-child::before,
+  .anak[data-tata-cabang="sejajar"] > li:last-child::after { border-block-start: 0; }
+
+  /* Let the main branch use the full width below the side position. */
+  .anak[data-tata-cabang="samping"] > li {
+    grid-area: 1 / 1;
+    padding-block-start: var(--panjang-jalur);
+  }
+
+  .anak[data-tata-cabang="samping"] > li:first-child {
+    inline-size: calc(100% / 3);
+    align-self: start;
+    z-index: 1;
+  }
+
+  .anak[data-tata-cabang="samping"] > li::before { content: none; }
+  .anak[data-tata-cabang="samping"] > li::after {
+    inset-block-start: 0;
+    inset-inline: calc(50% - var(--tebal-jalur) / 2) auto;
+    block-size: var(--panjang-jalur);
+    border: 0;
+    border-inline-start: var(--tebal-jalur) solid var(--jalur);
+  }
+
+  .anak[data-tata-cabang="samping"] > li:first-child::after {
+    inline-size: calc(100% + var(--tebal-jalur));
+    border-block-start: var(--tebal-jalur) solid var(--jalur);
+    box-sizing: border-box;
+  }
 }
